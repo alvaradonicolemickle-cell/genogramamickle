@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Genograma Familiar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700&family=Inter:wght@400;500;600;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+  FUENTE TRITOPANI
+   Coloca el archivo en la MISMA carpeta del HTML.
+   ============================================================ */
+@font-face{
+  font-family:'Tritopani';
+  src: url('Tritopani.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family:'Palmore';
+  src: url('Palmore/Palmore.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family:'Palmore';
+  src: url('Palmore/Palmore%20Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family:'Palmore';
+  src: url('Palmore/Palmore%20Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family:'Palmore';
+  src: url('Palmore/Palmore%20Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family:'Junicode';
+  src: url('Junicode/Junicode.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family:'Junicode';
+  src: url('Junicode/Junicode-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face{
+  font-family:'Junicode';
+  src: url('Junicode/Junicode-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family:'Junicode';
+  src: url('Junicode/Junicode-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root{
+  --bg:#fff;--surface:#fff;--surface-2:#fafbfc;--surface-3:#eef0f3;
+  --text:#1a1d21;--text-muted:#5a6069;--text-soft:#8b9098;
+  --border:#e1e4e8;--border-strong:#c9cdd3;
+  --shadow-sm:0 1px 2px rgba(20,25,35,.06);
+  --shadow-md:0 4px 16px rgba(20,25,35,.08);
+  --shadow-lg:0 16px 48px rgba(20,25,35,.14);
+  --radius-sm:6px;--radius:10px;--radius-lg:16px;
+  --g1:#3b6ea5;--g1-bg:#e8f0f9;--g2:#3f8f6b;--g2-bg:#e6f4ed;
+  --g3:#8a9a3d;--g3-bg:#f1f4df;--g4:#c9922e;--g4-bg:#fbf3dd;
+  --g5:#c1683a;--g5-bg:#fbece2;--g6:#a8434f;--g6-bg:#f9e8eb;
+  --g7:#7a4b8f;--g7-bg:#f3eaf7;
+  --male:#3b6ea5;--female:#a8434f;--marriage:#6b7280;--conn:#9aa0a8;
+  --love:#e91e63;
+  --danger:#c0392b;--danger-bg:#fdecea;--success:#3f8f6b;--success-bg:#e6f4ed;
+  --topbar-bg:#3B131B;
+}
+:root[data-theme="dark"]{
+  --bg:#000000;--surface:#0d0d0d;--surface-2:#161616;--surface-3:#1f1f1f;
+  --text:#f0f0f0;--text-muted:#b0b0b0;--text-soft:#7a7a7a;
+  --border:#262626;--border-strong:#3a3a3a;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.6);
+  --shadow-md:0 4px 16px rgba(0,0,0,.7);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.8);
+  --g1-bg:#0f1f2e;--g2-bg:#0d221a;--g3-bg:#1c2010;
+  --g4-bg:#2a2010;--g5-bg:#2a1810;--g6-bg:#2a1216;--g7-bg:#1f1226;
+  --male:#6ba0d4;--female:#d47a86;--marriage:#8b9098;--conn:#4a5058;
+  --love:#ff6b9d;
+  --danger:#e57373;--danger-bg:#2a1010;--success:#6bc39a;--success-bg:#0d221a;
+  --topbar-bg:rgba(0,0,0,.92);
+  --ui-accent:#493F0F;--ui-earth:#4A3910;--ui-olive:#4A4710;
+  --ui-brown:#4A3210;--ui-moss:#3B4A10;
+  --ui-border:rgba(74,71,16,.7);--ui-earth-soft:rgba(74,57,16,.38);
+  --ui-olive-soft:rgba(74,71,16,.38);--ui-brown-soft:rgba(74,50,16,.38);
+  --ui-moss-soft:rgba(59,74,16,.38);
+}
+:root:not([data-theme="dark"]){
+  --ui-accent:#80819F;--ui-slate:#7E8A9E;--ui-lavender:#887E9E;
+  --ui-teal:#7E949E;--ui-orchid:#927E9E;
+  --ui-accent-soft:rgba(128,129,159,.12);--ui-slate-soft:rgba(126,138,158,.12);
+  --ui-lavender-soft:rgba(136,126,158,.12);--ui-teal-soft:rgba(126,148,158,.12);
+  --ui-orchid-soft:rgba(146,126,158,.12);--ui-accent-border:rgba(128,129,159,.34);
+  --gold:#80819F;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:20px}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Inter",system-ui,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .3s,color .3s}
+h1,h2,h3,h4{font-family:"Playfair Display",Georgia,serif;font-weight:600;margin:0;line-height:1.2}
+button{font:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+.topbar{position:sticky;top:0;z-index:100;background:var(--topbar-bg);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s}
+.topbar-inner{max-width:1700px;margin:0 auto;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 18px;min-height:100px;text-align:center}
+.btn-menu{position:absolute;left:18px;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;gap:8px;padding:9px 14px;font-size:.82rem;font-weight:600;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:999px;transition:all .15s;z-index:2}
+.btn-menu:hover{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn-theme{position:absolute;right:18px;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;padding:3px;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:10px;transition:all .2s;z-index:2;line-height:1}
+.btn-theme svg{display:block;width:100%;height:100%;overflow:visible}
+.theme-mark{fill:none;stroke:currentColor;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.theme-sun{fill:none;stroke:currentColor;stroke-width:5}
+.theme-moon,.theme-star{fill:none;stroke:currentColor;stroke-width:5;stroke-linejoin:round}
+:root[data-theme="dark"] .theme-sun,
+:root[data-theme="dark"] .theme-moon,
+:root[data-theme="dark"] .theme-star{fill:currentColor}
+.btn-theme:hover{background:var(--surface-3);transform:translateY(-50%) scale(1.08)}
+
+/* Título principal */
+.topbar-title{
+  font-family:"Tritopani", "Playfair Display", Georgia, serif;
+  font-weight: 400;
+  font-size:clamp(41.6px,7vw,73.6px);
+  color:var(--text);
+  text-align:center;
+  margin:0;
+  line-height:1.05;
+  padding:0 130px;
+  transform: rotate(-2deg);
+  letter-spacing:.005em;
+  text-shadow: 0 2px 14px rgba(0,0,0,.06);
+  transition:color .3s,text-shadow .3s;
+}
+:root[data-theme="dark"] .topbar-title{
+  text-shadow: 0 2px 18px rgba(255,255,255,.10);
+}
+.topbar-eyebrow{
+  font-family:"Inter",system-ui,sans-serif;
+  font-size:clamp(.72rem,1.3vw,.82rem);
+  font-weight:700;
+  color:var(--gold);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-top:6px;
+  padding:0 20px;
+  text-align:center;
+  opacity:.85;
+}
+:root[data-theme="dark"] .topbar-eyebrow{color:#d3ac6c}
+.language-select{margin-top:8px;padding:4px 9px;font-family:"Palmore",system-ui,sans-serif;font-size:13px;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;cursor:pointer}
+:root:not([data-theme="dark"]) .language-select{border-color:var(--ui-accent-border)}
+:root[data-theme="dark"] .language-select{color:#fff;background:#3B131B;border-color:#fff}
+
+@media (max-width:640px){
+  .topbar-inner{padding:14px 12px;min-height:80px}
+  .topbar-title{font-size:32px;padding:0 60px}
+  .topbar-eyebrow{letter-spacing:.1em;font-size:.66rem}
+  .btn-menu .btn-text{display:none}
+  .btn-menu{padding:9px 12px}
+  .btn-theme{width:42px;height:42px;padding:2px}
+}
+
+.view{display:none}
+.view.is-active{display:block}
+
+.main{max-width:1700px;margin:0 auto;padding:16px 18px 60px}
+.tree-card{background:var(--surface);border:2px solid #63202D;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:22px;transition:background .3s,border-color .3s}
+.tree-card:fullscreen{position:fixed;inset:0;width:100vw;height:100vh;margin:0;border-radius:0;display:flex;flex-direction:column;background:var(--surface)}
+.tree-card:fullscreen .viewport-wrap{flex:1;min-height:0}
+.tree-card:fullscreen .viewport{height:100%;max-height:none}
+.family-history{margin:0 auto 24px;background:var(--surface);border:2px solid #63202D;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:26px 28px}
+.history-header{text-align:center;margin-bottom:24px;padding:14px 18px;background:#63202D;border-radius:6px}
+.history-kicker{margin:0 0 6px;color:#fff;font-size:17px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.history-header h2{margin:0 0 8px;color:#fff;font-size:17px}
+.history-intro{max-width:760px;margin:0 auto;color:#fff;font-size:15px;line-height:1.65;font-style:italic}
+.history-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 24px}
+.history-entry{border-left:3px solid #B53A53;padding-left:14px}
+.history-entry h3{margin:0 0 6px;color:var(--text);font-size:15px}
+.history-entry p{margin:0;color:var(--text-muted);font-size:15px;line-height:1.65}
+.history-source{margin:24px 0 0;padding:12px 14px;background:rgba(140,45,64,.06);border-radius:6px;color:var(--text-muted);font-size:13px;line-height:1.6}
+.history-source strong{color:var(--text)}
+.family-history p{font-family:"Junicode",Georgia,serif}
+.tree-toolbar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #63202D;background:rgba(140,45,64,.04);flex-wrap:wrap}
+.tree-toolbar .label{font-family:"Junicode",Georgia,serif;font-size:.85rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;text-transform:uppercase}
+.tree-toolbar .spacer{flex:1}
+.tree-toolbar .count-badge{font-size:.7rem;font-weight:700;color:#8C2D40;background:rgba(140,45,64,.12);padding:4px 10px;border-radius:999px}
+.legend-mini{display:flex;align-items:center;gap:12px;font-size:.7rem;color:var(--text-muted);flex-wrap:wrap}
+.legend-mini span{display:inline-flex;align-items:center;gap:5px}
+.legend-mini .sym{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:1.5px solid var(--male);border-radius:3px;font-size:.75rem;font-weight:700;color:var(--male)}
+.legend-mini .sym.ci{border-radius:50%;border-color:var(--female);color:var(--female)}
+.legend-mini .sym.mar{border:none;font-size:1.1rem;width:auto}
+.legend-mini .sym.love{border:none;font-size:1rem;width:auto;color:var(--love)}
+.legend-mini .sym.div{border:none;font-size:.9rem;width:auto;font-weight:700;color:var(--marriage)}
+.legend-mini .sym.dec{border:none;font-size:1.1rem;width:auto;color:var(--g6)}
+
+.viewport-wrap{position:relative}
+.viewport{overflow:auto;background:radial-gradient(circle at 1px 1px,rgba(90,96,105,.07) 1px,transparent 0) 0 0/24px 24px;cursor:grab;max-height:74vh;overscroll-behavior:contain;transition:background .3s}
+:root[data-theme="dark"] .viewport{background:radial-gradient(circle at 1px 1px,rgba(200,200,200,.06) 1px,transparent 0) 0 0/24px 24px}
+#genograma{display:block}
+
+.zoom-float{position:absolute;bottom:18px;right:18px;display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.15);overflow:hidden;z-index:5}
+.zoom-float button{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:none;background:transparent;color:var(--text-muted);font-size:1.05rem;font-weight:700;transition:background .15s,color .15s}
+.zoom-float button:hover{background:var(--surface-3);color:var(--text)}
+.zoom-float .zl{font-size:.72rem;font-weight:700;color:var(--text-soft);min-width:46px;text-align:center;padding:0 4px;border-left:1px solid var(--border);border-right:1px solid var(--border);height:36px;display:flex;align-items:center;justify-content:center}
+.zoom-float .divider{width:1px;height:22px;background:var(--border);flex:0 0 auto}
+.zoom-float .btn-download{color:var(--g4)}
+.zoom-float .btn-download:hover{background:var(--g4-bg)}
+
+.node{cursor:pointer;transition:opacity .2s}
+.node .node-bg{fill:var(--surface);stroke:var(--male);stroke-width:2;transition:fill .3s,stroke .3s}
+.node.female .node-bg{stroke:var(--female)}
+.node.partner .node-bg{stroke-dasharray:5 3;fill:var(--surface-2)}
+.node.head .node-bg{stroke-width:3}
+.node:hover .node-bg{stroke-width:3.5;filter:drop-shadow(0 4px 12px rgba(0,0,0,.2))}
+.node .node-sym{font-family:"Inter",sans-serif;font-weight:700;fill:var(--male);pointer-events:none;transition:fill .3s}
+.node.female .node-sym{fill:var(--female)}
+.node .node-cross{font-weight:700;fill:var(--g6);pointer-events:none;transition:fill .3s}
+:root[data-theme="dark"] .node .node-cross{fill:#f0a8b0}
+.node .node-flag{font-size:12px;pointer-events:none}
+.node .node-name{font-family:"Inter",sans-serif;font-size:14px;font-weight:600;fill:var(--text);pointer-events:none;transition:fill .3s}
+.node .node-dates{font-family:"Inter",sans-serif;font-size:12px;font-weight:500;fill:var(--text-soft);pointer-events:none;transition:fill .3s}
+.gen-band{opacity:.55}
+.gen-band-label{font-family:"Inter",sans-serif;font-size:12px;font-weight:700;fill:var(--text-soft);letter-spacing:.06em;text-transform:uppercase;pointer-events:none}
+
+.marriage-line{stroke:var(--marriage);stroke-width:2;stroke-linecap:round;fill:none;transition:stroke .3s}
+.marriage-diamond{fill:var(--surface);stroke:var(--marriage);stroke-width:2}
+.love-line{stroke:var(--love);stroke-width:2.5;stroke-linecap:round;fill:none;stroke-dasharray:7 5}
+.love-heart{fill:var(--love);font-size:16px;font-weight:700;pointer-events:none}
+.divorce-slash{stroke:var(--marriage);stroke-width:2.5;stroke-linecap:round;transition:stroke .3s}
+.conn-line{stroke:var(--conn);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+
+.form-wrapper{max-width:820px;margin:0 auto 22px}
+.tool-card{background:linear-gradient(rgba(140,45,64,.04),rgba(140,45,64,.04)),#fff;color:#1a1d21;border:2px solid #63202D;border-radius:var(--radius-lg);padding:26px 28px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:background .3s,border-color .3s}
+.tool-card::before{display:none}
+.request-intro{background:#63202D;margin:0 0 18px;padding:8px 12px;border-radius:6px}
+.request-intro h2{font-size:.85rem;font-weight:700;color:#fff;letter-spacing:.05em;margin:0 0 6px;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;text-transform:uppercase}
+.request-intro p.desc{font-size:.82rem;color:#fff;margin:0;text-align:center;font-style:italic}
+
+.report-form{display:flex;flex-direction:column;gap:14px}
+.report-field{display:flex;flex-direction:column;gap:6px}
+.report-field label{font-size:13px;font-weight:700;color:#63202D;letter-spacing:.05em;text-transform:uppercase}
+.report-field label .req{color:var(--danger)}
+.report-field input,.report-field select,.report-field textarea{width:100%;padding:11px 13px;font-family:inherit;font-size:.86rem;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);resize:vertical;transition:border-color .15s,background .3s}
+.report-field input:focus,.report-field select:focus,.report-field textarea:focus{outline:none;border-color:var(--g4)}
+.report-field textarea{min-height:100px}
+.report-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.report-row{grid-template-columns:1fr}}
+
+.file-field{position:relative;display:flex;flex-direction:column;gap:6px}
+.file-drop{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surface-2);border:2px dashed var(--border-strong);border-radius:var(--radius-sm);cursor:pointer;transition:all .15s}
+.file-drop:hover{border-color:var(--g4);background:var(--g4-bg)}
+.file-drop.has-file{border-style:solid;border-color:var(--success);background:var(--success-bg)}
+.file-drop .icon{flex:0 0 auto;width:38px;height:38px;border-radius:8px;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.file-drop .text{flex:1;min-width:0}
+.file-drop .text b{display:block;font-size:.82rem;font-weight:600;color:var(--text)}
+.file-drop .text small{display:block;font-size:.7rem;color:var(--text-soft);margin-top:2px}
+.file-drop .btn-clear{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--surface-3);border:1px solid var(--border);color:var(--text-muted);font-size:.75rem;display:none;align-items:center;justify-content:center}
+.file-drop.has-file .btn-clear{display:flex}
+
+.report-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;font-family:"Junicode",Georgia,serif;font-size:.88rem;font-weight:400;font-style:italic;letter-spacing:.04em;color:#fff;background:var(--g4);border:none;border-radius:999px;cursor:pointer;transition:all .15s;align-self:flex-start}
+.report-submit:hover:not(:disabled){background:#b58025;transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.report-submit:disabled{opacity:.6;cursor:not-allowed}
+.report-hint{font-size:.72rem;color:var(--text-soft);margin-top:4px;line-height:1.5}
+.report-success{display:none;padding:14px 16px;background:var(--success-bg);border:1px solid var(--success);border-radius:var(--radius-sm);color:var(--success);font-size:.82rem;font-weight:600}
+.report-success.is-visible{display:block}
+.report-error{display:none;padding:12px 14px;background:var(--danger-bg);border:1px solid var(--danger);border-radius:var(--radius-sm);color:var(--danger);font-size:.82rem;font-weight:600}
+.report-error.is-visible{display:block}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto;backdrop-filter:blur(4px)}
+.modal-backdrop.is-open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.4);position:relative;margin:auto;animation:modalIn .2s ease-out}
+@keyframes modalIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.modal-close{position:sticky;top:12px;margin-left:auto;margin-right:12px;width:34px;height:34px;border-radius:50%;background:var(--surface-2);border:1px solid var(--border);color:var(--text-muted);font-size:1rem;display:flex;align-items:center;justify-content:center;z-index:2;float:right;transition:all .15s}
+.modal-close:hover{background:var(--surface-3);color:var(--text)}
+.person-card{padding:0 24px 24px}
+.pc-hero{padding:22px 0 18px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:18px}
+.pc-photo{width:110px;height:110px;border-radius:50%;background:var(--surface-3);border:3px solid var(--surface);box-shadow:0 6px 20px rgba(0,0,0,.2),0 0 0 1px var(--border);display:inline-flex;align-items:center;justify-content:center;overflow:hidden;font-family:"Playfair Display",serif;font-weight:700;font-size:2.2rem;color:var(--text-soft);margin-bottom:12px}
+.pc-photo.male{border-radius:16px;border-color:var(--male)}
+.pc-photo.female{border-color:var(--female)}
+.pc-name{font-family:"Playfair Display",serif;font-size:1.35rem;font-weight:700;margin-bottom:4px;color:var(--text)}
+.pc-dates{font-size:.82rem;color:var(--text-soft)}
+.pc-flag{display:inline-flex;align-items:center;gap:5px;font-size:.82rem;color:var(--text-muted);margin-top:8px;padding:4px 12px;border-radius:999px;background:var(--surface-3);border:1px solid var(--border)}
+.pc-info{margin-bottom:18px}
+.pc-info h4{font-size:.72rem;font-weight:700;color:var(--text-soft);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.pc-info h4::after{content:"";flex:1;height:1px;background:var(--border)}
+.pc-info .row{padding:9px 12px;background:var(--surface-2);border-radius:var(--radius-sm);font-size:.82rem;color:var(--text-muted);line-height:1.55;margin-bottom:6px}
+.pc-info .row strong{color:var(--text)}
+.pc-rel{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pc-rel .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);font-size:.76rem;font-weight:500;cursor:pointer;transition:background .15s;color:var(--text)}
+.pc-rel .chip:hover{background:var(--surface-3)}
+
+.menu-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:240;opacity:0;pointer-events:none;transition:opacity .25s}
+.menu-backdrop.is-open{opacity:1;pointer-events:auto}
+.menu-panel{position:fixed;top:0;left:0;bottom:0;width:min(380px,92vw);background:var(--surface);border-right:1px solid var(--border);box-shadow:var(--shadow-lg);z-index:250;transform:translateX(-100%);transition:transform .3s;display:flex;flex-direction:column}
+.menu-panel.is-open{transform:translateX(0)}
+.menu-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.menu-head h2{font-size:1.05rem;flex:1;display:flex;align-items:center;gap:8px}
+.menu-close{width:32px;height:32px;border-radius:50%;background:var(--surface-2);border:1px solid var(--border);color:var(--text-muted);font-size:1rem;display:flex;align-items:center;justify-content:center}
+.menu-body{flex:1;overflow-y:auto;padding:16px 14px 30px}
+.menu-section{margin-bottom:22px}
+.menu-section-title{font-size:.72rem;font-weight:700;color:var(--text-soft);letter-spacing:.06em;text-transform:uppercase;padding:0 8px;margin-bottom:8px}
+.menu-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);cursor:pointer;border-left:3px solid transparent;color:var(--text);transition:all .15s}
+.menu-item:hover{background:var(--surface-2)}
+.menu-item.is-active{background:var(--surface-2);border-left-color:var(--g4)}
+.menu-item .mi-icon{flex:0 0 auto;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:var(--g4-bg);color:var(--g4)}
+.menu-item .mi-title{font-family:"Playfair Display",serif;font-weight:700;font-size:.92rem;display:block}
+.menu-item .mi-sub{font-size:.72rem;color:var(--text-soft);display:block;margin-top:2px}
+.menu-item .mi-arrow{flex:0 0 auto;font-size:.85rem;color:var(--g4);opacity:.6}
+
+.family-page{max-width:1200px;margin:0 auto;padding:24px 20px 60px}
+.family-topbar{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:22px}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;font-size:.84rem;font-weight:600;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:999px;cursor:pointer;transition:all .15s}
+.back-btn:hover{background:var(--text);color:var(--bg);border-color:var(--text)}
+.family-topbar .title{flex:1;font-family:"Playfair Display",serif;font-weight:700;font-size:1.05rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.family-topbar .badge{font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--g4-bg);color:var(--g4)}
+
+.family-hero{text-align:center;margin-bottom:28px}
+.family-hero .badge-hero{display:inline-block;font-size:.74rem;font-weight:700;color:var(--text-soft);letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--surface-3);margin-bottom:12px}
+.family-hero h1{font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:10px}
+.family-hero p{color:var(--text-muted);font-size:.92rem;font-style:italic;max-width:640px;margin:0 auto}
+
+.family-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:26px}
+.family-stats .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;text-align:center;box-shadow:var(--shadow-sm)}
+.family-stats .stat b{display:block;font-family:"Playfair Display",serif;font-size:1.7rem;font-weight:700;color:var(--g4);line-height:1}
+.family-stats .stat span{display:block;font-size:.72rem;font-weight:700;color:var(--text-soft);letter-spacing:.04em;text-transform:uppercase;margin-top:5px}
+
+.family-section{margin-bottom:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm)}
+.family-section h2{font-size:1.1rem;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.family-section h2 .icon{font-size:1.2rem}
+.family-section .sub{font-size:.78rem;color:var(--text-soft);margin-bottom:16px;font-style:italic}
+
+.couple-block{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}
+@media (max-width:640px){.couple-block{grid-template-columns:1fr}}
+
+.member{display:flex;gap:14px;padding:16px;background:var(--surface-2);border-radius:var(--radius);margin-bottom:10px;border-left:4px solid var(--accent,var(--g4));transition:all .15s}
+.member:hover{background:var(--surface-3);transform:translateX(2px)}
+.member .avatar{flex:0 0 auto;width:60px;height:60px;border-radius:50%;background:var(--surface-3);border:2px solid var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:"Playfair Display",serif;font-weight:700;font-size:1.3rem;color:var(--text-soft)}
+.member .avatar.male{border-radius:12px;border-color:var(--male)}
+.member .avatar.female{border-color:var(--female)}
+.member .info{flex:1;min-width:0}
+.member .role{font-size:.72rem;font-weight:700;color:var(--accent,var(--g4));letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+.member .name{font-family:"Playfair Display",serif;font-size:1rem;font-weight:700;line-height:1.25;margin-bottom:3px}
+.member .dates{font-size:.74rem;color:var(--text-soft);margin-bottom:3px}
+.member .flags{font-size:.85rem}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);padding:12px 22px;border-radius:999px;font-size:.82rem;font-weight:600;box-shadow:var(--shadow-lg);z-index:400;pointer-events:none;opacity:0;transition:opacity .25s,transform .25s;max-width:90vw;text-align:center}
+.toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.is-error{background:var(--danger);color:#fff}
+.toast.is-success{background:var(--success);color:#fff}
+
+@media screen{
+  :root:not([data-theme="dark"]) .topbar{border-bottom-color:var(--ui-accent-border)}
+  :root:not([data-theme="dark"]) .topbar-eyebrow{color:#fff;text-shadow:0 1px 2px rgba(26,29,33,.75)}
+  :root:not([data-theme="dark"]) .topbar-title{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.25)}
+  :root:not([data-theme="dark"]) .btn-menu,
+  :root:not([data-theme="dark"]) .btn-theme,
+  :root:not([data-theme="dark"]) .back-btn{border-color:var(--ui-accent-border)}
+  :root:not([data-theme="dark"]) .btn-menu{background:var(--ui-slate-soft);color:#fff;text-shadow:0 1px 2px rgba(26,29,33,.75)}
+  :root:not([data-theme="dark"]) .back-btn:hover{background:var(--ui-accent-soft);color:var(--text);border-color:var(--ui-accent)}
+  :root:not([data-theme="dark"]) .btn-menu:hover{background:var(--ui-orchid);color:#fff;border-color:var(--ui-orchid);text-shadow:0 1px 2px rgba(26,29,33,.75)}
+  :root:not([data-theme="dark"]) .btn-theme{background:var(--ui-teal-soft);color:#fff}
+  :root:not([data-theme="dark"]) .btn-theme svg{filter:drop-shadow(0 1px 2px rgba(26,29,33,.75))}
+  :root:not([data-theme="dark"]) .btn-theme:hover{background:var(--ui-lavender-soft)}
+
+  :root:not([data-theme="dark"]) .tool-card::before{background:linear-gradient(90deg,var(--ui-accent),var(--ui-slate),var(--ui-lavender),var(--ui-teal),var(--ui-orchid))}
+  :root:not([data-theme="dark"]) .report-field input:focus,
+  :root:not([data-theme="dark"]) .report-field select:focus,
+  :root:not([data-theme="dark"]) .report-field textarea:focus{border-color:var(--ui-teal);box-shadow:0 0 0 3px var(--ui-teal-soft)}
+  :root:not([data-theme="dark"]) .file-drop:hover{border-color:var(--ui-slate);background:var(--ui-slate-soft)}
+  :root:not([data-theme="dark"]) .report-submit{background:var(--ui-slate);color:var(--text)}
+  :root:not([data-theme="dark"]) .report-submit:hover:not(:disabled){background:var(--ui-orchid)}
+
+  :root:not([data-theme="dark"]) .menu-panel{border-right-color:var(--ui-accent-border)}
+  :root:not([data-theme="dark"]) .menu-item:hover{background:rgba(181,58,83,.12)}
+  :root:not([data-theme="dark"]) .menu-item.is-active{background:rgba(181,58,83,.12);border-left-color:#B53A53}
+  :root:not([data-theme="dark"]) .menu-item .mi-icon{background:var(--ui-orchid-soft);color:var(--ui-lavender)}
+  :root:not([data-theme="dark"]) .menu-item .mi-arrow{color:var(--ui-teal)}
+
+  :root:not([data-theme="dark"]) .family-topbar,
+  :root:not([data-theme="dark"]) .family-section,
+  :root:not([data-theme="dark"]) .family-stats .stat{border-color:var(--ui-accent-border)}
+  :root:not([data-theme="dark"]) .family-section{border-top:3px solid var(--ui-lavender)}
+  :root:not([data-theme="dark"]) .family-stats .stat{border-top:3px solid var(--ui-teal)}
+  :root:not([data-theme="dark"]) .family-topbar .badge{background:var(--ui-teal-soft);color:var(--text)}
+  :root:not([data-theme="dark"]) .back-btn{background:var(--ui-slate-soft)}
+  :root:not([data-theme="dark"]) .family-hero .badge-hero{background:var(--ui-orchid-soft)}
+  :root:not([data-theme="dark"]) .family-stats .stat b{color:var(--ui-accent)}
+  :root:not([data-theme="dark"]) .member:hover{background:var(--ui-lavender-soft)}
+
+  :root[data-theme="dark"] .topbar{border-bottom-color:var(--ui-border)}
+  :root[data-theme="dark"] .topbar-eyebrow{color:#fff}
+  :root[data-theme="dark"] .tree-toolbar .count-badge{color:#E9ABB5;background:rgba(140,45,64,.32)}
+  :root[data-theme="dark"] .btn-menu,
+  :root[data-theme="dark"] .back-btn{background:var(--ui-accent);color:var(--text);border-color:var(--ui-olive)}
+  :root[data-theme="dark"] .btn-menu:hover,
+  :root[data-theme="dark"] .back-btn:hover{background:var(--ui-olive);color:var(--text);border-color:var(--ui-olive)}
+  :root[data-theme="dark"] .btn-theme{background:var(--ui-earth);color:var(--text);border-color:var(--ui-moss)}
+  :root[data-theme="dark"] .btn-theme:hover{background:var(--ui-olive)}
+
+  :root[data-theme="dark"] .tool-card::before{background:linear-gradient(90deg,var(--ui-accent),var(--ui-earth),var(--ui-olive),var(--ui-brown),var(--ui-moss))}
+  :root[data-theme="dark"] .report-field input:focus,
+  :root[data-theme="dark"] .report-field select:focus,
+  :root[data-theme="dark"] .report-field textarea:focus{border-color:var(--ui-olive);box-shadow:0 0 0 3px var(--ui-olive-soft)}
+  :root[data-theme="dark"] .file-drop:hover{border-color:var(--ui-moss);background:var(--ui-moss-soft)}
+  :root[data-theme="dark"] .report-submit{background:var(--ui-accent);color:var(--text)}
+  :root[data-theme="dark"] .report-submit:hover:not(:disabled){background:var(--ui-earth)}
+
+  :root[data-theme="dark"] .menu-panel{border-right-color:var(--ui-border)}
+  :root[data-theme="dark"] .menu-item:hover{background:rgba(181,58,83,.22)}
+  :root[data-theme="dark"] .menu-item.is-active{background:rgba(181,58,83,.22);border-left-color:#B53A53}
+  :root[data-theme="dark"] .menu-item .mi-icon{background:var(--ui-brown);color:var(--text)}
+  :root[data-theme="dark"] .menu-item .mi-arrow{color:var(--text-muted)}
+  :root:not([data-theme="dark"]) .menu-head h2:hover,
+  :root:not([data-theme="dark"]) .menu-section-title:hover,
+  :root:not([data-theme="dark"]) .menu-item:hover .mi-title,
+  :root:not([data-theme="dark"]) .menu-item:focus-visible .mi-title,
+  :root:not([data-theme="dark"]) .menu-item:hover .mi-arrow,
+  :root:not([data-theme="dark"]) .menu-item:focus-visible .mi-arrow{color:#63202D}
+  :root[data-theme="dark"] .menu-head h2:hover,
+  :root[data-theme="dark"] .menu-section-title:hover,
+  :root[data-theme="dark"] .menu-item:hover .mi-title,
+  :root[data-theme="dark"] .menu-item:focus-visible .mi-title,
+  :root[data-theme="dark"] .menu-item:hover .mi-arrow,
+  :root[data-theme="dark"] .menu-item:focus-visible .mi-arrow{color:#E9ABB5}
+  :root:not([data-theme="dark"]) .menu-item:hover,
+  :root:not([data-theme="dark"]) .menu-item:focus-visible,
+  :root[data-theme="dark"] .menu-item:hover,
+  :root[data-theme="dark"] .menu-item:focus-visible{box-shadow:0 0 0 2px rgba(181,58,83,.45),0 3px 10px rgba(181,58,83,.28)}
+
+  :root[data-theme="dark"] .family-topbar,
+  :root[data-theme="dark"] .family-section,
+  :root[data-theme="dark"] .family-stats .stat{border-color:var(--ui-border)}
+  :root[data-theme="dark"] .family-section{border-top:3px solid var(--ui-olive)}
+  :root[data-theme="dark"] .family-stats .stat{border-top:3px solid var(--ui-moss)}
+  :root[data-theme="dark"] .family-topbar .badge{background:var(--ui-olive);color:var(--text)}
+  :root[data-theme="dark"] .back-btn{background:var(--ui-accent)}
+  :root[data-theme="dark"] .family-hero .badge-hero{background:var(--ui-brown);color:var(--text)}
+  :root[data-theme="dark"] .family-stats .stat b{color:var(--text)}
+  :root[data-theme="dark"] .member:hover{background:var(--ui-moss-soft)}
+
+  :root:not([data-theme="dark"]) .btn-menu,
+  :root:not([data-theme="dark"]) .btn-theme,
+  :root:not([data-theme="dark"]) .report-submit,
+  :root[data-theme="dark"] .btn-menu,
+  :root[data-theme="dark"] .btn-theme,
+  :root[data-theme="dark"] .report-submit{background:#3B131B;color:#fff;border:1px solid #fff}
+  :root:not([data-theme="dark"]) .btn-menu:hover,
+  :root:not([data-theme="dark"]) .btn-theme:hover,
+  :root:not([data-theme="dark"]) .report-submit:hover:not(:disabled),
+  :root[data-theme="dark"] .btn-menu:hover,
+  :root[data-theme="dark"] .btn-theme:hover,
+  :root[data-theme="dark"] .report-submit:hover:not(:disabled){background:#493F0F;color:#fff;border-color:#fff}
+  :root:not([data-theme="dark"]) .btn-menu:active,
+  :root:not([data-theme="dark"]) .btn-theme:active,
+  :root:not([data-theme="dark"]) .report-submit:active:not(:disabled),
+  :root[data-theme="dark"] .btn-menu:active,
+  :root[data-theme="dark"] .btn-theme:active,
+  :root[data-theme="dark"] .report-submit:active:not(:disabled){background:#4A4710;color:#fff;border-color:#fff}
+  :root:not([data-theme="dark"]) .btn-menu:focus-visible,
+  :root:not([data-theme="dark"]) .btn-theme:focus-visible,
+  :root:not([data-theme="dark"]) .report-submit:focus-visible,
+  :root[data-theme="dark"] .btn-menu:focus-visible,
+  :root[data-theme="dark"] .btn-theme:focus-visible,
+  :root[data-theme="dark"] .report-submit:focus-visible{outline:2px solid #fff;outline-offset:2px}
+}
+
+button,
+input,
+select,
+textarea,
+.node .node-sym,
+.node .node-name,
+.node .node-dates,
+.gen-band-label,
+.pc-photo,
+.member .avatar{
+  font-family:"Palmore",system-ui,sans-serif;
+}
+body{font-family:"Junicode",Georgia,serif}
+h1:not(.topbar-title),h2,h3,h4,
+.menu-item .mi-title,
+.pc-name,
+.family-topbar .title,
+.family-stats .stat b,
+.member .name{font-family:"Junicode",Georgia,serif;font-weight:700}
+.topbar-eyebrow,.tool-card > p.desc,.family-hero p,.family-section .sub{font-family:"Junicode",Georgia,serif;font-weight:400;font-style:italic}
+
+@media screen{
+  body{font-size:13px}
+  h1:not(.topbar-title),h2,h3,h4,
+  .btn-menu,.tree-toolbar .label,.tool-card h2,.menu-head h2,.menu-item .mi-title,
+  .pc-name,.family-topbar .title,.family-hero h1,.family-stats .stat b,
+  .family-section h2,.member .name{font-size:17px}
+  .topbar-eyebrow,.request-intro p.desc,.family-hero p,.family-section .sub,
+  .menu-section-title,.family-topbar .badge,.family-hero .badge-hero,
+  .family-stats .stat span,.pc-info h4,.member .role{font-size:15px}
+  .tree-toolbar .count-badge,.legend-mini,.zoom-float .zl,
+  .node .node-name,.node .node-dates,.gen-band-label,
+  .report-field label,.report-field input,.report-field select,.report-field textarea,
+  .file-drop .text b,.file-drop .text small,.report-submit,.report-hint,
+  .report-success,.report-error,.pc-dates,.pc-flag,.pc-info .row,.pc-rel .chip,
+  .menu-item .mi-sub,.back-btn,.member .dates,.member .flags,.toast{font-size:13px}
+}
+
+.print-header{display:none}
+
+@media (max-width:800px){
+  .main,.family-page{padding:14px 12px 50px}
+  .family-history{padding:20px 18px}
+  .history-grid{grid-template-columns:1fr;gap:16px}
+  .viewport{max-height:60vh}
+  .family-topbar{padding:10px 12px;gap:10px;flex-wrap:wrap}
+  .family-topbar .title{width:100%;order:3;font-size:.95rem}
+  .tool-card{padding:20px 20px}
+  .zoom-float{bottom:10px;right:10px}
+  .zoom-float button{width:32px;height:32px;font-size:.95rem}
+  .zoom-float .zl{min-width:40px;height:32px;font-size:.66rem}
+}
+@media (max-width:520px){
+  .person-card{padding:0 18px 20px}
+  .pc-photo{width:88px;height:88px;font-size:1.7rem}
+  .pc-name{font-size:1.15rem}
+  .tree-toolbar{padding:10px 12px}
+  .legend-mini{font-size:.62rem;gap:6px}
+}
+
+@media print{
+  @page{ size: A4 landscape; margin: 1cm; }
+  .topbar,.menu-panel,.menu-backdrop,.tree-toolbar,.form-wrapper,.zoom-float,.btn-menu,.family-topbar,.toast,.modal-backdrop{display:none !important;}
+  body{background:#fff;color:#000;font-size:10pt}
+  .main,.family-page{max-width:none;padding:0;margin:0}
+  .tree-card,.family-section,.family-stats .stat{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+  .viewport{max-height:none;overflow:visible;background:#fff}
+  #genograma{width:100% !important;height:auto !important;max-width:100%}
+  .view:not(.is-active){display:none !important}
+  .print-header{display:block;text-align:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #999}
+  .print-header h1{font-family:"The Night Watch","Kaushan Script","Brush Script MT",cursive;font-weight:400;font-size:22pt;margin:0;color:#000}
+  .print-header .meta{font-size:9pt;color:#666;margin-top:2px;letter-spacing:.08em;text-transform:uppercase}
+  .family-section{page-break-inside:avoid;margin-bottom:12px;padding:12px 14px}
+  .member{padding:8px 10px;margin-bottom:6px;background:#f7f7f7}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <button class="btn-menu" id="btn-menu" type="button">
+      <span>☰</span><span class="btn-text">Menú</span>
+    </button>
+    <h1 class="topbar-title">Genograma Familiar</h1>
+    <div class="topbar-eyebrow">Francia · Cuba · EE. UU. · Ecuador · Perú · España</div>
+    <select class="language-select" id="language-select" aria-label="Idioma">
+      <option value="es">Español</option>
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+    </select>
+    <button class="btn-theme" id="btn-theme" type="button" title="Modo noche" aria-label="Cambiar a modo noche">
+      <svg id="theme-ico" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+        <rect class="theme-mark" x="12" y="12" width="176" height="176" rx="28" />
+        <circle class="theme-sun" cx="82" cy="82" r="29" />
+        <path class="theme-mark" d="M82 35V22M82 142v-13M35 82H22m120 0h-13M49 49l-9-9m84 84-9-9m0-66 9-9m-84 84-9 9" />
+        <path class="theme-moon" d="M145 103a39 39 0 1 0 31 60 32 32 0 0 1-31-60Z" />
+        <path class="theme-star" d="m151 82 6 12 12 5-12 6-6 12-5-12-12-6 12-5Zm22 39 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" />
+        <path class="theme-mark" d="M34 166 166 34" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="menu-backdrop" id="menu-backdrop"></div>
+<aside class="menu-panel" id="menu-panel">
+  <div class="menu-head">
+    <h2><span>📖</span> Menú del árbol</h2>
+    <button class="menu-close" id="menu-close" type="button">✕</button>
+  </div>
+  <div class="menu-body" id="menu-body"></div>
+</aside>
+
+<section class="view is-active" id="view-tree">
+  <div class="main">
+    <div class="print-header">
+      <h1>Genograma Familiar</h1>
+      <div class="meta">Francia · Cuba · EE. UU. · Ecuador · Perú · España</div>
+    </div>
+
+    <div class="tree-card">
+      <div class="tree-toolbar">
+        <span class="label">Genograma</span>
+        <span class="count-badge" id="count-badge">83 personas</span>
+        <span class="spacer"></span>
+        <div class="legend-mini">
+          <span><span class="sym">♂</span>Varón</span>
+          <span><span class="sym ci">♀</span>Mujer</span>
+          <span><span class="sym mar">♦</span>Matrimonio</span>
+          <span><span class="sym love">♥</span>Amorío</span>
+          <span><span class="sym div">//</span>Divorcio</span>
+          <span><span class="sym dec">✝</span>Fallecido</span>
+        </div>
+      </div>
+      <div class="viewport-wrap">
+        <div class="viewport" id="viewport">
+          <svg id="genograma" xmlns="http://www.w3.org/2000/svg" width="6400" height="1300" viewBox="0 0 6400 1300"></svg>
+        </div>
+        <div class="zoom-float">
+          <button id="zoom-out" type="button" title="Alejar">−</button>
+          <span class="zl" id="zoom-level">100%</span>
+          <button id="zoom-in" type="button" title="Acercar">+</button>
+          <button id="zoom-fit" type="button" title="Ajustar a pantalla">⊡</button>
+          <span class="divider"></span>
+          <button id="btn-download" type="button" class="btn-download" title="Descargar genograma" aria-label="Descargar genograma">⇩</button>
+          <button id="btn-fullscreen" type="button" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="family-history" id="family-history">
+      <header class="history-header">
+        <p class="history-kicker">Historia familiar</p>
+        <p class="history-intro">Las actas civiles y parroquiales, junto con la correspondencia familiar, permiten seguir el recorrido de varias ramas entre Bretaña, Cuba, Luisiana, Guayaquil y Lima.</p>
+      </header>
+      <div class="history-grid">
+        <article class="history-entry">
+          <h3>De Morlaix a Burdeos</h3>
+          <p>Simon Le Guen, originario de Morlaix, Bretaña, viajó a Cuba hacia 1820–1823 con su primo Jean-Charles Cazimajou. Allí comerciaron café y adquirieron las haciendas El Parnaso y La Ninfas. Tras la expulsión de colonos franceses, la familia pasó por Luisiana y finalmente se asentó en Burdeos.</p>
+        </article>
+        <article class="history-entry">
+          <h3>Las ramas de Guayaquil</h3>
+          <p>La rama de la Vera y Morla se documenta en Guayaquil desde María Casimira de la Vera y José Morla López. El registro más completo atribuye a la pareja 14 hijos. También aparecen hijos con el apellido Morla Mendoza en años en que Casimira ya tenía entre 54 y 71 años; el árbol los presenta como una posible segunda unión, con la identidad de la madre aún desconocida.</p>
+        </article>
+        <article class="history-entry">
+          <h3>De Le Guen y Bedoya a Mickle</h3>
+          <p>Thomas Le Guen estudió medicina en Nueva York, obtuvo la ciudadanía estadounidense en 1866 y llegó a Lima a fines de ese año o a comienzos de 1867. Su unión con María Leocadia Bedoya dio origen a la rama peruana. Su hijo Julio nació como Le Guen; después, Enrique Mickle lo reconoció y pasó a llamarse Julio Mickle Bedoya.</p>
+        </article>
+        <article class="history-entry">
+          <h3>Las ramas Mickle Ramírez y Le Guen</h3>
+          <p>Julio Mickle Bedoya y Ángela/Angélica Galarza aparecen como antecesores de la rama de Gastón Félix Mickle Galarza y Esperanza Ramírez Hernández, padres de 13 hermanos. Thomas Le Guen también tuvo una segunda familia con Mercedes Guerra; sus descendientes, entre ellos Patrick Vernerie, son parientes por línea paterna de Julio.</p>
+        </article>
+      </div>
+      <p class="history-source"><strong>Fuentes y certeza:</strong> la historia reúne actas de nacimiento, bautismo, matrimonio y defunción, correspondencia de Patrick Vernerie y testimonios familiares. Los vínculos no confirmados directamente por un acta se describen como probables y se señalan en el árbol.</p>
+    </section>
+
+    <div class="form-wrapper">
+      <div class="tool-card">
+        <div class="request-intro">
+          <h2><span>✉️</span> Solicitar un cambio</h2>
+          <p class="desc">¿Detectaste un dato incorrecto o falta información? Avísanos y te llegará directo.</p>
+        </div>
+
+        <form class="report-form" id="report-form"
+              action="https://formsubmit.co/alvaradonicolemickle@gmail.com"
+              method="POST"
+              enctype="multipart/form-data">
+          <input type="hidden" name="_subject" value="Genograma Familiar — Solicitud de cambio">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+
+          <div class="report-row">
+            <div class="report-field">
+              <label for="rep-name">Tu nombre <span class="req">*</span></label>
+              <input type="text" id="rep-name" name="Solicitante" required autocomplete="name">
+            </div>
+            <div class="report-field">
+              <label for="rep-email">Tu email <span class="req">*</span></label>
+              <input type="email" id="rep-email" name="Email_de_contacto" required autocomplete="email">
+            </div>
+          </div>
+
+          <div class="report-row">
+            <div class="report-field">
+              <label for="rep-person">Persona a corregir <span class="req">*</span></label>
+              <select id="rep-person" name="Persona_a_corregir" required></select>
+            </div>
+            <div class="report-field">
+              <label for="rep-type">Tipo de cambio</label>
+              <select id="rep-type" name="Tipo_de_cambio">
+                <option value="Fallecimiento">Fallecimiento (aparece vivo/a)</option>
+                <option value="Nacimiento">Nuevo nacimiento / hijo/a</option>
+                <option value="Matrimonio">Matrimonio o unión</option>
+                <option value="Divorcio/Separación">Divorcio o separación</option>
+                <option value="Datos incorrectos">Datos incorrectos (fechas, nombres)</option>
+                <option value="Foto/Documento">Añadir foto o documento</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="report-field">
+            <label for="rep-message">Mensaje <span class="req">*</span></label>
+            <textarea id="rep-message" name="Mensaje" required placeholder="Describe el cambio con el mayor detalle posible (fechas, actas, nombres completos…)"></textarea>
+          </div>
+
+          <div class="file-field">
+            <label>Adjuntar archivo (opcional)</label>
+            <label class="file-drop" id="file-drop" for="rep-file">
+              <span class="icon">📎</span>
+              <span class="text">
+                <b id="file-name">Toca para subir una foto o PDF</b>
+                <small>Partidas, actas, certificados (máx. 5 MB)</small>
+              </span>
+              <button type="button" class="btn-clear" id="file-clear">✕</button>
+            </label>
+            <input type="file" id="rep-file" name="attachment" accept="image/*,.pdf,application/pdf" style="display:none">
+          </div>
+
+          <div class="report-hint">
+            Tu solicitud se enviará directamente a <strong>alvaradonicolemickle@gmail.com</strong>.
+          </div>
+
+          <button class="report-submit" type="submit" id="rep-submit">
+            <span>📧</span> <span id="rep-submit-text">Enviar solicitud</span>
+          </button>
+
+          <div class="report-success" id="report-success">
+            <span>✓</span>
+            <span>¡Gracias! Tu solicitud se envió correctamente.</span>
+          </div>
+
+          <div class="report-error" id="report-error"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="view-family">
+  <div class="family-page">
+    <div class="print-header">
+      <h1 id="print-family-title">Familia</h1>
+      <div class="meta">Genograma Familiar</div>
+    </div>
+
+    <div class="family-topbar">
+      <button class="back-btn" id="btn-back-tree" type="button">
+        <span>←</span><span>Volver al árbol</span>
+      </button>
+      <span class="title" id="family-topbar-title">Familia</span>
+      <span class="badge">Familia</span>
+    </div>
+
+    <div class="family-hero">
+      <div class="badge-hero">Familia</div>
+      <h1 id="family-title">Cargando…</h1>
+      <p id="family-desc"></p>
+    </div>
+
+    <div class="family-stats" id="family-stats"></div>
+
+    <div id="family-content"></div>
+  </div>
+</section>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+const W = 130, H = 58;
+const R1=80,R2=240,R3=400,R4=560,R5=760,R6=960,R7=1140;
+const BASE_W = 6400, BASE_H = 1300;
+
+const P = {
+simon:{n:'Simon Le Guen',s:'M',d:'1798–1877',nac:'1798',fall:'1877',f:'🇫🇷',dec:1,gen:1,x:60,y:R1},
+zelie:{n:'Zélie Dubosq',s:'F',d:'s. XIX',nac:'siglo XIX',fall:'',f:'🇫🇷',dec:1,gen:1,x:230,y:R1},
+joaquin:{n:'Joaquín Bedoya',s:'M',d:'s. XIX',nac:'siglo XIX',fall:'',f:'🇵🇪',dec:1,gen:1,x:640,y:R1},
+gago:{n:'[?] Gago',s:'F',d:'s. XIX',nac:'siglo XIX',fall:'',f:'🇵🇪',dec:1,gen:1,x:810,y:R1},
+pedro:{n:'Pedro de la Vera',s:'M',d:'n. 1751',nac:'1751',fall:'',f:'🇪🇨',dec:1,gen:1,x:1240,y:R1},
+thomas:{n:'Thomas Le Guen',s:'M',d:'1835–1882',nac:'1835',fall:'1882',f:'🇫🇷',dec:1,gen:2,x:60,y:R2},
+leocadia:{n:'María Leocadia Bedoya',s:'F',d:'9 dic. 1839 – 27 may. 1903',nac:'9 dic. 1839',fall:'27 may. 1903',f:'🇵🇪',dec:1,gen:2,x:230,y:R2},
+casimira:{n:'María Casimira de la Vera',s:'F',d:'1775 – 11 jul. 1863',nac:'1775',fall:'11 jul. 1863',f:'🇪🇨',dec:1,gen:2,x:1240,y:R2},
+morla:{n:'José Morla López',s:'M',d:'f. 20 dic. 1847',nac:'',fall:'20 dic. 1847',f:'🇪🇸',dec:1,gen:2,x:1410,y:R2},
+julio:{n:'Julio Mickle Bedoya',s:'M',d:'n. 1867',nac:'1867',fall:'',f:'🇵🇪',dec:1,gen:3,x:230,y:R3,head:1},
+angelica:{n:'Angélica Galarza',s:'F',d:'s. XIX',nac:'siglo XIX',fall:'',f:'🇪🇨',dec:1,gen:3,x:400,y:R3},
+angelaramona:{n:'Ángela Ramona Morla',s:'F',d:'27 feb. 1802 – 1864',nac:'27 feb. 1802',fall:'1864',f:'🇪🇨',dec:1,gen:3,x:1180,y:R3},
+lizandro:{n:'José Lizandro Galarza',s:'M',d:'s. XIX',nac:'siglo XIX',fall:'',f:'🇪🇨',dec:1,gen:3,x:1350,y:R3},
+enrique:{n:'Enrique Mickle Galarza',s:'M',d:'n. 2 may. 1900',nac:'2 may. 1900',fall:'',f:'🇵🇪',dec:1,gen:4,x:60,y:R4},
+eduardo:{n:'Eduardo Mickle Galarza',s:'M',d:'f. 25 jun. 1902',nac:'1902',fall:'25 jun. 1902',f:'🇵🇪',dec:1,gen:4,x:230,y:R4},
+juliopablo:{n:'Julio Pablo Mickle Galarza',s:'M',d:'n. 30 jun. 1915',nac:'30 jun. 1915',fall:'',f:'🇵🇪',dec:1,gen:4,x:400,y:R4},
+leonor:{n:'Leonor Rodríguez',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:1,gen:4,x:570,y:R4},
+gaston:{n:'Gastón Félix Mickle Galarza',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:1,gen:4,x:740,y:R4,head:1},
+esperanza:{n:'Esperanza Ramírez Hernández',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:1,gen:4,x:910,y:R4,head:1},
+pedroM:{n:'Pedro Mickle Galarza',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:1,gen:4,x:1080,y:R4},
+herminio:{n:'Herminio Mickle Galarza',s:'M',d:'25 abr. 1904 – 12 ago. 1996',nac:'25 abr. 1904',fall:'12 ago. 1996',f:'🇵🇪',dec:1,gen:4,x:1250,y:R4},
+alberto:{n:'Alberto Mickle Galarza',s:'M',d:'1900 – 28 may. 1943',nac:'1900',fall:'28 may. 1943',f:'🇵🇪',dec:1,gen:4,x:1420,y:R4},
+juliofermin:{n:'Julio Fermín Mickle Galarza',s:'M',d:'7 jul. 1906 – 21 dic. 1969',nac:'7 jul. 1906',fall:'21 dic. 1969',f:'🇵🇪',dec:1,gen:4,x:1590,y:R4},
+felix:{n:'Félix Mickle Rodríguez',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:60,y:R5},
+hipolita:{n:'Hipólita Clementina Salguero Chancay',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:230,y:R5},
+victoria:{n:'Victoria Vilma Mickle Rodríguez',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:400,y:R5},
+joseq:{n:'José Santiago Quiroz Cavero',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:570,y:R5},
+paula:{n:'Paula Elvisa',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:740,y:R5},
+carlosr:{n:'Carlos Ramírez Zegarra',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:910,y:R5},
+francisco:{n:'Francisco Roberto',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:1080,y:R5},
+rosareg:{n:'Rosa María Regalado Bernales',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:1250,y:R5},
+inosenta:{n:'Inosenta Gladys',s:'F',d:'n. 28 dic. 1958',nac:'28 dic. 1958',fall:'',f:'🇵🇪',dec:0,gen:5,x:1420,y:R5},
+marcela:{n:'Marcela Clotilde',s:'F',d:'n. 16 ene. 1956',nac:'16 ene. 1956',fall:'',f:'🇵🇪',dec:0,gen:5,x:1590,y:R5},
+gloria:{n:'Gloria Esperanza',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:1760,y:R5},
+carlosk:{n:'Carlos Alberto Komori Pérez',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:1,gen:5,x:1930,y:R5},
+hugo:{n:'Hugo Artemio',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:1,gen:5,x:2100,y:R5},
+susana:{n:'Susana Ubillas Canales',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:2270,y:R5},
+maria:{n:'María Marlene',s:'F',d:'n. 25 oct. 1961',nac:'25 oct. 1961',fall:'',f:'🇵🇪',dec:0,gen:5,x:2440,y:R5},
+german:{n:'Germán Óscar Alvarado Pérez',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:2610,y:R5},
+angelita:{n:'Angelita Mafalda',s:'F',d:'1943 – 2 jul. 1947',nac:'1943',fall:'2 jul. 1947',f:'🇵🇪',dec:1,gen:5,x:2780,y:R5},
+mario:{n:'Mario Ismael',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:2950,y:R5},
+carmen:{n:'Carmen Rosa Neyra Vergara',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:3120,y:R5},
+clotilde:{n:'Clotilde Bertha',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:3290,y:R5},
+ulises:{n:'Ulises Néstor Soria Corbalán',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:1,gen:5,x:3460,y:R5},
+haydee:{n:'Haydee',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:3630,y:R5},
+cesar:{n:'César Danilo Postigo Basurco',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:1,gen:5,x:3800,y:R5},
+dandy:{n:'Dandy Gastón',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:3970,y:R5},
+maximina:{n:'Maximina Honorata Alegre Cortez',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:4140,y:R5},
+socrates:{n:'Sócrates Herminio',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:4310,y:R5},
+juana:{n:'Juana Haydée Sagartizábal Huaranga',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:4480,y:R5},
+manuelp:{n:'Manuel Paul Mickle Salguero',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:60,y:R6},
+karina:{n:'Karina Janet Rodríguez Chavarría',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:230,y:R6},
+felixm:{n:'Félix Martín Mickle Salguero',s:'M',d:'n. 11 nov. 1974',nac:'11 nov. 1974',fall:'',f:'🇵🇪',dec:0,gen:6,x:400,y:R6},
+mariai:{n:'María Isabel Nario Vásquez',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:570,y:R6},
+luise:{n:'Luis Enrique Mickle Salguero',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:740,y:R6},
+roxana:{n:'Roxana Isabel Marengo Vidal',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:910,y:R6},
+josee:{n:'José Eduardo Ramírez Mickle',s:'M',d:'n. 17 dic. 1968',nac:'17 dic. 1968',fall:'',f:'🇵🇪',dec:0,gen:6,x:1080,y:R6},
+juanc:{n:'Juan Carlos Ramírez Mickle',s:'M',d:'n. 29 ago. 1965',nac:'29 ago. 1965',fall:'',f:'🇵🇪',dec:0,gen:6,x:1250,y:R6},
+julioc:{n:'Julio César Ramírez Mickle',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:1420,y:R6},
+zenovia:{n:'Zenovia Marisol González Flores',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:1590,y:R6},
+greshelp:{n:'Greshel Patricia Komori Mickle',s:'F',d:'n. 2 jun. 1986',nac:'2 jun. 1986',fall:'',f:'🇵🇪',dec:0,gen:6,x:1760,y:R6},
+angeloa:{n:'Angelo André Komori Mickle',s:'M',d:'n. 14 feb. 1988',nac:'14 feb. 1988',fall:'',f:'🇵🇪',dec:0,gen:6,x:1930,y:R6},
+ginos:{n:'Gino Salvatore Komori Mickle',s:'M',d:'n. 29 oct. 1990',nac:'29 oct. 1990',fall:'',f:'🇵🇪',dec:0,gen:6,x:2100,y:R6},
+hugom:{n:'Hugo Martín Mickle Ubillas',s:'M',d:'n. 3 nov. 1970',nac:'3 nov. 1970',fall:'',f:'🇵🇪',dec:0,gen:6,x:2270,y:R6},
+hilda:{n:'Hilda Rosario Bazán La Barrera',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:2440,y:R6},
+rosam:{n:'Rosa Marlene Mickle Ubillas',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:2610,y:R6},
+juliom:{n:'Julio César Mayanga',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:6,x:2780,y:R6},
+ethelm:{n:'Ethell Marjourie Alvarado Mickle',s:'F',d:'n. 27 oct. 1996',nac:'27 oct. 1996',fall:'',f:'🇵🇪',dec:0,gen:6,x:2900,y:R6},
+giorgia:{n:'Giorgia Valery Alvarado Mickle',s:'F',d:'n. 10 oct. 1989',nac:'10 oct. 1989',fall:'',f:'🇵🇪',dec:0,gen:6,x:3060,y:R6},
+eliane:{n:'Eliane Alvarado Mickle',s:'F',d:'n. 10 oct. 2000',nac:'10 oct. 2000',fall:'',f:'🇵🇪',dec:0,gen:6,x:3220,y:R6},
+solange:{n:'Solange Erika Soria Mickle',s:'F',d:'n. 17 jun. 1989',nac:'17 jun. 1989',fall:'',f:'🇵🇪',dec:0,gen:6,x:3420,y:R6},
+joannam:{n:'Joanna Mariella Postigo Mickle',s:'F',d:'n. 28 nov. 1980',nac:'28 nov. 1980',fall:'',f:'🇵🇪',dec:0,gen:6,x:3760,y:R6},
+melcyk:{n:'Melcy Kelly Mickle Alegre',s:'F',d:'n. 7 dic. 1981',nac:'7 dic. 1981',fall:'',f:'🇵🇪',dec:0,gen:6,x:4100,y:R6},
+graceh:{n:'Grace Hamyi Mickle Sagastizábal',s:'F',d:'n. 7 ago. 1987',nac:'7 ago. 1987',fall:'',f:'🇵🇪',dec:0,gen:6,x:4440,y:R6},
+kiaram:{n:'Kiara Mayte Mickle Rodríguez',s:'F',d:'s. XXI',nac:'siglo XXI',fall:'',f:'🇵🇪',dec:0,gen:7,x:60,y:R7},
+esthefano:{n:'Esthefano Manuel Mickle Rodríguez',s:'M',d:'s. XXI',nac:'siglo XXI',fall:'',f:'🇵🇪',dec:0,gen:7,x:230,y:R7},
+arnolda:{n:'Arnold Aldaeir Mickle Nario',s:'M',d:'s. XXI',nac:'siglo XXI',fall:'',f:'🇵🇪',dec:0,gen:7,x:400,y:R7},
+gastona:{n:'Gastón Arnaldo Mickle Nario',s:'M',d:'s. XXI',nac:'siglo XXI',fall:'',f:'🇵🇪',dec:0,gen:7,x:570,y:R7},
+phabianoe:{n:'Phabiano Enrique Mickle Marengo',s:'M',d:'s. XXI',nac:'siglo XXI',fall:'',f:'🇵🇪',dec:0,gen:7,x:740,y:R7},
+josepha:{n:'Joseph Alexis Ramírez González',s:'M',d:'s. XXI',nac:'siglo XXI',fall:'',f:'🇵🇪',dec:0,gen:7,x:1420,y:R7},
+christopherj:{n:'Christopher Jair Mickle Bazán',s:'M',d:'n. 18 sept. 1991',nac:'18 sept. 1991',fall:'',f:'🇵🇪',dec:0,gen:7,x:2270,y:R7},
+juliocm:{n:'Julio César Mayanga Mickle',s:'M',d:'n. 1987',nac:'1987',fall:'',f:'🇵🇪',dec:0,gen:7,x:2610,y:R7}
+};
+
+Object.assign(P,{
+  mercedesguerra:{n:'Mercedes Guerra',s:'F',d:'s. XIX',nac:'',fall:'',f:'',dec:0,gen:2,x:400,y:R2},
+  enriquemickle:{n:'Enrique Mickle',s:'M',d:'s. XIX',nac:'',fall:'',f:'🇵🇪',dec:1,gen:2,x:570,y:R2},
+  emmelineroot:{n:'Emmeline Le Guen',s:'F',d:'1834–1878',nac:'1834',fall:'1878',f:'🇫🇷',dec:1,gen:2,x:740,y:R2},
+  valentine:{n:'Valentine Le Guen',s:'F',d:'1850–1918',nac:'1850',fall:'1918',f:'🇨🇺',dec:1,gen:2,x:910,y:R2},
+  mariaencarnacion:{n:'María de la Encarnación Bedoya (Bedolla)',s:'F',d:'baut. 9 dic. 1839',nac:'9 dic. 1839',fall:'',f:'🇵🇪',dec:0,gen:2,x:1080,y:R2},
+  rosagonzalez:{n:'Rosa González',s:'F',d:'s. XIX',nac:'',fall:'',f:'🇵🇪',dec:0,gen:3,x:740,y:R3},
+  josefamorla:{n:'Josefa',s:'F',d:'1794–1891',nac:'1794',fall:'1891',f:'🇪🇨',dec:1,gen:3,x:1520,y:R3},
+  juanafrancisca:{n:'Juana Francisca',s:'F',d:'31 may. 1804 – 7 ene. 1809',nac:'31 may. 1804',fall:'7 ene. 1809',f:'🇪🇨',dec:1,gen:3,x:1690,y:R3},
+  mariamorla:{n:'María',s:'F',d:'12 ago. 1805 – 1894',nac:'12 ago. 1805',fall:'1894',f:'🇪🇨',dec:1,gen:3,x:1860,y:R3},
+  nicolasmorla:{n:'Nicolás Mariano',s:'M',d:'12 ago. 1805 – 1894',nac:'12 ago. 1805',fall:'1894',f:'🇪🇨',dec:1,gen:3,x:2030,y:R3},
+  joseantoniomorla:{n:'José Antonio',s:'M',d:'n. 17 jul. 1809',nac:'17 jul. 1809',fall:'',f:'🇪🇨',dec:0,gen:3,x:2200,y:R3},
+  mariadelcarmen:{n:'María del Carmen',s:'F',d:'1810–1845',nac:'1810',fall:'1845',f:'🇪🇨',dec:1,gen:3,x:2370,y:R3},
+  bartolomeciriaco:{n:'Bartolomé Ciriaco',s:'M',d:'8 ago. 1813 – 1893',nac:'8 ago. 1813',fall:'1893',f:'🇪🇨',dec:1,gen:3,x:2540,y:R3},
+  ramongregorio:{n:'Ramón Gregorio',s:'M',d:'27 nov. 1814 – 1846',nac:'27 nov. 1814',fall:'1846',f:'🇪🇨',dec:1,gen:3,x:2710,y:R3},
+  franciscadejesus:{n:'Francisca de Jesús',s:'F',d:'n. 27 feb. 1816',nac:'27 feb. 1816',fall:'',f:'🇪🇨',dec:0,gen:3,x:2880,y:R3},
+  rosariomorla:{n:'Rosario',s:'F',d:'4 oct. 1818 – 1868',nac:'4 oct. 1818',fall:'1868',f:'🇪🇨',dec:1,gen:3,x:3050,y:R3},
+  rosamorla:{n:'Rosa',s:'F',d:'1820–1914',nac:'1820',fall:'1914',f:'🇪🇨',dec:1,gen:3,x:3220,y:R3},
+  mariadolores:{n:'María Dolores',s:'F',d:'n. 2 ago. 1824',nac:'2 ago. 1824',fall:'',f:'🇪🇨',dec:0,gen:3,x:3390,y:R3},
+  juanjosemorla:{n:'Juan José',s:'M',d:'n. 1825',nac:'1825',fall:'',f:'🇪🇨',dec:0,gen:3,x:3560,y:R3},
+  carolina:{n:'Carolina',s:'F',d:'13 mar. 1829 – 1894',nac:'13 mar. 1829',fall:'1894',f:'🇪🇨',dec:1,gen:3,x:3730,y:R3},
+  josearistides:{n:'José Arístides',s:'M',d:'30 abr. 1834 – 1894',nac:'30 abr. 1834',fall:'1894',f:'🇪🇨',dec:1,gen:3,x:3900,y:R3},
+  joseantoniodario:{n:'José Antonio Darío',s:'M',d:'28 feb. 1836 – 1931',nac:'28 feb. 1836',fall:'1931',f:'🇪🇨',dec:1,gen:3,x:4070,y:R3},
+  nicolashoracio:{n:'Nicolás Horacio',s:'M',d:'13 jun. 1838 – 1921',nac:'13 jun. 1838',fall:'1921',f:'🇪🇨',dec:1,gen:3,x:4240,y:R3},
+  virgilio:{n:'Virgilio',s:'M',d:'1841–1919',nac:'1841',fall:'1919',f:'🇪🇨',dec:1,gen:3,x:4410,y:R3},
+  eusebio:{n:'Eusebio',s:'M',d:'c. 1843',nac:'c. 1843',fall:'',f:'🇪🇨',dec:0,gen:3,x:4580,y:R3},
+  homero:{n:'Homero',s:'M',d:'n. 1843',nac:'1843',fall:'',f:'🇪🇨',dec:0,gen:3,x:4750,y:R3},
+  marcosantonio:{n:'Marcos Antonio',s:'M',d:'n. 1846',nac:'1846',fall:'',f:'🇪🇨',dec:0,gen:3,x:4920,y:R3},
+  ovidio:{n:'Ovidio',s:'M',d:'1846–1902',nac:'1846',fall:'1902',f:'🇪🇨',dec:1,gen:3,x:5090,y:R3},
+  emmelinemickle1869:{n:'Emmeline Le Guen',s:'F',d:'n. 1869',nac:'1869',fall:'',f:'🇺🇸',dec:0,gen:3,x:5260,y:R3},
+  julialeguen:{n:'Julia Le Guen',s:'F',d:'n. 1870',nac:'1870',fall:'',f:'🇺🇸',dec:0,gen:3,x:5430,y:R3},
+  lolaleguen:{n:'Lola Le Guen',s:'F',d:'n. 1873',nac:'1873',fall:'',f:'🇺🇸',dec:0,gen:3,x:5600,y:R3},
+  alexandreleguen:{n:'Alexandre Le Guen',s:'M',d:'n. 1875',nac:'1875',fall:'',f:'🇺🇸',dec:0,gen:3,x:5770,y:R3},
+  jeanmariecourtade:{n:'Jean-Marie Courtade',s:'M',d:'s. XIX',nac:'',fall:'',f:'🇫🇷',dec:0,gen:3,x:5940,y:R3},
+  manuelmicklegonzalez:{n:'Manuel Mickle González',s:'M',d:'n. 17 may. 1891',nac:'17 may. 1891',fall:'',f:'🇵🇪',dec:0,gen:4,x:2100,y:R4},
+  gregoriaelvira:{n:'Gregoria Elvira Mickle González',s:'F',d:'1896–1898',nac:'1896',fall:'1896–1898',f:'🇵🇪',dec:1,gen:4,x:2270,y:R4},
+  juliajimenez:{n:'Julia Jiménez Calderón',s:'F',d:'s. XX',nac:'',fall:'',f:'🇵🇪',dec:0,gen:4,x:1760,y:R4},
+  consuelo:{n:'Consuelo Olazábal Barreda',s:'F',d:'s. XX',nac:'',fall:'',f:'🇵🇪',dec:0,gen:4,x:2440,y:R4},
+  luisaangelica:{n:'Luisa Angélica Gonzáles Ríos',s:'F',d:'s. XX',nac:'',fall:'',f:'🇵🇪',dec:0,gen:4,x:1930,y:R4},
+  henriettecourtade:{n:'Henriette Courtade',s:'F',d:'1907–1956',nac:'1907',fall:'1956',f:'🇫🇷',dec:1,gen:4,x:2610,y:R4},
+  anaclaudia:{n:'Ana Claudia Mickle Jiménez',s:'F',d:'n. 18 feb. 1949',nac:'18 feb. 1949',fall:'',f:'🇵🇪',dec:0,gen:5,x:4650,y:R5},
+  grau:{n:'Grau/Gran Aurelio Galarza Elguera',s:'M',d:'matr. 25 sept. 1969',nac:'',fall:'',f:'🇵🇪',dec:0,gen:5,x:4820,y:R5},
+  andresherminio:{n:'Andrés Herminio Mickle Bravo *',s:'M',d:'baut. 1949–1952',nac:'',fall:'',f:'🇵🇪',dec:0,gen:5,x:4990,y:R5},
+  eustaquia:{n:'Eustaquia Mickle Martínez *',s:'F',d:'s. XX',nac:'',fall:'',f:'🇵🇪',dec:0,gen:5,x:5160,y:R5},
+  juanmicklenuevo:{n:'Juan Mickle Nuevo *',s:'M',d:'27 may. 1929 – 11 sept. 2003',nac:'27 may. 1929',fall:'11 sept. 2003',f:'🇵🇪',dec:1,gen:5,x:5330,y:R5},
+  santiagomicklenuevo:{n:'Santiago Julio Mickle Nuevo Nuevo *',s:'M',d:'matr. 20 sept. 1987',nac:'',fall:'',f:'🇵🇪',dec:0,gen:5,x:5500,y:R5},
+  mercedesvernerie:{n:'Mercedes (Vernerie)',s:'F',d:'1935–2019',nac:'1935',fall:'2019',f:'🇫🇷',dec:1,gen:5,x:5670,y:R5},
+  jeanpierrevernerie:{n:'Jean-Pierre Vernerie',s:'M',d:'s. XX',nac:'',fall:'',f:'🇫🇷',dec:0,gen:5,x:5840,y:R5},
+  dannygraw:{n:'Danny Graw Galarza Mickle',s:'M',d:'n. 4 dic. 1969',nac:'4 dic. 1969',fall:'',f:'🇵🇪',dec:0,gen:6,x:4610,y:R6},
+  johnpaul:{n:'John Paul Galarza Miekle',s:'M',d:'n. 17 jul. 1972',nac:'17 jul. 1972',fall:'',f:'🇵🇪',dec:0,gen:6,x:4780,y:R6},
+  peterwilliam:{n:'Peter William Galarza Mickle',s:'M',d:'n. 27 dic. 1973',nac:'27 dic. 1973',fall:'',f:'🇵🇪',dec:0,gen:6,x:4950,y:R6},
+  patrickvernerie:{n:'Patrick Vernerie',s:'M',d:'n. 1962 · Royan, Francia',nac:'1962',fall:'',f:'🇫🇷',dec:0,gen:6,x:5120,y:R6},
+  yannvernerie:{n:'Yann Vernerie',s:'M',d:'s. XXI',nac:'',fall:'',f:'🇫🇷',dec:0,gen:7,x:2780,y:R7},
+  camillevernerie:{n:'Camille Vernerie',s:'F',d:'s. XXI',nac:'',fall:'',f:'🇫🇷',dec:0,gen:7,x:2950,y:R7}
+});
+
+const MARRIAGES = [
+  ['simon','zelie','m'],['joaquin','gago','m'],['thomas','leocadia','m'],
+  ['casimira','morla','m'],['julio','angelica','m'],['angelaramona','lizandro','m'],
+  ['leonor','gaston','a'],
+  ['gaston','esperanza','m'],
+  ['felix','hipolita','m'],['victoria','joseq','m'],['paula','carlosr','m'],
+  ['francisco','rosareg','m'],['gloria','carlosk','m'],['hugo','susana','m'],
+  ['maria','german','d'],
+  ['mario','carmen','m'],['clotilde','ulises','m'],
+  ['haydee','cesar','m'],['dandy','maximina','m'],['socrates','juana','m'],
+  ['manuelp','karina','m'],['felixm','mariai','m'],['luise','roxana','m'],
+  ['julioc','zenovia','m'],['hugom','hilda','m'],['rosam','juliom','m'],
+  ['thomas','mercedesguerra','m'],['leocadia','enriquemickle','m'],
+  ['rosagonzalez','julio','u'],['julialeguen','jeanmariecourtade','m'],
+  ['mercedesvernerie','jeanpierrevernerie','m'],['pedroM','juliajimenez','m'],
+  ['herminio','consuelo','m'],['juliofermin','luisaangelica','m'],
+  ['anaclaudia','grau','m']
+];
+const PARENT_CHILD = [
+  {p:['simon','zelie'],k:['thomas']},{p:['joaquin','gago'],k:['leocadia']},
+  {p:['pedro'],k:['casimira']},{p:['casimira','morla'],k:['angelaramona']},
+  {p:['angelaramona','lizandro'],k:['angelica']},{p:['thomas','leocadia'],k:['julio']},
+  {p:['julio','angelica'],k:['enrique','eduardo','juliopablo','gaston','pedroM','herminio','alberto','juliofermin']},
+  {p:['leonor','gaston'],k:['felix','victoria']},
+  {p:['gaston','esperanza'],k:['paula','francisco','inosenta','marcela','gloria','hugo','maria','angelita','mario','clotilde','haydee','dandy','socrates']},
+  {p:['felix','hipolita'],k:['manuelp','felixm','luise']},
+  {p:['paula','carlosr'],k:['josee','juanc','julioc']},
+  {p:['gloria','carlosk'],k:['greshelp','angeloa','ginos']},
+  {p:['hugo','susana'],k:['hugom','rosam']},
+  {p:['maria','german'],k:['ethelm','giorgia','eliane']},
+  {p:['clotilde','ulises'],k:['solange']},
+  {p:['haydee','cesar'],k:['joannam']},
+  {p:['dandy','maximina'],k:['melcyk']},
+  {p:['socrates','juana'],k:['graceh']},
+  {p:['manuelp','karina'],k:['kiaram','esthefano']},
+  {p:['felixm','mariai'],k:['arnolda','gastona']},
+  {p:['luise','roxana'],k:['phabianoe']},
+  {p:['julioc','zenovia'],k:['josepha']},
+  {p:['hugom','hilda'],k:['christopherj']},
+  {p:['rosam','juliom'],k:['juliocm']},
+  {p:['simon','zelie'],k:['emmelineroot']},
+  {p:['simon'],k:['valentine']},
+  {p:['joaquin','gago'],k:['mariaencarnacion']},
+  {p:['casimira','morla'],k:['josefamorla','juanafrancisca','mariamorla','nicolasmorla','joseantoniomorla','mariadelcarmen','bartolomeciriaco','ramongregorio','franciscadejesus','rosariomorla','rosamorla','mariadolores','juanjosemorla']},
+  {p:['morla'],k:['carolina','josearistides','joseantoniodario','nicolashoracio','virgilio','eusebio','homero','marcosantonio','ovidio']},
+  {p:['thomas','mercedesguerra'],k:['emmelinemickle1869','julialeguen','lolaleguen','alexandreleguen']},
+  {p:['julialeguen','jeanmariecourtade'],k:['henriettecourtade']},
+  {p:['henriettecourtade'],k:['mercedesvernerie']},
+  {p:['mercedesvernerie','jeanpierrevernerie'],k:['patrickvernerie']},
+  {p:['patrickvernerie'],k:['yannvernerie','camillevernerie']},
+  {p:['julio','rosagonzalez'],k:['manuelmicklegonzalez','gregoriaelvira']},
+  {p:['pedroM','juliajimenez'],k:['anaclaudia']},
+  {p:['anaclaudia','grau'],k:['dannygraw','johnpaul','peterwilliam']},
+  {p:['herminio'],k:['andresherminio','eustaquia']},
+  {p:['alberto'],k:['juanmicklenuevo','santiagomicklenuevo']}
+];
+PARENT_CHILD.push(
+  {p:['simon','zelie'],k:['emmelineroot']},
+  {p:['joaquin','gago'],k:['mariaencarnacion']},
+  {p:['casimira','morla'],k:['josefamorla','juanafrancisca','mariamorla','nicolasmorla','joseantoniomorla','mariadelcarmen','bartolomeciriaco','ramongregorio','franciscadejesus','rosariomorla','rosamorla','mariadolores','juanjosemorla']},
+  {p:['morla'],k:['carolina','josearistides','joseantoniodario','nicolashoracio','virgilio','eusebio','homero','marcosantonio','ovidio']},
+  {p:['thomas','mercedesguerra'],k:['emmelinemickle1869','julialeguen','lolaleguen','alexandreleguen']},
+  {p:['julialeguen','jeanmariecourtade'],k:['henriettecourtade']},
+  {p:['henriettecourtade'],k:['mercedesvernerie']},
+  {p:['mercedesvernerie','jeanpierrevernerie'],k:['patrickvernerie']},
+  {p:['patrickvernerie'],k:['yannvernerie','camillevernerie']},
+  {p:['julio','rosagonzalez'],k:['manuelmicklegonzalez','gregoriaelvira']},
+  {p:['pedroM','juliajimenez'],k:['anaclaudia']},
+  {p:['anaclaudia','grau'],k:['dannygraw','johnpaul','peterwilliam']},
+  {p:['herminio'],k:['andresherminio','eustaquia']},
+  {p:['alberto'],k:['juanmicklenuevo','santiagomicklenuevo']}
+);
+
+const root = document.documentElement;
+const languageSelect = document.getElementById('language-select');
+const LANGUAGE_KEY = 'mickle-language';
+const textSources = new WeakMap();
+const attributeSources = new WeakMap();
+let currentLanguage = 'es';
+const TRANSLATIONS = {
+  en:{
+    'Genograma Familiar':'Family Genogram','Francia · Cuba · EE. UU. · Ecuador · Perú · España':'France · Cuba · U.S. · Ecuador · Peru · Spain',
+    'Menú':'Menu','Menú del árbol':'Tree menu','Genograma':'Genogram','personas':'people','Varón':'Male','Mujer':'Female','Matrimonio':'Marriage','Amorío':'Affair','Divorcio':'Divorce','Fallecido':'Deceased',
+    'Alejar':'Zoom out','Acercar':'Zoom in','Ajustar a pantalla':'Fit to screen','Imprimir / Guardar como PDF':'Print / Save as PDF','Modo noche':'Dark mode','Modo claro':'Light mode','Cambiar a modo noche':'Switch to dark mode','Cambiar a modo claro':'Switch to light mode','Idioma':'Language',
+    'Solicitar un cambio':'Request a correction','¿Detectaste un dato incorrecto o falta información? Avísanos y te llegará directo.':'Found an error or missing information? Let us know and we will receive it directly.',
+    'Tu nombre':'Your name','Tu email':'Your email','Persona a corregir':'Person to correct','Tipo de cambio':'Type of change','Fallecimiento (aparece vivo/a)':'Death (shown as living)','Nuevo nacimiento / hijo/a':'New birth / child','Matrimonio o unión':'Marriage or partnership','Divorcio o separación':'Divorce or separation','Datos incorrectos (fechas, nombres)':'Incorrect details (dates, names)','Añadir foto o documento':'Add a photo or document','Otro':'Other','Mensaje':'Message',
+    'Describe el cambio con el mayor detalle posible (fechas, actas, nombres completos…)':'Describe the change in as much detail as possible (dates, records, full names…)','Adjuntar archivo (opcional)':'Attach a file (optional)','Toca para subir una foto o PDF':'Click to upload a photo or PDF','Partidas, actas, certificados (máx. 5 MB)':'Records and certificates (max 5 MB)','Tu solicitud se enviará directamente a':'Your request will be sent directly to','Enviar solicitud':'Send request','¡Gracias! Tu solicitud se envió correctamente.':'Thank you! Your request was sent successfully.',
+    'Vista general':'Overview','Ramas ancestrales':'Ancestral branches','Familias':'Families','Por generación':'By generation','Genograma completo':'Full genogram','Todas las generaciones':'All generations','Rama paterna · Le Guen':'Paternal branch · Le Guen','Descendencia Le Guen · Bedoya · Mickle':'Le Guen · Bedoya · Mickle descendants','Rama materna · Morla Galarza':'Maternal branch · Morla Galarza','Descendencia De la Vera · Morla · Galarza':'De la Vera · Morla · Galarza descendants',
+    'Familia Le Guen':'Le Guen Family','Familia Bedoya':'Bedoya Family','Familia Morla':'Morla Family','Familia Galarza':'Galarza Family','Familia Mickle Galarza':'Mickle Galarza Family','Familia Mickle Ramírez':'Mickle Ramírez Family','Familia Mickle Rodríguez':'Mickle Rodríguez Family','Familia Quiroz Mickle':'Quiroz Mickle Family','Familia Ramírez Mickle':'Ramírez Mickle Family','Familia Komori Mickle':'Komori Mickle Family','Familia Mickle Ubillas':'Mickle Ubillas Family','Familia Alvarado Mickle':'Alvarado Mickle Family','Familia Soria Mickle':'Soria Mickle Family','Familia Postigo Mickle':'Postigo Mickle Family','Familia Mickle Alegre':'Mickle Alegre Family','Familia Mickle Sagastizábal':'Mickle Sagastizábal Family','Familia Mickle Salguero':'Mickle Salguero Family',
+    'Generación I · Raíces':'Generation I · Roots','Generación II · Ancestros':'Generation II · Ancestors','Generación III · Bisabuelos':'Generation III · Great-grandparents','Generación IV · Abuelos':'Generation IV · Grandparents','Generación V · Padres y tíos':'Generation V · Parents and aunts/uncles','Generación VI · Hijos':'Generation VI · Children','Generación VII · Nietos':'Generation VII · Grandchildren',
+    'Siglo XVIII':'18th century','1775–1850':'1775–1850','1800–1900':'1800–1900','1900–1980':'1900–1980','Los 13 hermanos Mickle Ramírez':'The 13 Mickle Ramírez siblings','Descendientes directos':'Direct descendants','Nietos y bisnietos':'Grandchildren and great-grandchildren',
+    'Total':'Total','Generaciones':'Generations','Países':'Countries','Volver al árbol':'Back to tree','Familia':'Family','Cargando…':'Loading…','Amorío':'Affair','Divorciados (2025)':'Divorced (2025)','Unión libre':'Domestic partnership','Pareja principal':'Main couple','Cónyuge':'Spouse','Hijo/a':'Child',
+    'Datos':'Details','Nombre:':'Name:','Sexo:':'Gender:','♂ Varón':'♂ Male','♀ Mujer':'♀ Female','Fecha de nacimiento:':'Date of birth:','Fecha de fallecimiento:':'Date of death:','País:':'Country:','Generación:':'Generation:','Estado:':'Status:','✝ Fallecido/a':'✝ Deceased','Vivo/a':'Living','Cónyuges':'Spouses','Padres':'Parents','Hermanos':'Siblings','Hijos':'Children',
+    'Cónyuge':'Spouse','Todas las generaciones':'All generations','n.':'b.','El archivo supera los 5 MB.':'The file is larger than 5 MB.','Por favor rellena todos los campos obligatorios.':'Please fill in all required fields.','Enviando…':'Sending…','¡Solicitud enviada!':'Request sent!','Hubo un problema al enviar. Intenta de nuevo o escríbenos a alvaradonicolemickle@gmail.com':'There was a problem sending your request. Please try again or email alvaradonicolemickle@gmail.com.'
+  },
+  fr:{
+    'Genograma Familiar':'Génogramme familial','Francia · Cuba · EE. UU. · Ecuador · Perú · España':'France · Cuba · États-Unis · Équateur · Pérou · Espagne',
+    'Menú':'Menu','Menú del árbol':'Menu de l’arbre','Genograma':'Génogramme','personas':'personnes','Varón':'Homme','Mujer':'Femme','Matrimonio':'Mariage','Amorío':'Relation extraconjugale','Divorcio':'Divorce','Fallecido':'Décédé',
+    'Alejar':'Dézoomer','Acercar':'Zoomer','Ajustar a pantalla':'Ajuster à l’écran','Imprimir / Guardar como PDF':'Imprimer / Enregistrer en PDF','Modo noche':'Mode sombre','Modo claro':'Mode clair','Cambiar a modo noche':'Passer en mode sombre','Cambiar a modo claro':'Passer en mode clair','Idioma':'Langue',
+    'Solicitar un cambio':'Signaler une modification','¿Detectaste un dato incorrecto o falta información? Avísanos y te llegará directo.':'Vous avez repéré une erreur ou une information manquante ? Signalez-le-nous.',
+    'Tu nombre':'Votre nom','Tu email':'Votre e-mail','Persona a corregir':'Personne à corriger','Tipo de cambio':'Type de modification','Fallecimiento (aparece vivo/a)':'Décès (indiqué comme vivant/e)','Nuevo nacimiento / hijo/a':'Nouvelle naissance / enfant','Matrimonio o unión':'Mariage ou union','Divorcio o separación':'Divorce ou séparation','Datos incorrectos (fechas, nombres)':'Informations incorrectes (dates, noms)','Añadir foto o documento':'Ajouter une photo ou un document','Otro':'Autre','Mensaje':'Message',
+    'Describe el cambio con el mayor detalle posible (fechas, actas, nombres completos…)':'Décrivez la modification avec le plus de détails possible (dates, actes, noms complets…)','Adjuntar archivo (opcional)':'Joindre un fichier (facultatif)','Toca para subir una foto o PDF':'Cliquez pour ajouter une photo ou un PDF','Partidas, actas, certificados (máx. 5 MB)':'Actes et certificats (max. 5 Mo)','Tu solicitud se enviará directamente a':'Votre demande sera envoyée directement à','Enviar solicitud':'Envoyer la demande','¡Gracias! Tu solicitud se envió correctamente.':'Merci ! Votre demande a bien été envoyée.',
+    'Vista general':'Vue d’ensemble','Ramas ancestrales':'Branches ancestrales','Familias':'Familles','Por generación':'Par génération','Genograma completo':'Génogramme complet','Todas las generaciones':'Toutes les générations','Rama paterna · Le Guen':'Branche paternelle · Le Guen','Descendencia Le Guen · Bedoya · Mickle':'Descendance Le Guen · Bedoya · Mickle','Rama materna · Morla Galarza':'Branche maternelle · Morla Galarza','Descendencia De la Vera · Morla · Galarza':'Descendance De la Vera · Morla · Galarza',
+    'Familia Le Guen':'Famille Le Guen','Familia Bedoya':'Famille Bedoya','Familia Morla':'Famille Morla','Familia Galarza':'Famille Galarza','Familia Mickle Galarza':'Famille Mickle Galarza','Familia Mickle Ramírez':'Famille Mickle Ramírez','Familia Mickle Rodríguez':'Famille Mickle Rodríguez','Familia Quiroz Mickle':'Famille Quiroz Mickle','Familia Ramírez Mickle':'Famille Ramírez Mickle','Familia Komori Mickle':'Famille Komori Mickle','Familia Mickle Ubillas':'Famille Mickle Ubillas','Familia Alvarado Mickle':'Famille Alvarado Mickle','Familia Soria Mickle':'Famille Soria Mickle','Familia Postigo Mickle':'Famille Postigo Mickle','Familia Mickle Alegre':'Famille Mickle Alegre','Familia Mickle Sagastizábal':'Famille Mickle Sagastizábal','Familia Mickle Salguero':'Famille Mickle Salguero',
+    'Generación I · Raíces':'Génération I · Racines','Generación II · Ancestros':'Génération II · Ancêtres','Generación III · Bisabuelos':'Génération III · Arrière-grands-parents','Generación IV · Abuelos':'Génération IV · Grands-parents','Generación V · Padres y tíos':'Génération V · Parents et oncles/tantes','Generación VI · Hijos':'Génération VI · Enfants','Generación VII · Nietos':'Génération VII · Petits-enfants',
+    'Siglo XVIII':'XVIIIe siècle','1775–1850':'1775–1850','1800–1900':'1800–1900','1900–1980':'1900–1980','Los 13 hermanos Mickle Ramírez':'Les 13 frères et sœurs Mickle Ramírez','Descendientes directos':'Descendants directs','Nietos y bisnietos':'Petits-enfants et arrière-petits-enfants',
+    'Total':'Total','Generaciones':'Générations','Países':'Pays','Volver al árbol':'Retour à l’arbre','Familia':'Famille','Cargando…':'Chargement…','Amorío':'Relation extraconjugale','Divorciados (2025)':'Divorcés (2025)','Unión libre':'Union libre','Pareja principal':'Couple principal','Cónyuge':'Conjoint/e','Hijo/a':'Enfant',
+    'Datos':'Informations','Nombre:':'Nom :','Sexo:':'Sexe :','♂ Varón':'♂ Homme','♀ Mujer':'♀ Femme','Fecha de nacimiento:':'Date de naissance :','Fecha de fallecimiento:':'Date de décès :','País:':'Pays :','Generación:':'Génération :','Estado:':'État :','✝ Fallecido/a':'✝ Décédé/e','Vivo/a':'En vie','Cónyuges':'Conjoints','Padres':'Parents','Hermanos':'Frères et sœurs','Hijos':'Enfants',
+    'El archivo supera los 5 MB.':'Le fichier dépasse 5 Mo.','Por favor rellena todos los campos obligatorios.':'Veuillez remplir tous les champs obligatoires.','Enviando…':'Envoi en cours…','¡Solicitud enviada!':'Demande envoyée !','Hubo un problema al enviar. Intenta de nuevo o escríbenos a alvaradonicolemickle@gmail.com':'Un problème est survenu lors de l’envoi. Réessayez ou écrivez à alvaradonicolemickle@gmail.com.'
+  }
+};
+Object.assign(TRANSLATIONS.en,{
+  'Francia':'France','Ecuador':'Ecuador','Perú':'Peru','España':'Spain','Generación':'Generation',
+  'I · Raíces':'I · Roots','II · Ancestros':'II · Ancestors','III · Bisabuelos':'III · Great-grandparents','IV · Abuelos':'IV · Grandparents','V · Padres y tíos':'V · Parents and aunts/uncles','VI · Hijos':'VI · Children','VII · Nietos':'VII · Grandchildren',
+  'Simon Le Guen & Zélie Dubosq':'Simon Le Guen and Zélie Dubosq','Joaquín Bedoya & Gago':'Joaquín Bedoya and Gago','José Morla López & María Casimira':'José Morla López and María Casimira','José Lizandro Galarza & Ángela Ramona Morla':'José Lizandro Galarza and Ángela Ramona Morla','Julio Mickle Bedoya & Angélica Galarza':'Julio Mickle Bedoya and Angélica Galarza','Gastón Félix & Esperanza · 13 hermanos':'Gastón Félix and Esperanza · 13 siblings','Gastón Félix & Leonor Rodríguez · amorío':'Gastón Félix and Leonor Rodríguez · affair','Victoria Vilma & José Santiago Quiroz':'Victoria Vilma and José Santiago Quiroz','Paula Elvisa & Carlos Ramírez Zegarra':'Paula Elvisa and Carlos Ramírez Zegarra','Gloria Esperanza & Carlos Alberto Komori':'Gloria Esperanza and Carlos Alberto Komori','Hugo Artemio & Susana Ubillas Canales':'Hugo Artemio and Susana Ubillas Canales','María Marlene & Germán Óscar Alvarado · divorciados':'María Marlene and Germán Óscar Alvarado · divorced','Clotilde Bertha & Ulises Néstor Soria':'Clotilde Bertha and Ulises Néstor Soria','Haydee & César Danilo Postigo':'Haydee and César Danilo Postigo','Dandy Gastón & Maximina Alegre':'Dandy Gastón and Maximina Alegre','Sócrates Herminio & Juana Sagartizábal':'Sócrates Herminio and Juana Sagartizábal','Félix Mickle Rodríguez & Hipólita Salguero':'Félix Mickle Rodríguez and Hipólita Salguero'
+});
+Object.assign(TRANSLATIONS.en,{
+  'Historia familiar':'Family history','Una historia entre continentes':'A story across continents','Las actas civiles y parroquiales, junto con la correspondencia familiar, permiten seguir el recorrido de varias ramas entre Bretaña, Cuba, Luisiana, Guayaquil y Lima.':'Civil and parish records, together with family correspondence, trace several branches between Brittany, Cuba, Louisiana, Guayaquil, and Lima.',
+  'De Morlaix a Burdeos':'From Morlaix to Bordeaux','Simon Le Guen, originario de Morlaix, Bretaña, viajó a Cuba hacia 1820–1823 con su primo Jean-Charles Cazimajou. Allí comerciaron café y adquirieron las haciendas El Parnaso y La Ninfas. Tras la expulsión de colonos franceses, la familia pasó por Luisiana y finalmente se asentó en Burdeos.':'Simon Le Guen, from Morlaix in Brittany, traveled to Cuba around 1820–1823 with his cousin Jean-Charles Cazimajou. They traded coffee and acquired the El Parnaso and La Ninfas estates. After French colonists were expelled, the family passed through Louisiana and eventually settled in Bordeaux.',
+  'Las ramas de Guayaquil':'The Guayaquil branches','La rama de la Vera y Morla se documenta en Guayaquil desde María Casimira de la Vera y José Morla López. El registro más completo atribuye a la pareja 14 hijos. También aparecen hijos con el apellido Morla Mendoza en años en que Casimira ya tenía entre 54 y 71 años; el árbol los presenta como una posible segunda unión, con la identidad de la madre aún desconocida.':'The de la Vera and Morla branch is documented in Guayaquil through María Casimira de la Vera and José Morla López. The most complete record attributes 14 children to the couple. Children surnamed Morla Mendoza also appear in records from years when Casimira was 54 to 71; the tree presents them as a possible second union, with the mother’s identity still unknown.',
+  'De Le Guen y Bedoya a Mickle':'From Le Guen and Bedoya to Mickle','Thomas Le Guen estudió medicina en Nueva York, obtuvo la ciudadanía estadounidense en 1866 y llegó a Lima a fines de ese año o a comienzos de 1867. Su unión con María Leocadia Bedoya dio origen a la rama peruana. Su hijo Julio nació como Le Guen; después, Enrique Mickle lo reconoció y pasó a llamarse Julio Mickle Bedoya.':'Thomas Le Guen studied medicine in New York, obtained U.S. citizenship in 1866, and arrived in Lima late that year or early in 1867. His union with María Leocadia Bedoya began the Peruvian branch. Their son Julio was born with the surname Le Guen; later, Enrique Mickle recognized him, and he became Julio Mickle Bedoya.',
+  'Las ramas Mickle Ramírez y Le Guen':'The Mickle Ramírez and Le Guen branches','Julio Mickle Bedoya y Ángela/Angélica Galarza aparecen como antecesores de la rama de Gastón Félix Mickle Galarza y Esperanza Ramírez Hernández, padres de 13 hermanos. Thomas Le Guen también tuvo una segunda familia con Mercedes Guerra; sus descendientes, entre ellos Patrick Vernerie, son parientes por línea paterna de Julio.':'Julio Mickle Bedoya and Ángela/Angélica Galarza are listed as ancestors of the branch of Gastón Félix Mickle Galarza and Esperanza Ramírez Hernández, parents of 13 siblings. Thomas Le Guen also had a second family with Mercedes Guerra; their descendants, including Patrick Vernerie, are Julio’s paternal relatives.',
+  'Fuentes y certeza:':'Sources and certainty:','La historia reúne actas de nacimiento, bautismo, matrimonio y defunción, correspondencia de Patrick Vernerie y testimonios familiares. Los vínculos no confirmados directamente por un acta se describen como probables y se señalan en el árbol.':'This account draws on birth, baptism, marriage, and death records, Patrick Vernerie’s correspondence, and family testimony. Relationships not directly confirmed by a record are described as probable and marked in the tree.'
+});
+Object.assign(TRANSLATIONS.fr,{
+  'Francia':'France','Ecuador':'Équateur','Perú':'Pérou','España':'Espagne','Generación':'Génération',
+  'I · Raíces':'I · Racines','II · Ancestros':'II · Ancêtres','III · Bisabuelos':'III · Arrière-grands-parents','IV · Abuelos':'IV · Grands-parents','V · Padres y tíos':'V · Parents et oncles/tantes','VI · Hijos':'VI · Enfants','VII · Nietos':'VII · Petits-enfants',
+  'Simon Le Guen & Zélie Dubosq':'Simon Le Guen et Zélie Dubosq','Joaquín Bedoya & Gago':'Joaquín Bedoya et Gago','José Morla López & María Casimira':'José Morla López et María Casimira','José Lizandro Galarza & Ángela Ramona Morla':'José Lizandro Galarza et Ángela Ramona Morla','Julio Mickle Bedoya & Angélica Galarza':'Julio Mickle Bedoya et Angélica Galarza','Gastón Félix & Esperanza · 13 hermanos':'Gastón Félix et Esperanza · 13 frères et sœurs','Gastón Félix & Leonor Rodríguez · amorío':'Gastón Félix et Leonor Rodríguez · relation extraconjugale','Victoria Vilma & José Santiago Quiroz':'Victoria Vilma et José Santiago Quiroz','Paula Elvisa & Carlos Ramírez Zegarra':'Paula Elvisa et Carlos Ramírez Zegarra','Gloria Esperanza & Carlos Alberto Komori':'Gloria Esperanza et Carlos Alberto Komori','Hugo Artemio & Susana Ubillas Canales':'Hugo Artemio et Susana Ubillas Canales','María Marlene & Germán Óscar Alvarado · divorciados':'María Marlene et Germán Óscar Alvarado · divorcés','Clotilde Bertha & Ulises Néstor Soria':'Clotilde Bertha et Ulises Néstor Soria','Haydee & César Danilo Postigo':'Haydee et César Danilo Postigo','Dandy Gastón & Maximina Alegre':'Dandy Gastón et Maximina Alegre','Sócrates Herminio & Juana Sagartizábal':'Sócrates Herminio et Juana Sagartizábal','Félix Mickle Rodríguez & Hipólita Salguero':'Félix Mickle Rodríguez et Hipólita Salguero'
+});
+Object.assign(TRANSLATIONS.fr,{
+  'Historia familiar':'Histoire familiale','Una historia entre continentes':'Une histoire entre les continents','Las actas civiles y parroquiales, junto con la correspondencia familiar, permiten seguir el recorrido de varias ramas entre Bretaña, Cuba, Luisiana, Guayaquil y Lima.':'Les actes civils et paroissiaux, ainsi que la correspondance familiale, retracent le parcours de plusieurs branches entre la Bretagne, Cuba, la Louisiane, Guayaquil et Lima.',
+  'De Morlaix a Burdeos':'De Morlaix à Bordeaux','Simon Le Guen, originario de Morlaix, Bretaña, viajó a Cuba hacia 1820–1823 con su primo Jean-Charles Cazimajou. Allí comerciaron café y adquirieron las haciendas El Parnaso y La Ninfas. Tras la expulsión de colonos franceses, la familia pasó por Luisiana y finalmente se asentó en Burdeos.':'Simon Le Guen, originaire de Morlaix en Bretagne, partit pour Cuba vers 1820–1823 avec son cousin Jean-Charles Cazimajou. Ils y firent le commerce du café et acquirent les domaines El Parnaso et La Ninfas. Après l’expulsion des colons français, la famille passa par la Louisiane avant de s’installer à Bordeaux.',
+  'Las ramas de Guayaquil':'Les branches de Guayaquil','La rama de la Vera y Morla se documenta en Guayaquil desde María Casimira de la Vera y José Morla López. El registro más completo atribuye a la pareja 14 hijos. También aparecen hijos con el apellido Morla Mendoza en años en que Casimira ya tenía entre 54 y 71 años; el árbol los presenta como una posible segunda unión, con la identidad de la madre aún desconocida.':'La branche de la Vera et Morla est documentée à Guayaquil à partir de María Casimira de la Vera et José Morla López. Le registre le plus complet attribue 14 enfants au couple. Des enfants portant le nom Morla Mendoza apparaissent aussi à une époque où Casimira avait entre 54 et 71 ans ; l’arbre les présente comme une possible seconde union, dont l’identité de la mère reste inconnue.',
+  'De Le Guen y Bedoya a Mickle':'De Le Guen et Bedoya à Mickle','Thomas Le Guen estudió medicina en Nueva York, obtuvo la ciudadanía estadounidense en 1866 y llegó a Lima a fines de ese año o a comienzos de 1867. Su unión con María Leocadia Bedoya dio origen a la rama peruana. Su hijo Julio nació como Le Guen; después, Enrique Mickle lo reconoció y pasó a llamarse Julio Mickle Bedoya.':'Thomas Le Guen étudia la médecine à New York, obtint la citoyenneté américaine en 1866 et arriva à Lima à la fin de cette année ou au début de 1867. Son union avec María Leocadia Bedoya donna naissance à la branche péruvienne. Leur fils Julio naquit sous le nom Le Guen ; plus tard, Enrique Mickle le reconnut et il prit le nom de Julio Mickle Bedoya.',
+  'Las ramas Mickle Ramírez y Le Guen':'Les branches Mickle Ramírez et Le Guen','Julio Mickle Bedoya y Ángela/Angélica Galarza aparecen como antecesores de la rama de Gastón Félix Mickle Galarza y Esperanza Ramírez Hernández, padres de 13 hermanos. Thomas Le Guen también tuvo una segunda familia con Mercedes Guerra; sus descendientes, entre ellos Patrick Vernerie, son parientes por línea paterna de Julio.':'Julio Mickle Bedoya et Ángela/Angélica Galarza figurent parmi les ancêtres de la branche de Gastón Félix Mickle Galarza et Esperanza Ramírez Hernández, parents de 13 enfants. Thomas Le Guen eut également une seconde famille avec Mercedes Guerra ; leurs descendants, dont Patrick Vernerie, sont des parents paternels de Julio.',
+  'Fuentes y certeza:':'Sources et degré de certitude :','La historia reúne actas de nacimiento, bautismo, matrimonio y defunción, correspondencia de Patrick Vernerie y testimonios familiares. Los vínculos no confirmados directamente por un acta se describen como probables y se señalan en el árbol.':'Ce récit s’appuie sur des actes de naissance, de baptême, de mariage et de décès, la correspondance de Patrick Vernerie et des témoignages familiaux. Les liens non confirmés directement par un acte sont présentés comme probables et signalés dans l’arbre.'
+});
+Object.assign(TRANSLATIONS.en,{'Descargar genograma':'Download genogram','Pantalla completa':'Full screen','Salir de pantalla completa':'Exit full screen','No se pudo abrir pantalla completa.':'Could not open full screen.'});
+Object.assign(TRANSLATIONS.fr,{'Descargar genograma':'Télécharger le génogramme','Pantalla completa':'Plein écran','Salir de pantalla completa':'Quitter le plein écran','No se pudo abrir pantalla completa.':'Impossible d’ouvrir le plein écran.'});
+function translateText(value){
+  const text=String(value).trim();
+  const dictionary=TRANSLATIONS[currentLanguage]||{};
+  const count=text.match(/^(\d+) personas$/);
+  if(count&&currentLanguage==='en') return `${count[1]} people`;
+  if(count&&currentLanguage==='fr') return `${count[1]} personnes`;
+  const generation=text.match(/^Generación (\d+) · (.+)$/);
+  if(generation) return `${dictionary['Generación']||'Generación'} ${generation[1]} · ${dictionary[generation[2]]||generation[2]}`;
+  const memberCount=text.match(/^(\d+) integrante(s?)$/);
+  if(memberCount&&currentLanguage==='en') return `${memberCount[1]} ${memberCount[1]==='1'?'member':'members'}`;
+  if(memberCount&&currentLanguage==='fr') return `${memberCount[1]} ${memberCount[1]==='1'?'membre':'membres'}`;
+  return dictionary[text]||text;
+}
+function localizeTextTree(container){
+  if(!container) return;
+  const walker=document.createTreeWalker(container,NodeFilter.SHOW_TEXT);
+  let node;
+  while((node=walker.nextNode())){
+    if(node.parentElement?.closest('script,style')) continue;
+    let source=textSources.get(node);
+    if(source===undefined){source=node.nodeValue;textSources.set(node,source)}
+    const leading=(source.match(/^\s*/)||[''])[0];
+    const trailing=(source.match(/\s*$/)||[''])[0];
+    const value=source.trim();
+    node.nodeValue=leading+translateText(value)+trailing;
+  }
+}
+function localizeAttributes(){
+  document.querySelectorAll('[title],[aria-label],[placeholder]').forEach(element=>{
+    if(element.id==='btn-theme') return;
+    let sources=attributeSources.get(element);
+    if(!sources){sources={};attributeSources.set(element,sources)}
+    ['title','aria-label','placeholder'].forEach(attribute=>{
+      if(!element.hasAttribute(attribute)) return;
+      if(sources[attribute]===undefined) sources[attribute]=element.getAttribute(attribute);
+      element.setAttribute(attribute,translateText(sources[attribute]));
+    });
+  });
+}
+function applyLanguage(language){
+  currentLanguage=TRANSLATIONS[language]||language==='es'?language:'es';
+  try{localStorage.setItem(LANGUAGE_KEY,currentLanguage)}catch(e){}
+  root.setAttribute('lang',currentLanguage);
+  languageSelect.value=currentLanguage;
+  document.title=translateText('Genograma Familiar');
+  localizeTextTree(document.body);
+  localizeAttributes();
+  if(typeof btnTheme!=='undefined'){
+    const theme=root.getAttribute('data-theme');
+    btnTheme.title=translateText(theme==='dark'?'Modo claro':'Modo noche');
+    btnTheme.setAttribute('aria-label',translateText(theme==='dark'?'Cambiar a modo claro':'Cambiar a modo noche'));
+  }
+}
+const btnTheme = document.getElementById('btn-theme');
+const THEME_KEY = 'mickle-theme';
+function aplicarTema(t){
+  root.setAttribute('data-theme', t);
+  btnTheme.title = translateText((t === 'dark') ? 'Modo claro' : 'Modo noche');
+  btnTheme.setAttribute('aria-label', translateText((t === 'dark') ? 'Cambiar a modo claro' : 'Cambiar a modo noche'));
+}
+let savedTheme = 'light';
+try { savedTheme = localStorage.getItem(THEME_KEY) || 'light'; } catch(e){}
+aplicarTema(savedTheme);
+btnTheme.addEventListener('click', () => {
+  const nuevo = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem(THEME_KEY, nuevo); } catch(e){}
+  aplicarTema(nuevo);
+});
+
+const svg = document.getElementById('genograma');
+const viewport = document.getElementById('viewport');
+const zoomLevel = document.getElementById('zoom-level');
+const countBadge = document.getElementById('count-badge');
+let zoom = 1;
+
+const BANDS = [
+  {gen:1,y:R1-20,label:'I · Raíces'},
+  {gen:2,y:R2-20,label:'II · Ancestros'},
+  {gen:3,y:R3-20,label:'III · Bisabuelos'},
+  {gen:4,y:R4-20,label:'IV · Abuelos'},
+  {gen:5,y:R5-20,label:'V · Padres y tíos'},
+  {gen:6,y:R6-20,label:'VI · Hijos'},
+  {gen:7,y:R7-20,label:'VII · Nietos'}
+];
+
+function renderSVG(visSet){
+  const isVis = visSet ? (id) => visSet.has(id) : () => true;
+  const parts = [];
+  const visGens = new Set();
+  Object.keys(P).forEach(id => { if (isVis(id)) visGens.add(P[id].gen); });
+
+  BANDS.forEach(b => {
+    if (!visGens.has(b.gen)) return;
+    parts.push(`<g class="gen-band">
+      <rect x="0" y="${b.y-8}" width="${BASE_W}" height="${H+32}" fill="var(--g${b.gen}-bg)" opacity="0.55"/>
+      <text class="gen-band-label" x="22" y="${b.y+2}">${b.label}</text>
+    </g>`);
+  });
+
+  MARRIAGES.forEach(([a, b, tipo]) => {
+    if (!isVis(a) || !isVis(b)) return;
+    const pa = P[a], pb = P[b];
+    const y = pa.y + H/2;
+    const x1 = pa.x + W, x2 = pb.x;
+    if (x2 > x1){
+      const mx = (x1 + x2) / 2;
+      if (tipo === 'a'){
+        parts.push(`<line class="love-line" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/>`);
+        parts.push(`<text class="love-heart" x="${mx}" y="${y+6}" text-anchor="middle">♥</text>`);
+      } else if (tipo === 'u'){
+        parts.push(`<line class="marriage-line" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke-dasharray="6 4"/>`);
+        parts.push(`<polygon class="marriage-diamond" points="${mx},${y-5} ${mx+5},${y} ${mx},${y+5} ${mx-5},${y}"/>`);
+      } else if (tipo === 'd'){
+        parts.push(`<line class="marriage-line" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/>`);
+        parts.push(`<line class="divorce-slash" x1="${mx-8}" y1="${y-9}" x2="${mx-3}" y2="${y+9}"/>`);
+        parts.push(`<line class="divorce-slash" x1="${mx+3}" y1="${y-9}" x2="${mx+8}" y2="${y+9}"/>`);
+      } else {
+        parts.push(`<line class="marriage-line" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/>`);
+        parts.push(`<polygon class="marriage-diamond" points="${mx},${y-5} ${mx+5},${y} ${mx},${y+5} ${mx-5},${y}"/>`);
+      }
+    }
+  });
+
+  const drawn = new Set();
+  PARENT_CHILD.forEach(({p, k}) => {
+    const vP = p.filter(isVis);
+    const vK = k.filter(isVis);
+    if (!vP.length || !vK.length) return;
+    const key = vP.slice().sort().join('|') + '>' + vK.slice().sort().join(',');
+    if (drawn.has(key)) return;
+    drawn.add(key);
+    let mx, my;
+    if (vP.length === 2){
+      const pa = P[vP[0]], pb = P[vP[1]];
+      mx = (pa.x + W + pb.x) / 2;
+      my = pa.y + H/2;
+    } else {
+      const pa = P[vP[0]];
+      mx = pa.x + W/2;
+      my = pa.y + H;
+    }
+    const busY = my + 32;
+    parts.push(`<line class="conn-line" x1="${mx}" y1="${my}" x2="${mx}" y2="${busY}"/>`);
+    const centers = vK.map(id => P[id].x + W/2);
+    parts.push(`<line class="conn-line" x1="${Math.min(...centers, mx)}" y1="${busY}" x2="${Math.max(...centers, mx)}" y2="${busY}"/>`);
+    vK.forEach(id => {
+      const cx = P[id].x + W/2;
+      parts.push(`<line class="conn-line" x1="${cx}" y1="${busY}" x2="${cx}" y2="${P[id].y}"/>`);
+    });
+  });
+
+  Object.keys(P).forEach(id => {
+    if (!isVis(id)) return;
+    const p = P[id];
+    const isF = p.s === 'F';
+    let shape;
+    if (isF){
+      shape = `<circle class="node-bg" cx="${H/2}" cy="${H/2}" r="${H/2 - 1}"/>`;
+    } else {
+      shape = `<rect class="node-bg" width="${W}" height="${H}" rx="8"/>`;
+    }
+    let cls = 'node';
+    if (isF) cls += ' female';
+    if (p.head) cls += ' head';
+    const sexSymbol = isF ? '♀' : '♂';
+    const crossMark = p.dec ? `<text class="node-cross" x="${W-14}" y="23" font-size="16" font-weight="700">✝</text>` : '';
+    const nombreCorto = p.n.length > 20 ? p.n.slice(0, 18) + '…' : p.n;
+    parts.push(`<g class="${cls}" data-id="${id}" transform="translate(${p.x},${p.y})">
+      ${shape}
+      <text class="node-sym" x="12" y="26" font-size="17">${sexSymbol}</text>
+      ${crossMark}
+      <text class="node-flag" x="${W-10}" y="${p.dec ? 42 : 22}" text-anchor="end">${p.f}</text>
+      <text class="node-name" x="${W/2}" y="${p.dec ? 40 : 42}" text-anchor="middle">${nombreCorto}</text>
+      <text class="node-dates" x="${W/2}" y="53" text-anchor="middle">${p.d}</text>
+    </g>`);
+  });
+
+  svg.innerHTML = parts.join('');
+  localizeTextTree(svg);
+  if (visSet) countBadge.textContent = visSet.size + ' personas';
+  else countBadge.textContent = Object.keys(P).length + ' personas';
+  localizeTextTree(countBadge);
+  conectarNodos();
+}
+
+function conectarNodos(){
+  svg.querySelectorAll('.node').forEach(node => {
+    node.addEventListener('click', e => {
+      e.stopPropagation();
+      abrirFicha(node.dataset.id);
+    });
+    node.addEventListener('mouseenter', () => {
+      const id = node.dataset.id;
+      svg.querySelectorAll('.node').forEach(n => {
+        if (n.dataset.id !== id) n.style.opacity = '0.35';
+      });
+    });
+    node.addEventListener('mouseleave', () => {
+      svg.querySelectorAll('.node').forEach(n => { n.style.opacity = ''; });
+    });
+  });
+}
+
+function applyZoom(z){
+  zoom = Math.max(0.15, Math.min(2.5, z));
+  svg.setAttribute('width', BASE_W * zoom);
+  svg.setAttribute('height', BASE_H * zoom);
+  zoomLevel.textContent = Math.round(zoom * 100) + '%';
+}
+function fitToView(){
+  const availW = viewport.clientWidth - 20;
+  const availH = viewport.clientHeight - 20;
+  applyZoom(Math.min(availW / BASE_W, availH / BASE_H));
+  viewport.scrollTo({left:0, top:0});
+}
+document.getElementById('zoom-in').addEventListener('click', () => applyZoom(zoom + 0.15));
+document.getElementById('zoom-out').addEventListener('click', () => applyZoom(zoom - 0.15));
+document.getElementById('zoom-fit').addEventListener('click', fitToView);
+
+const treeCard = document.querySelector('.tree-card');
+const btnFullscreen = document.getElementById('btn-fullscreen');
+document.getElementById('btn-download').addEventListener('click', () => {
+  const exportSvg = svg.cloneNode(true);
+  exportSvg.setAttribute('width', BASE_W);
+  exportSvg.setAttribute('height', BASE_H);
+  const styleProperties = ['fill','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','fill-opacity','stroke-opacity','opacity','font-family','font-size','font-weight','text-anchor','pointer-events'];
+  const originalElements = [svg,...svg.querySelectorAll('*')];
+  const exportElements = [exportSvg,...exportSvg.querySelectorAll('*')];
+  originalElements.forEach((element,index) => {
+    const computed = getComputedStyle(element);
+    exportElements[index].setAttribute('style',styleProperties.map(property => `${property}:${computed.getPropertyValue(property)}`).join(';'));
+  });
+  const serialized = new XMLSerializer().serializeToString(exportSvg);
+  const blob = new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${serialized}`],{type:'image/svg+xml;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'genograma-familiar.svg';
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url),1000);
+});
+btnFullscreen.addEventListener('click', async () => {
+  try{
+    if(document.fullscreenElement) await document.exitFullscreen();
+    else if(treeCard.requestFullscreen) await treeCard.requestFullscreen();
+    else throw new Error('Fullscreen unavailable');
+  }catch(error){
+    mostrarToast('No se pudo abrir pantalla completa.','error');
+  }
+});
+document.addEventListener('fullscreenchange',() => {
+  const label=translateText(document.fullscreenElement===treeCard?'Salir de pantalla completa':'Pantalla completa');
+  btnFullscreen.title=label;
+  btnFullscreen.setAttribute('aria-label',label);
+  requestAnimationFrame(fitToView);
+});
+
+const toastEl = document.getElementById('toast');
+let toastTimer;
+function mostrarToast(msg, tipo, dur){
+  toastEl.textContent = translateText(msg);
+  toastEl.className = 'toast';
+  if (tipo) toastEl.classList.add('is-' + tipo);
+  toastEl.classList.add('is-visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('is-visible'), dur || 2800);
+}
+
+const modalBackdrop = document.getElementById('modal-backdrop');
+const modalEl = document.getElementById('modal');
+
+function abrirFicha(id){
+  const p = P[id]; if (!p) return;
+  const isF = p.s === 'F';
+  const iniciales = p.n.replace(/[\[\]?]/g,'').trim().split(/\s+/)
+    .slice(0, 2).map(w => w[0]).join('').toUpperCase();
+
+  const cony = [];
+  MARRIAGES.forEach(([a, b]) => { if (a === id) cony.push(b); else if (b === id) cony.push(a); });
+  const padres = [];
+  PARENT_CHILD.forEach(({p: parents, k}) => { if (k.includes(id)) padres.push(...parents); });
+  const hermanos = new Set();
+  PARENT_CHILD.forEach(({p: parents, k}) => { if (k.includes(id)) k.forEach(s => { if (s !== id) hermanos.add(s); }); });
+  const hijos = [];
+  PARENT_CHILD.forEach(({p: parents, k}) => { if (parents.includes(id)) hijos.push(...k); });
+
+  const chipsHTML = (label, ids) => {
+    if (!ids.length) return '';
+    return `<div class="pc-info">
+      <h4>${label}</h4>
+      <div class="pc-rel">
+        ${ids.map(pid => {
+          const c = P[pid]; if (!c) return '';
+          return `<span class="chip" data-goto="${pid}">${c.s === 'F' ? '♀' : '♂'} ${c.n}</span>`;
+        }).join('')}
+      </div>
+    </div>`;
+  };
+
+  modalEl.innerHTML = `
+    <button class="modal-close" id="modal-close" type="button">✕</button>
+    <div class="person-card">
+      <div class="pc-hero">
+        <div class="pc-photo ${isF ? 'female' : 'male'}">${iniciales}</div>
+        <div class="pc-name">${p.dec ? '✝ ' : ''}${p.n}</div>
+        <div class="pc-dates">${p.d}</div>
+        <div class="pc-flag">${p.f}${p.pais ? ' ' + p.pais : ''}</div>
+      </div>
+      <div class="pc-info">
+        <h4>Datos</h4>
+        <div class="row"><strong>Nombre:</strong> ${p.n}</div>
+        <div class="row"><strong>Sexo:</strong> ${p.s === 'M' ? '♂ Varón' : '♀ Mujer'}</div>
+        <div class="row"><strong>Fecha de nacimiento:</strong> ${p.nac || '—'}</div>
+        ${p.dec ? `<div class="row"><strong>Fecha de fallecimiento:</strong> ${p.fall || '—'}</div>` : ''}
+        ${p.pais ? `<div class="row"><strong>País:</strong> ${p.f} ${p.pais}</div>` : ''}
+        <div class="row"><strong>Generación:</strong> ${p.gen}</div>
+        <div class="row"><strong>Estado:</strong> ${p.dec ? '✝ Fallecido/a' : 'Vivo/a'}</div>
+      </div>
+      ${chipsHTML(cony.length > 1 ? 'Cónyuges' : 'Cónyuge', cony)}
+      ${chipsHTML('Padres', padres)}
+      ${chipsHTML('Hermanos', Array.from(hermanos))}
+      ${chipsHTML('Hijos', hijos)}
+    </div>
+  `;
+  localizeTextTree(modalEl);
+  modalBackdrop.classList.add('is-open');
+  document.getElementById('modal-close').addEventListener('click', cerrarFicha);
+  modalEl.querySelectorAll('[data-goto]').forEach(el => {
+    el.addEventListener('click', () => abrirFicha(el.dataset.goto));
+  });
+}
+function cerrarFicha(){
+  modalBackdrop.classList.remove('is-open');
+  modalEl.innerHTML = '';
+}
+modalBackdrop.addEventListener('click', e => { if (e.target === modalBackdrop) cerrarFicha(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarFicha(); });
+
+const viewTree = document.getElementById('view-tree');
+const viewFamily = document.getElementById('view-family');
+
+function mostrarVistaArbol(){
+  viewFamily.classList.remove('is-active');
+  viewTree.classList.add('is-active');
+  window.scrollTo({top: 0, behavior: 'auto'});
+  setTimeout(fitToView, 60);
+}
+function mostrarVistaFamilia(viewKey){
+  const meta = VIEW_META[viewKey];
+  if (!meta) return;
+  document.getElementById('family-topbar-title').textContent = meta.name;
+  document.getElementById('family-title').textContent = meta.name;
+  document.getElementById('family-desc').textContent = meta.desc;
+  document.getElementById('print-family-title').textContent = meta.name;
+  localizeTextTree(document.getElementById('family-topbar-title'));
+  localizeTextTree(document.getElementById('family-title'));
+  localizeTextTree(document.getElementById('family-desc'));
+  localizeTextTree(document.getElementById('print-family-title'));
+  renderFamilyPage(viewKey);
+  viewTree.classList.remove('is-active');
+  viewFamily.classList.add('is-active');
+  window.scrollTo({top: 0, behavior: 'auto'});
+}
+
+const FAMILY_COUPLES = {
+  'familia-le-guen':['simon','zelie'],
+  'familia-bedoya':['joaquin','gago'],
+  'familia-morla':['casimira','morla'],
+  'familia-galarza':['angelaramona','lizandro'],
+  'familia-mickle-galarza':['julio','angelica'],
+  'familia-mickle-ramirez':['gaston','esperanza'],
+  'familia-mickle-rodriguez':['gaston','leonor'],
+  'familia-quiroz-mickle':['victoria','joseq'],
+  'familia-ramirez-mickle':['paula','carlosr'],
+  'familia-komori-mickle':['gloria','carlosk'],
+  'familia-mickle-ubillas':['hugo','susana'],
+  'familia-alvarado-mickle':['maria','german'],
+  'familia-soria-mickle':['clotilde','ulises'],
+  'familia-postigo-mickle':['haydee','cesar'],
+  'familia-mickle-alegre':['dandy','maximina'],
+  'familia-mickle-sagastizabal':['socrates','juana'],
+  'familia-mickle-salguero':['felix','hipolita']
+};
+
+function getCoupleFamily(aId, bId){
+  const set = new Set([aId, bId]);
+  PARENT_CHILD.forEach(({p, k}) => {
+    if (p.includes(aId) && p.includes(bId)){
+      k.forEach(kid => set.add(kid));
+    }
+  });
+  let changed = true;
+  while (changed){
+    changed = false;
+    PARENT_CHILD.forEach(({p, k}) => {
+      if (p.some(pid => set.has(pid))){
+        k.forEach(kid => { if (!set.has(kid)){ set.add(kid); changed = true; } });
+      }
+    });
+  }
+  MARRIAGES.forEach(([a,b]) => { if (set.has(a)) set.add(b); if (set.has(b)) set.add(a); });
+  return set;
+}
+
+function getDescendants(ids){
+  const set = new Set(ids);
+  let changed = true;
+  while (changed){
+    changed = false;
+    PARENT_CHILD.forEach(({p,k}) => {
+      if (p.some(pid => set.has(pid))){
+        k.forEach(kid => { if (!set.has(kid)){ set.add(kid); changed = true; } });
+      }
+    });
+  }
+  MARRIAGES.forEach(([a,b]) => { if (set.has(a)) set.add(b); if (set.has(b)) set.add(a); });
+  return set;
+}
+
+const VIEWS = {
+  'all': () => new Set(Object.keys(P)),
+  'paternal': () => getDescendants(['simon','zelie']),
+  'maternal': () => getDescendants(['pedro','casimira','morla','angelaramona','lizandro']),
+  'familia-le-guen': () => getCoupleFamily('simon','zelie'),
+  'familia-bedoya': () => getCoupleFamily('joaquin','gago'),
+  'familia-morla': () => getCoupleFamily('casimira','morla'),
+  'familia-galarza': () => getCoupleFamily('angelaramona','lizandro'),
+  'familia-mickle-galarza': () => getCoupleFamily('julio','angelica'),
+  'familia-mickle-ramirez': () => getCoupleFamily('gaston','esperanza'),
+  'familia-mickle-rodriguez': () => getCoupleFamily('gaston','leonor'),
+  'familia-quiroz-mickle': () => getCoupleFamily('victoria','joseq'),
+  'familia-ramirez-mickle': () => getCoupleFamily('paula','carlosr'),
+  'familia-komori-mickle': () => getCoupleFamily('gloria','carlosk'),
+  'familia-mickle-ubillas': () => getCoupleFamily('hugo','susana'),
+  'familia-alvarado-mickle': () => getCoupleFamily('maria','german'),
+  'familia-soria-mickle': () => getCoupleFamily('clotilde','ulises'),
+  'familia-postigo-mickle': () => getCoupleFamily('haydee','cesar'),
+  'familia-mickle-alegre': () => getCoupleFamily('dandy','maximina'),
+  'familia-mickle-sagastizabal': () => getCoupleFamily('socrates','juana'),
+  'familia-mickle-salguero': () => getCoupleFamily('felix','hipolita'),
+  'gen-1': () => new Set(Object.keys(P).filter(id => P[id].gen === 1)),
+  'gen-2': () => new Set(Object.keys(P).filter(id => P[id].gen === 2)),
+  'gen-3': () => new Set(Object.keys(P).filter(id => P[id].gen === 3)),
+  'gen-4': () => new Set(Object.keys(P).filter(id => P[id].gen === 4)),
+  'gen-5': () => new Set(Object.keys(P).filter(id => P[id].gen === 5)),
+  'gen-6': () => new Set(Object.keys(P).filter(id => P[id].gen === 6)),
+  'gen-7': () => new Set(Object.keys(P).filter(id => P[id].gen === 7))
+};
+
+const FAMILY_VIEW_KEYS = new Set(Object.keys(FAMILY_COUPLES));
+
+const VIEW_META = {
+  'all':{icon:'🌳',name:'Genograma completo',desc:'Todas las generaciones'},
+  'paternal':{icon:'👨',name:'Rama paterna · Le Guen',desc:'Descendencia Le Guen · Bedoya · Mickle'},
+  'maternal':{icon:'👩',name:'Rama materna · Morla Galarza',desc:'Descendencia De la Vera · Morla · Galarza'},
+  'familia-le-guen':{icon:'🏰',name:'Familia Le Guen',desc:'Simon Le Guen & Zélie Dubosq'},
+  'familia-bedoya':{icon:'🌿',name:'Familia Bedoya',desc:'Joaquín Bedoya & Gago'},
+  'familia-morla':{icon:'🌺',name:'Familia Morla',desc:'José Morla López & María Casimira'},
+  'familia-galarza':{icon:'🏛️',name:'Familia Galarza',desc:'José Lizandro Galarza & Ángela Ramona Morla'},
+  'familia-mickle-galarza':{icon:'🏛️',name:'Familia Mickle Galarza',desc:'Julio Mickle Bedoya & Angélica Galarza'},
+  'familia-mickle-ramirez':{icon:'👪',name:'Familia Mickle Ramírez',desc:'Gastón Félix & Esperanza · 13 hermanos'},
+  'familia-mickle-rodriguez':{icon:'💗',name:'Familia Mickle Rodríguez',desc:'Gastón Félix & Leonor Rodríguez · amorío'},
+  'familia-quiroz-mickle':{icon:'💍',name:'Familia Quiroz Mickle',desc:'Victoria Vilma & José Santiago Quiroz'},
+  'familia-ramirez-mickle':{icon:'💍',name:'Familia Ramírez Mickle',desc:'Paula Elvisa & Carlos Ramírez Zegarra'},
+  'familia-komori-mickle':{icon:'💍',name:'Familia Komori Mickle',desc:'Gloria Esperanza & Carlos Alberto Komori'},
+  'familia-mickle-ubillas':{icon:'💍',name:'Familia Mickle Ubillas',desc:'Hugo Artemio & Susana Ubillas Canales'},
+  'familia-alvarado-mickle':{icon:'💔',name:'Familia Alvarado Mickle',desc:'María Marlene & Germán Óscar Alvarado · divorciados'},
+  'familia-soria-mickle':{icon:'💍',name:'Familia Soria Mickle',desc:'Clotilde Bertha & Ulises Néstor Soria'},
+  'familia-postigo-mickle':{icon:'💍',name:'Familia Postigo Mickle',desc:'Haydee & César Danilo Postigo'},
+  'familia-mickle-alegre':{icon:'💍',name:'Familia Mickle Alegre',desc:'Dandy Gastón & Maximina Alegre'},
+  'familia-mickle-sagastizabal':{icon:'💍',name:'Familia Mickle Sagastizábal',desc:'Sócrates Herminio & Juana Sagartizábal'},
+  'familia-mickle-salguero':{icon:'👨‍👩‍👧',name:'Familia Mickle Salguero',desc:'Félix Mickle Rodríguez & Hipólita Salguero'},
+  'gen-1':{icon:'🌱',name:'Generación I · Raíces',desc:'Siglo XVIII'},
+  'gen-2':{icon:'🌿',name:'Generación II · Ancestros',desc:'1775–1850'},
+  'gen-3':{icon:'🍃',name:'Generación III · Bisabuelos',desc:'1800–1900'},
+  'gen-4':{icon:'🌳',name:'Generación IV · Abuelos',desc:'1900–1980'},
+  'gen-5':{icon:'🌲',name:'Generación V · Padres y tíos',desc:'Los 13 hermanos Mickle Ramírez'},
+  'gen-6':{icon:'🌴',name:'Generación VI · Hijos',desc:'Descendientes directos'},
+  'gen-7':{icon:'🌵',name:'Generación VII · Nietos',desc:'Nietos y bisnietos'}
+};
+
+function renderFamilyPage(viewKey){
+  const visibleIds = VIEWS[viewKey]();
+  const couple = FAMILY_COUPLES[viewKey];
+
+  const gens = new Set();
+  const countries = new Set();
+  visibleIds.forEach(id => {
+    const p = P[id]; if (!p) return;
+    gens.add(p.gen);
+    if (p.pais) countries.add(p.pais);
+  });
+  countries.add('Perú');
+
+  document.getElementById('family-stats').innerHTML = `
+    <div class="stat"><b>${visibleIds.size}</b><span>Total</span></div>
+    <div class="stat"><b>${gens.size}</b><span>Generaciones</span></div>
+    <div class="stat"><b>${countries.size}</b><span>Países</span></div>
+  `;
+  localizeTextTree(document.getElementById('family-stats'));
+
+  let html = '';
+  if (couple && P[couple[0]] && P[couple[1]]){
+    let tipoUnion = 'm';
+    MARRIAGES.forEach(([a,b,t]) => {
+      if ((a === couple[0] && b === couple[1]) || (a === couple[1] && b === couple[0])) tipoUnion = t;
+    });
+    let coupleLabel, coupleIcon;
+    if (tipoUnion === 'a'){ coupleLabel = 'Amorío'; coupleIcon = '💗'; }
+    else if (tipoUnion === 'd'){ coupleLabel = 'Divorciados (2025)'; coupleIcon = '💔'; }
+    else if (tipoUnion === 'u'){ coupleLabel = 'Unión libre'; coupleIcon = '💑'; }
+    else { coupleLabel = 'Pareja principal'; coupleIcon = '💑'; }
+
+    html += `<div class="family-section">
+      <h2><span class="icon">${coupleIcon}</span> ${coupleLabel}</h2>
+      <div class="couple-block">
+        ${renderFamilyMember(couple[0], 'Cónyuge')}
+        ${renderFamilyMember(couple[1], 'Cónyuge')}
+      </div>
+    </div>`;
+  }
+
+  const byGen = {};
+  visibleIds.forEach(id => {
+    const p = P[id]; if (!p) return;
+    if (!byGen[p.gen]) byGen[p.gen] = [];
+    byGen[p.gen].push(id);
+  });
+
+  const GEN_NAMES = {1:'Raíces',2:'Ancestros',3:'Bisabuelos',4:'Abuelos',5:'Padres y tíos',6:'Hijos',7:'Nietos'};
+
+  Object.keys(byGen).sort().forEach(gen => {
+    const ids = byGen[gen];
+    const isCoupleGen = couple && P[couple[0]] && P[couple[0]].gen == gen;
+    if (isCoupleGen && ids.length === 2) return;
+
+    html += `<div class="family-section">
+      <h2><span class="icon">👥</span> Generación ${gen} · ${GEN_NAMES[gen]}</h2>
+      <p class="sub">${ids.length} integrante${ids.length === 1 ? '' : 's'}</p>`;
+
+    ids.sort((a, b) => {
+      const aP = couple && couple.includes(a) ? 0 : 1;
+      const bP = couple && couple.includes(b) ? 0 : 1;
+      if (aP !== bP) return aP - bP;
+      return P[a].x - P[b].x;
+    }).forEach(id => {
+      let role = '';
+      if (couple){
+        if (couple.includes(id)) role = 'Pareja principal';
+        else {
+          const childOfCouple = PARENT_CHILD.some(({p,k}) => k.includes(id) && couple.every(c => p.includes(c)));
+          if (childOfCouple) role = 'Hijo/a';
+          else {
+            const spouseOfChild = MARRIAGES.some(([a,b]) => {
+              if (a === id && P[b]) return PARENT_CHILD.some(({p,k}) => k.includes(b) && couple.every(c => p.includes(c)));
+              if (b === id && P[a]) return PARENT_CHILD.some(({p,k}) => k.includes(a) && couple.every(c => p.includes(c)));
+              return false;
+            });
+            if (spouseOfChild) role = 'Cónyuge';
+          }
+        }
+      }
+      html += renderFamilyMember(id, role);
+    });
+    html += `</div>`;
+  });
+
+  document.getElementById('family-content').innerHTML = html;
+  localizeTextTree(document.getElementById('family-content'));
+}
+
+function renderFamilyMember(id, role){
+  const p = P[id]; if (!p) return '';
+  const isF = p.s === 'F';
+  const accent = isF ? 'var(--female)' : 'var(--male)';
+  const avatarClass = isF ? 'female' : 'male';
+  const iniciales = p.n.replace(/[\[\]?]/g,'').trim().split(/\s+/)
+    .slice(0, 2).map(w => w[0]).join('').toUpperCase();
+
+  return `<div class="member" style="--accent:${accent}">
+    <div class="avatar ${avatarClass}">${iniciales}</div>
+    <div class="info">
+      ${role ? `<div class="role">${role}</div>` : ''}
+      <div class="name">${p.n}</div>
+      <div class="dates">${p.dec ? '✝ ' : ''}${p.d}</div>
+      <div class="flags">${p.f}</div>
+    </div>
+  </div>`;
+}
+
+const menuPanel = document.getElementById('menu-panel');
+const menuBackdrop = document.getElementById('menu-backdrop');
+const menuBody = document.getElementById('menu-body');
+
+const MENU_STRUCTURE = [
+  { label:'Vista general', items:['all'] },
+  { label:'Ramas ancestrales', items:['paternal','maternal'] },
+  { label:'Familias', items:[
+    'familia-le-guen','familia-bedoya','familia-morla','familia-galarza',
+    'familia-mickle-galarza','familia-mickle-ramirez',
+    'familia-mickle-rodriguez','familia-quiroz-mickle','familia-ramirez-mickle',
+    'familia-komori-mickle','familia-mickle-ubillas','familia-alvarado-mickle',
+    'familia-soria-mickle','familia-postigo-mickle','familia-mickle-alegre',
+    'familia-mickle-sagastizabal','familia-mickle-salguero'
+  ]},
+  { label:'Por generación', items:['gen-1','gen-2','gen-3','gen-4','gen-5','gen-6','gen-7'] }
+];
+
+function renderMenu(){
+  let html = '';
+  MENU_STRUCTURE.forEach(group => {
+    html += `<div class="menu-section"><div class="menu-section-title">${group.label}</div>`;
+    group.items.forEach(viewKey => {
+      const meta = VIEW_META[viewKey]; if (!meta) return;
+      const isFamily = FAMILY_VIEW_KEYS.has(viewKey);
+      const arrow = isFamily ? '<span class="mi-arrow">→</span>' : '';
+      html += `<a class="menu-item" data-view="${viewKey}">
+        <span class="mi-icon">${meta.icon}</span>
+        <span class="mi-info" style="flex:1;min-width:0">
+          <span class="mi-title">${meta.name}</span>
+          <span class="mi-sub">${meta.desc}</span>
+        </span>
+        ${arrow}
+      </a>`;
+    });
+    html += `</div>`;
+  });
+  menuBody.innerHTML = html;
+  localizeTextTree(menuBody);
+
+  menuBody.querySelectorAll('.menu-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const viewKey = item.dataset.view;
+      if (!VIEWS[viewKey]) return;
+      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('is-active'));
+      item.classList.add('is-active');
+      if (FAMILY_VIEW_KEYS.has(viewKey)){
+        mostrarVistaFamilia(viewKey);
+      } else {
+        mostrarVistaArbol();
+        const visibleIds = VIEWS[viewKey]();
+        renderSVG(visibleIds);
+        requestAnimationFrame(() => {
+          if (viewKey === 'all'){ fitToView(); return; }
+          let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+          visibleIds.forEach(id => {
+            const p = P[id]; if (!p) return;
+            minX = Math.min(minX, p.x);
+            minY = Math.min(minY, p.y);
+            maxX = Math.max(maxX, p.x + W);
+            maxY = Math.max(maxY, p.y + H);
+          });
+          const pad = 50;
+          const boxW = maxX - minX + pad*2;
+          const boxH = maxY - minY + pad*2;
+          const availW = viewport.clientWidth - 20;
+          const availH = viewport.clientHeight - 20;
+          const z = Math.max(0.3, Math.min(availW / boxW, availH / boxH, 1.3));
+          applyZoom(z);
+          requestAnimationFrame(() => {
+            viewport.scrollTo({
+              left: Math.max(0, (minX - pad) * z),
+              top: Math.max(0, (minY - pad) * z),
+              behavior: 'auto'
+            });
+          });
+        });
+      }
+      cerrarMenu();
+    });
+  });
+}
+
+function abrirMenu(){ menuPanel.classList.add('is-open'); menuBackdrop.classList.add('is-open'); }
+function cerrarMenu(){ menuPanel.classList.remove('is-open'); menuBackdrop.classList.remove('is-open'); }
+document.getElementById('btn-menu').addEventListener('click', abrirMenu);
+document.getElementById('menu-close').addEventListener('click', cerrarMenu);
+menuBackdrop.addEventListener('click', cerrarMenu);
+
+document.getElementById('btn-back-tree').addEventListener('click', () => {
+  document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('is-active'));
+  mostrarVistaArbol();
+  renderSVG(null);
+});
+
+const form = document.getElementById('report-form');
+const reportSuccess = document.getElementById('report-success');
+const reportError = document.getElementById('report-error');
+const repSubmitText = document.getElementById('rep-submit-text');
+const fileInput = document.getElementById('rep-file');
+const fileDrop = document.getElementById('file-drop');
+const fileName = document.getElementById('file-name');
+const fileClear = document.getElementById('file-clear');
+
+function poblarPersonasReporte(){
+  const sorted = Object.keys(P).sort((a, b) => P[a].n.localeCompare(P[b].n));
+  document.getElementById('rep-person').innerHTML = '<option value="">— Selecciona —</option>' +
+    sorted.map(id => `<option value="${id}">${P[id].n}</option>`).join('');
+  localizeTextTree(document.getElementById('rep-person'));
+}
+
+fileInput.addEventListener('change', () => {
+  const f = fileInput.files[0];
+  if (f){
+    const sizeMB = (f.size / 1024 / 1024).toFixed(2);
+    if (f.size > 5 * 1024 * 1024){
+      mostrarToast('El archivo supera los 5 MB.', 'error', 4000);
+      fileInput.value = '';
+      fileDrop.classList.remove('has-file');
+      fileName.textContent = translateText('Toca para subir una foto o PDF');
+      return;
+    }
+    fileDrop.classList.add('has-file');
+    fileName.textContent = f.name + ' (' + sizeMB + ' MB)';
+  } else {
+    fileDrop.classList.remove('has-file');
+    fileName.textContent = translateText('Toca para subir una foto o PDF');
+  }
+});
+
+fileClear.addEventListener('click', e => {
+  e.preventDefault(); e.stopPropagation();
+  fileInput.value = '';
+  fileDrop.classList.remove('has-file');
+  fileName.textContent = translateText('Toca para subir una foto o PDF');
+});
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  reportError.classList.remove('is-visible');
+  reportSuccess.classList.remove('is-visible');
+  const formData = new FormData(form);
+  if (!formData.get('Solicitante') || !formData.get('Email_de_contacto') ||
+      !formData.get('Persona_a_corregir') || !formData.get('Mensaje')){
+    reportError.textContent = translateText('Por favor rellena todos los campos obligatorios.');
+    reportError.classList.add('is-visible');
+    return;
+  }
+  repSubmitText.textContent = translateText('Enviando…');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST', body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok){
+      reportSuccess.classList.add('is-visible');
+      mostrarToast('¡Solicitud enviada!', 'success');
+      form.reset();
+      fileDrop.classList.remove('has-file');
+      fileName.textContent = translateText('Toca para subir una foto o PDF');
+      setTimeout(() => reportSuccess.classList.remove('is-visible'), 10000);
+    } else throw new Error('Error');
+  } catch (err){
+    reportError.textContent = translateText('Hubo un problema al enviar. Intenta de nuevo o escríbenos a alvaradonicolemickle@gmail.com');
+    reportError.classList.add('is-visible');
+  } finally {
+    repSubmitText.textContent = translateText('Enviar solicitud');
+    submitBtn.disabled = false;
+  }
+});
+
+poblarPersonasReporte();
+renderMenu();
+renderSVG(null);
+let savedLanguage = 'es';
+try{savedLanguage=localStorage.getItem(LANGUAGE_KEY)||'es'}catch(e){}
+languageSelect.addEventListener('change',()=>applyLanguage(languageSelect.value));
+applyLanguage(savedLanguage);
+setTimeout(fitToView, 100);
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => { if (viewTree.classList.contains('is-active')) fitToView(); }, 200);
+});
+
+})();
+</script>
+
+</body>
+</html>
