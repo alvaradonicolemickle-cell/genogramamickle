@@ -1,4 +1,4 @@
 window.GENOGRAMA_SUPABASE_CONFIG = {
-  url: 'https://emrjnyasmxbyqivonwq.supabase.co',
+  url: 'https://oekibloneniucsopstqc.supabase.co',
   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la2libG9uZW5pdWNzb3BzdHFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NjY0MzIsImV4cCI6MjEwNjU0MjQzMn0.Ei6nkPJDoMII3XBuZC11gbktowK8COMmI3ssc8Rmviw'
 };
