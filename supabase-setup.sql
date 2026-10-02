@@ -27,18 +27,18 @@ create policy "Public can read person media"
 drop policy if exists "Owner can insert person media" on public.person_media;
 create policy "Owner can insert person media"
   on public.person_media for insert to authenticated
-  with check (lower(auth.jwt() ->> 'email') = lower('OWNER_EMAIL_HERE'));
+  with check (lower(auth.jwt() ->> 'email') = lower('alvaradonicolemickle@gmail.com'));
 
 drop policy if exists "Owner can update person media" on public.person_media;
 create policy "Owner can update person media"
   on public.person_media for update to authenticated
-  using (lower(auth.jwt() ->> 'email') = lower('OWNER_EMAIL_HERE'))
-  with check (lower(auth.jwt() ->> 'email') = lower('OWNER_EMAIL_HERE'));
+  using (lower(auth.jwt() ->> 'email') = lower('alvaradonicolemickle@gmail.com'))
+  with check (lower(auth.jwt() ->> 'email') = lower('alvaradonicolemickle@gmail.com'));
 
 drop policy if exists "Owner can delete person media" on public.person_media;
 create policy "Owner can delete person media"
   on public.person_media for delete to authenticated
-  using (lower(auth.jwt() ->> 'email') = lower('OWNER_EMAIL_HERE'));
+  using (lower(auth.jwt() ->> 'email') = lower('alvaradonicolemickle@gmail.com'));
 
 insert into storage.buckets (id, name, public, file_size_limit)
 values ('person-media', 'person-media', true, 10485760)
@@ -54,7 +54,7 @@ create policy "Owner can upload person media files"
   on storage.objects for insert to authenticated
   with check (
     bucket_id = 'person-media'
-    and lower(auth.jwt() ->> 'email') = lower('OWNER_EMAIL_HERE')
+    and lower(auth.jwt() ->> 'email') = lower('alvaradonicolemickle@gmail.com')
   );
 
 drop policy if exists "Owner can update person media files" on storage.objects;
@@ -62,11 +62,11 @@ create policy "Owner can update person media files"
   on storage.objects for update to authenticated
   using (
     bucket_id = 'person-media'
-    and lower(auth.jwt() ->> 'email') = lower('OWNER_EMAIL_HERE')
+    and lower(auth.jwt() ->> 'email') = lower('alvaradonicolemickle@gmail.com')
   )
   with check (
     bucket_id = 'person-media'
-    and lower(auth.jwt() ->> 'email') = lower('OWNER_EMAIL_HERE')
+    and lower(auth.jwt() ->> 'email') = lower('alvaradonicolemickle@gmail.com')
   );
 
 drop policy if exists "Owner can delete person media files" on storage.objects;
@@ -74,5 +74,5 @@ create policy "Owner can delete person media files"
   on storage.objects for delete to authenticated
   using (
     bucket_id = 'person-media'
-    and lower(auth.jwt() ->> 'email') = lower('OWNER_EMAIL_HERE')
+    and lower(auth.jwt() ->> 'email') = lower('alvaradonicolemickle@gmail.com')
   );
