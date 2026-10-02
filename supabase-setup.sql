@@ -1,4 +1,4 @@
--- Replace OWNER_EMAIL_HERE with the exact email of the administrator account.
+-- Replace "alvaradonicolemickle@gmail.com" with the exact email of the administrator account.
 
 create table if not exists public.person_media (
   id uuid primary key default gen_random_uuid(),
