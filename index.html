@@ -86,40 +86,42 @@
   --shadow-lg:0 16px 48px rgba(20,25,35,.14);
   --radius-sm:6px;--radius:10px;--radius-lg:16px;
   --g1:#3b6ea5;--g1-bg:#e8f0f9;--g2:#3f8f6b;--g2-bg:#e6f4ed;
-  --g3:#8a9a3d;--g3-bg:#f1f4df;--g4:#c9922e;--g4-bg:#fbf3dd;
+  --g3:#8a9a3d;--g3-bg:#f1f4df;--g4:#63202D;--g4-bg:#f5e9eb;
   --g5:#c1683a;--g5-bg:#fbece2;--g6:#a8434f;--g6-bg:#f9e8eb;
   --g7:#7a4b8f;--g7-bg:#f3eaf7;
-  --male:#3b6ea5;--female:#a8434f;--marriage:#6b7280;--conn:#9aa0a8;
+  --male:#3b6ea5;--female:#a8434f;--marriage:#6b7280;--divorce:var(--marriage);--conn:#9aa0a8;
   --love:#e91e63;
-  --danger:#c0392b;--danger-bg:#fdecea;--success:#3f8f6b;--success-bg:#e6f4ed;
+  --danger:#8c2d40;--danger-bg:#f8eaed;--success:#63202D;--success-bg:#f2e5e7;
   --topbar-bg:#3B131B;
 }
 :root[data-theme="dark"]{
-  --bg:#000000;--surface:#0d0d0d;--surface-2:#161616;--surface-3:#1f1f1f;
-  --text:#f0f0f0;--text-muted:#b0b0b0;--text-soft:#7a7a7a;
-  --border:#262626;--border-strong:#3a3a3a;
+  --bg:#000;--surface:#0b0b0b;--surface-2:#151515;--surface-3:#222;
+  --text:#f2f2f2;--text-muted:#b8b8b8;--text-soft:#858585;
+  --border:#292929;--border-strong:#454545;
   --shadow-sm:0 1px 2px rgba(0,0,0,.6);
   --shadow-md:0 4px 16px rgba(0,0,0,.7);
   --shadow-lg:0 16px 48px rgba(0,0,0,.8);
-  --g1-bg:#0f1f2e;--g2-bg:#0d221a;--g3-bg:#1c2010;
-  --g4-bg:#2a2010;--g5-bg:#2a1810;--g6-bg:#2a1216;--g7-bg:#1f1226;
-  --male:#6ba0d4;--female:#d47a86;--marriage:#8b9098;--conn:#4a5058;
-  --love:#ff6b9d;
-  --danger:#e57373;--danger-bg:#2a1010;--success:#6bc39a;--success-bg:#0d221a;
-  --topbar-bg:rgba(0,0,0,.92);
-  --ui-accent:#493F0F;--ui-earth:#4A3910;--ui-olive:#4A4710;
-  --ui-brown:#4A3210;--ui-moss:#3B4A10;
-  --ui-border:rgba(74,71,16,.7);--ui-earth-soft:rgba(74,57,16,.38);
-  --ui-olive-soft:rgba(74,71,16,.38);--ui-brown-soft:rgba(74,50,16,.38);
-  --ui-moss-soft:rgba(59,74,16,.38);
+  --g1:#d8d8d8;--g1-bg:#181818;--g2:#c8c8c8;--g2-bg:#1c1c1c;
+  --g3:#b8b8b8;--g3-bg:#202020;--g4:#e0e0e0;--g4-bg:#242424;
+  --g5:#a8a8a8;--g5-bg:#1c1c1c;--g6:#f0a8b0;--g6-bg:#202020;
+  --g7:#989898;--g7-bg:#242424;
+  --male:#79aee0;--female:#e28a9a;--marriage:#e2bd69;--divorce:#e58a7d;--conn:#656565;
+  --love:#ee72a0;
+  --danger:#dedede;--danger-bg:#242424;--success:#c8c8c8;--success-bg:#202020;
+  --topbar-bg:rgba(0,0,0,.96);
+  --ui-accent:#171717;--ui-earth:#202020;--ui-olive:#2b2b2b;
+  --ui-brown:#353535;--ui-moss:#414141;
+  --ui-border:rgba(190,190,190,.28);--ui-earth-soft:rgba(255,255,255,.05);
+  --ui-olive-soft:rgba(255,255,255,.07);--ui-brown-soft:rgba(255,255,255,.09);
+  --ui-moss-soft:rgba(255,255,255,.11);
 }
 :root:not([data-theme="dark"]){
-  --ui-accent:#80819F;--ui-slate:#7E8A9E;--ui-lavender:#887E9E;
-  --ui-teal:#7E949E;--ui-orchid:#927E9E;
-  --ui-accent-soft:rgba(128,129,159,.12);--ui-slate-soft:rgba(126,138,158,.12);
-  --ui-lavender-soft:rgba(136,126,158,.12);--ui-teal-soft:rgba(126,148,158,.12);
-  --ui-orchid-soft:rgba(146,126,158,.12);--ui-accent-border:rgba(128,129,159,.34);
-  --gold:#80819F;
+  --ui-accent:#63202D;--ui-slate:#7A2938;--ui-lavender:#8C2D40;
+  --ui-teal:#A34A5B;--ui-orchid:#BD7480;
+  --ui-accent-soft:rgba(99,32,45,.08);--ui-slate-soft:rgba(122,41,56,.1);
+  --ui-lavender-soft:rgba(140,45,64,.1);--ui-teal-soft:rgba(163,74,91,.12);
+  --ui-orchid-soft:rgba(189,116,128,.14);--ui-accent-border:rgba(99,32,45,.28);
+  --gold:#8C2D40;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{font-size:20px}
@@ -173,10 +175,10 @@ a{color:inherit;text-decoration:none}
   text-align:center;
   opacity:.85;
 }
-:root[data-theme="dark"] .topbar-eyebrow{color:#d3ac6c}
+:root[data-theme="dark"] .topbar-eyebrow{color:#dedede}
 .language-select{margin-top:8px;padding:4px 9px;font-family:"Palmore",system-ui,sans-serif;font-size:13px;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;cursor:pointer}
 :root:not([data-theme="dark"]) .language-select{border-color:var(--ui-accent-border)}
-:root[data-theme="dark"] .language-select{color:#fff;background:#3B131B;border-color:#fff}
+:root[data-theme="dark"] .language-select{color:var(--text);background:var(--surface-2);border-color:var(--border-strong)}
 
 @media (max-width:640px){
   .topbar-inner{padding:14px 12px;min-height:80px}
@@ -191,6 +193,20 @@ a{color:inherit;text-decoration:none}
 .view.is-active{display:block}
 
 .main{max-width:1700px;margin:0 auto;padding:16px 18px 60px}
+.search-panel{max-width:820px;margin:0 auto 16px;position:relative;z-index:10}
+.search-form{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:8px}
+.search-form select,.search-form input,.search-form button{min-height:44px;border:1px solid var(--border-strong);border-radius:6px;font:inherit}
+.search-form select,.search-form input{padding:9px 12px;background:var(--surface);color:var(--text)}
+.search-form input:focus,.search-form select:focus{outline:2px solid #63202D;outline-offset:1px}
+.search-form button{padding:8px 18px;background:#63202D;color:#fff;font-weight:700}
+.search-form button:hover{background:#493F0F}
+.search-results{position:absolute;top:calc(100% + 5px);left:158px;right:70px;max-height:320px;overflow:auto;margin:0;padding:4px;list-style:none;background:var(--surface);border:1px solid var(--border);border-radius:6px;box-shadow:var(--shadow-md)}
+.search-results:empty{display:none}
+.search-results button{display:flex;width:100%;align-items:baseline;gap:8px;padding:9px 10px;text-align:left;border:0;border-radius:4px;background:transparent;color:var(--text);font:inherit;cursor:pointer}
+.search-results button:hover,.search-results button:focus-visible{background:var(--surface-3);outline:none}
+.search-results .search-kind{flex:0 0 auto;color:var(--text-soft);font-size:.72em;text-transform:uppercase}
+.search-feedback{margin:5px 0 0;color:var(--text-muted);font-size:.82rem}
+@media(max-width:520px){.search-form{grid-template-columns:1fr auto}.search-form select{grid-column:1/-1}.search-results{left:0;right:0}}
 .tree-card{background:var(--surface);border:2px solid #63202D;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:22px;transition:background .3s,border-color .3s}
 .tree-card:fullscreen{position:fixed;inset:0;width:100vw;height:100vh;margin:0;border-radius:0;display:flex;flex-direction:column;background:var(--surface)}
 .tree-card:fullscreen .viewport-wrap{flex:1;min-height:0}
@@ -242,7 +258,7 @@ a{color:inherit;text-decoration:none}
 .node .node-sym{font-family:"Inter",sans-serif;font-weight:700;fill:var(--male);pointer-events:none;transition:fill .3s}
 .node.female .node-sym{fill:var(--female)}
 .node .node-cross{font-weight:700;fill:var(--g6);pointer-events:none;transition:fill .3s}
-:root[data-theme="dark"] .node .node-cross{fill:#f0a8b0}
+:root[data-theme="dark"] .node .node-cross{fill:var(--g6)}
 .node .node-flag{font-size:12px;pointer-events:none}
 .node .node-name{font-family:"Inter",sans-serif;font-size:14px;font-weight:600;fill:var(--text);pointer-events:none;transition:fill .3s}
 .node .node-dates{font-family:"Inter",sans-serif;font-size:12px;font-weight:500;fill:var(--text-soft);pointer-events:none;transition:fill .3s}
@@ -253,7 +269,7 @@ a{color:inherit;text-decoration:none}
 .marriage-diamond{fill:var(--surface);stroke:var(--marriage);stroke-width:2}
 .love-line{stroke:var(--love);stroke-width:2.5;stroke-linecap:round;fill:none;stroke-dasharray:7 5}
 .love-heart{fill:var(--love);font-size:16px;font-weight:700;pointer-events:none}
-.divorce-slash{stroke:var(--marriage);stroke-width:2.5;stroke-linecap:round;transition:stroke .3s}
+.divorce-slash{stroke:var(--divorce,var(--marriage));stroke-width:2.5;stroke-linecap:round;transition:stroke .3s}
 .conn-line{stroke:var(--conn);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
 
 .form-wrapper{max-width:820px;margin:0 auto 22px}
@@ -398,8 +414,8 @@ a{color:inherit;text-decoration:none}
   :root:not([data-theme="dark"]) .report-submit:hover:not(:disabled){background:var(--ui-orchid)}
 
   :root:not([data-theme="dark"]) .menu-panel{border-right-color:var(--ui-accent-border)}
-  :root:not([data-theme="dark"]) .menu-item:hover{background:rgba(181,58,83,.12)}
-  :root:not([data-theme="dark"]) .menu-item.is-active{background:rgba(181,58,83,.12);border-left-color:#B53A53}
+  :root:not([data-theme="dark"]) .menu-item:hover{background:rgba(99,32,45,.08)}
+  :root:not([data-theme="dark"]) .menu-item.is-active{background:rgba(99,32,45,.08);border-left-color:#63202D}
   :root:not([data-theme="dark"]) .menu-item .mi-icon{background:var(--ui-orchid-soft);color:var(--ui-lavender)}
   :root:not([data-theme="dark"]) .menu-item .mi-arrow{color:var(--ui-teal)}
 
@@ -416,7 +432,26 @@ a{color:inherit;text-decoration:none}
 
   :root[data-theme="dark"] .topbar{border-bottom-color:var(--ui-border)}
   :root[data-theme="dark"] .topbar-eyebrow{color:#fff}
-  :root[data-theme="dark"] .tree-toolbar .count-badge{color:#E9ABB5;background:rgba(140,45,64,.32)}
+  :root[data-theme="dark"] .tree-toolbar .count-badge{color:#e4e4e4;background:rgba(255,255,255,.09)}
+  :root[data-theme="dark"] .tree-card,
+  :root[data-theme="dark"] .family-history,
+  :root[data-theme="dark"] .tool-card{border-color:var(--border-strong)}
+  :root[data-theme="dark"] .history-header,
+  :root[data-theme="dark"] .request-intro{background:#202020}
+  :root[data-theme="dark"] .history-entry{border-left-color:#777}
+  :root[data-theme="dark"] .history-source{background:rgba(255,255,255,.05)}
+  :root[data-theme="dark"] .node-flag,
+  :root[data-theme="dark"] .pc-flag,
+  :root[data-theme="dark"] .member .flags,
+  :root[data-theme="dark"] .menu-item .mi-icon,
+  :root[data-theme="dark"] .family-section h2 .icon{filter:grayscale(1)}
+  :root[data-theme="dark"] .tree-toolbar{border-bottom-color:var(--border-strong);background:rgba(255,255,255,.035)}
+  :root[data-theme="dark"] .tool-card{background:var(--surface);color:var(--text)}
+  :root[data-theme="dark"] .report-field label{color:var(--text-muted)}
+  :root[data-theme="dark"] .search-form input:focus,
+  :root[data-theme="dark"] .search-form select:focus{outline-color:#bdbdbd}
+  :root[data-theme="dark"] .search-form button{background:#292929;color:var(--text)}
+  :root[data-theme="dark"] .search-form button:hover{background:#414141}
   :root[data-theme="dark"] .btn-menu,
   :root[data-theme="dark"] .back-btn{background:var(--ui-accent);color:var(--text);border-color:var(--ui-olive)}
   :root[data-theme="dark"] .btn-menu:hover,
@@ -433,9 +468,9 @@ a{color:inherit;text-decoration:none}
   :root[data-theme="dark"] .report-submit:hover:not(:disabled){background:var(--ui-earth)}
 
   :root[data-theme="dark"] .menu-panel{border-right-color:var(--ui-border)}
-  :root[data-theme="dark"] .menu-item:hover{background:rgba(181,58,83,.22)}
-  :root[data-theme="dark"] .menu-item.is-active{background:rgba(181,58,83,.22);border-left-color:#B53A53}
-  :root[data-theme="dark"] .menu-item .mi-icon{background:var(--ui-brown);color:var(--text)}
+  :root[data-theme="dark"] .menu-item:hover{background:rgba(255,255,255,.07)}
+  :root[data-theme="dark"] .menu-item.is-active{background:rgba(255,255,255,.08);border-left-color:#bdbdbd}
+  :root[data-theme="dark"] .menu-item .mi-icon{background:var(--ui-earth);color:var(--text)}
   :root[data-theme="dark"] .menu-item .mi-arrow{color:var(--text-muted)}
   :root:not([data-theme="dark"]) .menu-head h2:hover,
   :root:not([data-theme="dark"]) .menu-section-title:hover,
@@ -448,11 +483,13 @@ a{color:inherit;text-decoration:none}
   :root[data-theme="dark"] .menu-item:hover .mi-title,
   :root[data-theme="dark"] .menu-item:focus-visible .mi-title,
   :root[data-theme="dark"] .menu-item:hover .mi-arrow,
-  :root[data-theme="dark"] .menu-item:focus-visible .mi-arrow{color:#E9ABB5}
+  :root[data-theme="dark"] .menu-item:focus-visible .mi-arrow{color:#e0e0e0}
   :root:not([data-theme="dark"]) .menu-item:hover,
   :root:not([data-theme="dark"]) .menu-item:focus-visible,
   :root[data-theme="dark"] .menu-item:hover,
   :root[data-theme="dark"] .menu-item:focus-visible{box-shadow:0 0 0 2px rgba(181,58,83,.45),0 3px 10px rgba(181,58,83,.28)}
+  :root[data-theme="dark"] .menu-item:hover,
+  :root[data-theme="dark"] .menu-item:focus-visible{box-shadow:0 0 0 2px rgba(220,220,220,.35),0 3px 10px rgba(0,0,0,.35)}
 
   :root[data-theme="dark"] .family-topbar,
   :root[data-theme="dark"] .family-section,
@@ -464,6 +501,8 @@ a{color:inherit;text-decoration:none}
   :root[data-theme="dark"] .family-hero .badge-hero{background:var(--ui-brown);color:var(--text)}
   :root[data-theme="dark"] .family-stats .stat b{color:var(--text)}
   :root[data-theme="dark"] .member:hover{background:var(--ui-moss-soft)}
+  :root[data-theme="dark"] .member{border-left-color:var(--border-strong)}
+  :root[data-theme="dark"] .member .role{color:var(--text-muted)}
 
   :root:not([data-theme="dark"]) .btn-menu,
   :root:not([data-theme="dark"]) .btn-theme,
@@ -476,13 +515,22 @@ a{color:inherit;text-decoration:none}
   :root:not([data-theme="dark"]) .report-submit:hover:not(:disabled),
   :root[data-theme="dark"] .btn-menu:hover,
   :root[data-theme="dark"] .btn-theme:hover,
-  :root[data-theme="dark"] .report-submit:hover:not(:disabled){background:#493F0F;color:#fff;border-color:#fff}
+  :root[data-theme="dark"] .report-submit:hover:not(:disabled){background:#7A2938;color:#fff;border-color:#fff}
   :root:not([data-theme="dark"]) .btn-menu:active,
   :root:not([data-theme="dark"]) .btn-theme:active,
   :root:not([data-theme="dark"]) .report-submit:active:not(:disabled),
   :root[data-theme="dark"] .btn-menu:active,
   :root[data-theme="dark"] .btn-theme:active,
-  :root[data-theme="dark"] .report-submit:active:not(:disabled){background:#4A4710;color:#fff;border-color:#fff}
+  :root[data-theme="dark"] .report-submit:active:not(:disabled){background:#8C2D40;color:#fff;border-color:#fff}
+  :root[data-theme="dark"] .btn-menu,
+  :root[data-theme="dark"] .btn-theme,
+  :root[data-theme="dark"] .report-submit{background:#171717;color:var(--text);border-color:#555}
+  :root[data-theme="dark"] .btn-menu:hover,
+  :root[data-theme="dark"] .btn-theme:hover,
+  :root[data-theme="dark"] .report-submit:hover:not(:disabled){background:#303030;color:var(--text);border-color:#777}
+  :root[data-theme="dark"] .btn-menu:active,
+  :root[data-theme="dark"] .btn-theme:active,
+  :root[data-theme="dark"] .report-submit:active:not(:disabled){background:#414141;color:var(--text);border-color:#888}
   :root:not([data-theme="dark"]) .btn-menu:focus-visible,
   :root:not([data-theme="dark"]) .btn-theme:focus-visible,
   :root:not([data-theme="dark"]) .report-submit:focus-visible,
@@ -521,12 +569,16 @@ h1:not(.topbar-title),h2,h3,h4,
   .topbar-eyebrow,.request-intro p.desc,.family-hero p,.family-section .sub,
   .menu-section-title,.family-topbar .badge,.family-hero .badge-hero,
   .family-stats .stat span,.pc-info h4,.member .role{font-size:15px}
+  .topbar-eyebrow{font-size:13px}
   .tree-toolbar .count-badge,.legend-mini,.zoom-float .zl,
   .node .node-name,.node .node-dates,.gen-band-label,
   .report-field label,.report-field input,.report-field select,.report-field textarea,
   .file-drop .text b,.file-drop .text small,.report-submit,.report-hint,
   .report-success,.report-error,.pc-dates,.pc-flag,.pc-info .row,.pc-rel .chip,
   .menu-item .mi-sub,.back-btn,.member .dates,.member .flags,.toast{font-size:13px}
+}
+@media screen and (max-width:640px){
+  .topbar-eyebrow{font-size:11px;letter-spacing:.02em;padding:0 6px;line-height:1.3}
 }
 
 .print-header{display:none}
@@ -553,7 +605,7 @@ h1:not(.topbar-title),h2,h3,h4,
 
 @media print{
   @page{ size: A4 landscape; margin: 1cm; }
-  .topbar,.menu-panel,.menu-backdrop,.tree-toolbar,.form-wrapper,.zoom-float,.btn-menu,.family-topbar,.toast,.modal-backdrop{display:none !important;}
+  .topbar,.menu-panel,.menu-backdrop,.tree-toolbar,.form-wrapper,.search-panel,.zoom-float,.btn-menu,.family-topbar,.toast,.modal-backdrop{display:none !important;}
   body{background:#fff;color:#000;font-size:10pt}
   .main,.family-page{max-width:none;padding:0;margin:0}
   .tree-card,.family-section,.family-stats .stat{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
@@ -610,6 +662,19 @@ h1:not(.topbar-title),h2,h3,h4,
       <h1>Genograma Familiar</h1>
       <div class="meta">Francia · Cuba · EE. UU. · Ecuador · Perú · España</div>
     </div>
+
+    <section class="search-panel" aria-label="Buscar en el genograma">
+      <form class="search-form" id="genealogy-search" role="search">
+        <select id="search-scope" aria-label="Tipo de búsqueda">
+          <option value="person">Persona</option>
+          <option value="family">Familia</option>
+        </select>
+        <input id="search-query" type="search" autocomplete="off" placeholder="Escribe un nombre o apellido" aria-label="Buscar persona o familia" aria-controls="search-results" aria-autocomplete="list">
+        <button type="submit">Buscar</button>
+      </form>
+      <ul class="search-results" id="search-results" role="listbox" aria-label="Resultados de búsqueda"></ul>
+      <p class="search-feedback" id="search-feedback" aria-live="polite"></p>
+    </section>
 
     <div class="tree-card">
       <div class="tree-toolbar">
@@ -1014,6 +1079,7 @@ let currentLanguage = 'es';
 const TRANSLATIONS = {
   en:{
     'Genograma Familiar':'Family Genogram','Francia · Cuba · EE. UU. · Ecuador · Perú · España':'France · Cuba · U.S. · Ecuador · Peru · Spain',
+    'Buscar en el genograma':'Search the family tree','Tipo de búsqueda':'Search type','Persona':'Person','Familia':'Family','Escribe un nombre o apellido':'Type a first or last name','Buscar persona o familia':'Search for a person or family','Buscar':'Search','No se encontraron resultados.':'No results found.','Escribe al menos dos caracteres para buscar.':'Type at least two characters to search.',
     'Menú':'Menu','Menú del árbol':'Tree menu','Genograma':'Genogram','personas':'people','Varón':'Male','Mujer':'Female','Matrimonio':'Marriage','Amorío':'Affair','Divorcio':'Divorce','Fallecido':'Deceased',
     'Alejar':'Zoom out','Acercar':'Zoom in','Ajustar a pantalla':'Fit to screen','Imprimir / Guardar como PDF':'Print / Save as PDF','Modo noche':'Dark mode','Modo claro':'Light mode','Cambiar a modo noche':'Switch to dark mode','Cambiar a modo claro':'Switch to light mode','Idioma':'Language',
     'Solicitar un cambio':'Request a correction','¿Detectaste un dato incorrecto o falta información? Avísanos y te llegará directo.':'Found an error or missing information? Let us know and we will receive it directly.',
@@ -1029,6 +1095,7 @@ const TRANSLATIONS = {
   },
   fr:{
     'Genograma Familiar':'Génogramme familial','Francia · Cuba · EE. UU. · Ecuador · Perú · España':'France · Cuba · États-Unis · Équateur · Pérou · Espagne',
+    'Buscar en el genograma':'Rechercher dans l’arbre','Tipo de búsqueda':'Type de recherche','Persona':'Personne','Familia':'Famille','Escribe un nombre o apellido':'Saisissez un nom ou un prénom','Buscar persona o familia':'Rechercher une personne ou une famille','Buscar':'Rechercher','No se encontraron resultados.':'Aucun résultat.','Escribe al menos dos caracteres para buscar.':'Saisissez au moins deux caractères.',
     'Menú':'Menu','Menú del árbol':'Menu de l’arbre','Genograma':'Génogramme','personas':'personnes','Varón':'Homme','Mujer':'Femme','Matrimonio':'Mariage','Amorío':'Relation extraconjugale','Divorcio':'Divorce','Fallecido':'Décédé',
     'Alejar':'Dézoomer','Acercar':'Zoomer','Ajustar a pantalla':'Ajuster à l’écran','Imprimir / Guardar como PDF':'Imprimer / Enregistrer en PDF','Modo noche':'Mode sombre','Modo claro':'Mode clair','Cambiar a modo noche':'Passer en mode sombre','Cambiar a modo claro':'Passer en mode clair','Idioma':'Langue',
     'Solicitar un cambio':'Signaler une modification','¿Detectaste un dato incorrecto o falta información? Avísanos y te llegará directo.':'Vous avez repéré une erreur ou une information manquante ? Signalez-le-nous.',
@@ -1743,6 +1810,96 @@ function renderMenu(){
     });
   });
 }
+
+const searchForm = document.getElementById('genealogy-search');
+const searchScope = document.getElementById('search-scope');
+const searchQuery = document.getElementById('search-query');
+const searchResults = document.getElementById('search-results');
+const searchFeedback = document.getElementById('search-feedback');
+
+function normalizeSearchText(value){
+  return String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase();
+}
+
+function findSearchMatches(){
+  const query = normalizeSearchText(searchQuery.value.trim());
+  if (query.length < 2) return [];
+  if (searchScope.value === 'person'){
+    return Object.keys(P)
+      .filter(id => normalizeSearchText(P[id].n).includes(query))
+      .slice(0, 10)
+      .map(id => ({type:'person',id,label:P[id].n,detail:P[id].d}));
+  }
+  return Array.from(FAMILY_VIEW_KEYS)
+    .filter(id => normalizeSearchText(`${VIEW_META[id].name} ${VIEW_META[id].desc}`).includes(query))
+    .slice(0, 10)
+    .map(id => ({type:'family',id,label:VIEW_META[id].name,detail:VIEW_META[id].desc}));
+}
+
+function updateSearchResults(){
+  searchResults.replaceChildren();
+  searchFeedback.textContent = '';
+  if (searchQuery.value.trim().length < 2) return;
+  const matches = findSearchMatches();
+  if (!matches.length){
+    searchFeedback.textContent = translateText('No se encontraron resultados.');
+    return;
+  }
+  matches.forEach(match => {
+    const item = document.createElement('li');
+    const button = document.createElement('button');
+    const kind = document.createElement('span');
+    const label = document.createElement('strong');
+    const detail = document.createElement('span');
+    button.type = 'button';
+    button.setAttribute('role', 'option');
+    button.dataset.searchType = match.type;
+    button.dataset.searchId = match.id;
+    kind.className = 'search-kind';
+    kind.textContent = match.type === 'person' ? 'Persona' : 'Familia';
+    label.textContent = match.label;
+    detail.textContent = match.detail;
+    button.append(kind, label, detail);
+    item.append(button);
+    searchResults.append(item);
+  });
+  localizeTextTree(searchResults);
+}
+
+function openSearchMatch(type, id){
+  searchResults.replaceChildren();
+  searchFeedback.textContent = '';
+  searchQuery.value = '';
+  if (type === 'person'){
+    abrirFicha(id);
+    return;
+  }
+  cerrarFicha();
+  document.querySelectorAll('.menu-item').forEach(item => {
+    item.classList.toggle('is-active', item.dataset.view === id);
+  });
+  mostrarVistaFamilia(id);
+}
+
+searchQuery.addEventListener('input', updateSearchResults);
+searchScope.addEventListener('change', updateSearchResults);
+searchForm.addEventListener('submit', event => {
+  event.preventDefault();
+  const match = findSearchMatches()[0];
+  if (match) openSearchMatch(match.type, match.id);
+  else if (searchQuery.value.trim().length >= 2) updateSearchResults();
+  else searchFeedback.textContent = translateText('Escribe al menos dos caracteres para buscar.');
+});
+searchResults.addEventListener('click', event => {
+  const option = event.target.closest('[data-search-id]');
+  if (option) openSearchMatch(option.dataset.searchType, option.dataset.searchId);
+});
+searchQuery.addEventListener('keydown', event => {
+  if (event.key === 'ArrowDown'){
+    const firstResult = searchResults.querySelector('button');
+    if (firstResult){ event.preventDefault(); firstResult.focus(); }
+  }
+});
 
 function abrirMenu(){ menuPanel.classList.add('is-open'); menuBackdrop.classList.add('is-open'); }
 function cerrarMenu(){ menuPanel.classList.remove('is-open'); menuBackdrop.classList.remove('is-open'); }
