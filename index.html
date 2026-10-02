@@ -227,6 +227,10 @@ a{color:inherit;text-decoration:none}
 .tree-toolbar .label{font-family:"Junicode",Georgia,serif;font-size:.85rem;font-weight:700;color:var(--text-soft);letter-spacing:.08em;text-transform:uppercase}
 .tree-toolbar .spacer{flex:1}
 .tree-toolbar .count-badge{font-size:.7rem;font-weight:700;color:#8C2D40;background:rgba(140,45,64,.12);padding:4px 10px;border-radius:999px}
+.tree-mode-toggle{display:inline-flex;align-items:center;padding:3px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface)}
+.tree-mode-toggle button{min-height:32px;padding:5px 11px;border:0;border-radius:4px;background:transparent;color:var(--text-muted);font:inherit;font-size:.75rem;font-weight:700;cursor:pointer}
+.tree-mode-toggle button[aria-pressed="true"]{background:var(--g4);color:#fff}
+.tree-mode-toggle button:focus-visible{outline:2px solid var(--ui-accent,var(--g4));outline-offset:2px}
 .legend-mini{display:flex;align-items:center;gap:12px;font-size:.7rem;color:var(--text-muted);flex-wrap:wrap}
 .legend-mini span{display:inline-flex;align-items:center;gap:5px}
 .legend-mini .sym{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:1.5px solid var(--male);border-radius:3px;font-size:.75rem;font-weight:700;color:var(--male)}
@@ -255,6 +259,13 @@ a{color:inherit;text-decoration:none}
 .node.partner .node-bg{stroke-dasharray:5 3;fill:var(--surface-2)}
 .node.head .node-bg{stroke-width:3}
 .node:hover .node-bg{stroke-width:3.5;filter:drop-shadow(0 4px 12px rgba(0,0,0,.2))}
+.node.photo-node .node-bg{fill:var(--surface);stroke-width:2.5}
+.node.photo-node:hover .node-bg{stroke-width:4;filter:drop-shadow(0 4px 12px rgba(0,0,0,.24))}
+.node-photo-frame{fill:none;stroke:var(--male);stroke-width:2.5;pointer-events:none}
+.node.female .node-photo-frame{stroke:var(--female)}
+.node.photo-node:hover .node-photo-frame{stroke-width:4;filter:drop-shadow(0 4px 12px rgba(0,0,0,.24))}
+.node-photo{pointer-events:none}
+.node-hit-target{fill:transparent;pointer-events:all;cursor:pointer}
 .node .node-sym{font-family:"Inter",sans-serif;font-weight:700;fill:var(--male);pointer-events:none;transition:fill .3s}
 .node.female .node-sym{fill:var(--female)}
 .node .node-cross{font-weight:700;fill:var(--g6);pointer-events:none;transition:fill .3s}
@@ -345,6 +356,9 @@ a{color:inherit;text-decoration:none}
 .pc-documents li{display:flex;align-items:center;gap:8px;min-width:0;padding:8px 10px;background:var(--surface-2);border-radius:var(--radius-sm)}
 .pc-document-link{flex:1;min-width:0;overflow-wrap:anywhere;color:var(--text);font-size:.78rem}
 .pc-document-link:hover{text-decoration:underline}
+.pc-document-type-field{display:grid;gap:4px;max-width:280px;margin:8px 0;color:var(--text-muted);font-size:.74rem;font-weight:600}
+.pc-document-type-field select{min-height:36px;padding:6px 9px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface-2);color:var(--text);font:inherit}
+.pc-document-type{flex:0 0 auto;padding:3px 7px;border-radius:4px;background:var(--g3-bg);color:var(--text);font-size:.67rem;font-weight:700}
 .pc-document-size{flex:0 0 auto;color:var(--text-soft);font-size:.68rem}
 .pc-document-remove{flex:0 0 auto;width:28px;height:28px;border:1px solid var(--border);border-radius:50%;background:var(--surface);color:var(--text-muted);font:inherit;cursor:pointer}
 .pc-media-auth{padding-top:10px;border-top:1px solid var(--border)}
@@ -433,6 +447,54 @@ a{color:inherit;text-decoration:none}
 .member .name{font-family:"Playfair Display",serif;font-size:1rem;font-weight:700;line-height:1.25;margin-bottom:3px}
 .member .dates{font-size:.74rem;color:var(--text-soft);margin-bottom:3px}
 .member .flags{font-size:.85rem}
+
+.reference-page{max-width:1200px;margin:0 auto;padding:24px 20px 60px}
+.reference-intro{max-width:900px;margin:20px auto 24px;padding:18px 20px;border-left:4px solid var(--g5);background:var(--g5-bg);color:var(--text);line-height:1.65}
+.reference-intro p{margin:0 0 8px}
+.reference-intro p:last-child{margin-bottom:0}
+.reference-list{display:grid;gap:12px}
+.reference-entry{border:1px solid var(--border);border-radius:8px;background:var(--surface);box-shadow:var(--shadow-sm);overflow:hidden}
+.reference-entry summary{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;list-style:none;font-weight:700;color:var(--text)}
+.reference-entry summary::-webkit-details-marker{display:none}
+.reference-entry summary::before{content:"+";display:inline-grid;place-items:center;width:25px;height:25px;flex:0 0 25px;border:1px solid var(--border-strong);border-radius:50%;color:var(--g4);font-size:1rem}
+.reference-entry[open] summary::before{content:"−"}
+.reference-entry summary .reference-status{margin-left:auto;padding:4px 8px;border-radius:4px;background:var(--surface-3);color:var(--text-muted);font-size:.68rem;font-weight:700;white-space:nowrap}
+.reference-content{padding:0 22px 20px 55px;color:var(--text-muted);font-size:.86rem;line-height:1.65}
+.reference-content h3{margin:16px 0 6px;color:var(--text);font-size:.95rem}
+.reference-content p{margin:8px 0}
+.reference-content ul{margin:6px 0;padding-left:20px}
+.reference-content li{margin:4px 0}
+.reference-content strong{color:var(--text)}
+.reference-caution{padding:10px 12px;border-left:3px solid var(--g5);background:var(--surface-2)}
+@media(max-width:640px){.reference-page{padding:14px 12px 40px}.reference-entry summary{align-items:flex-start;padding:13px 12px}.reference-entry summary .reference-status{white-space:normal;text-align:center}.reference-content{padding:0 14px 16px 18px}}
+.other-tree-list{display:grid;gap:18px;max-width:1120px;margin:0 auto 28px}
+.other-tree-card{padding:20px;border:1px solid var(--border);border-radius:8px;background:var(--surface);box-shadow:var(--shadow-sm)}
+.other-tree-heading{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.other-tree-heading h2{font-size:1.12rem}
+.other-tree-heading p{margin:4px 0 0;color:var(--text-soft);font-size:.78rem}
+.other-tree-status{margin-left:auto;padding:4px 8px;border-radius:4px;background:var(--g5-bg);color:var(--text);font-size:.68rem;font-weight:700;text-align:center}
+.other-tree-root{display:flex;justify-content:center;margin-bottom:16px}
+.other-union-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.other-union{position:relative;padding:14px;border-top:2px solid var(--border-strong);background:var(--surface-2)}
+.other-union-partner{display:flex;justify-content:center;align-items:center;gap:10px}
+.other-union-mark{color:var(--g4);font-weight:700}
+.other-union-context{display:block;margin-bottom:8px;color:var(--text-soft);font-size:.7rem;font-weight:700;text-align:center}
+.other-children{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0 0;padding-top:14px;border-top:1px solid var(--border)}
+.other-descendant{min-width:0}
+.other-person-button{display:flex;align-items:center;gap:10px;width:100%;min-height:64px;padding:9px 11px;border:1px solid var(--border);border-left:3px solid var(--g4);border-radius:6px;background:var(--surface);color:var(--text);text-align:left;cursor:pointer}
+.other-person-button:hover{border-color:var(--g4);background:var(--g4-bg)}
+.other-person-initials{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:var(--g4-bg);color:var(--g4);font-weight:700}
+.other-person-name{display:block;font-weight:700;font-size:.8rem;line-height:1.3;overflow-wrap:anywhere}
+.other-person-meta{display:block;margin-top:3px;color:var(--text-soft);font-size:.69rem;line-height:1.35}
+.other-subfamily{margin:10px 0 0 12px;padding:10px 0 0 12px;border-left:1px solid var(--border-strong)}
+.other-grandchildren{display:grid;gap:6px;margin-top:8px}
+.other-main-link{border-left-color:var(--g3)}
+.other-tree-empty{padding:18px;color:var(--text-soft);text-align:center}
+.other-source-notes{max-width:1120px;margin:0 auto}
+.other-source-notes>summary{padding:14px 18px;border:1px solid var(--border);border-radius:6px;background:var(--surface-2);color:var(--text);font-weight:700;cursor:pointer}
+.other-source-notes[open]>summary{border-radius:6px 6px 0 0}
+.other-source-notes>.reference-list{padding-top:12px}
+@media(max-width:640px){.other-tree-card{padding:14px}.other-tree-heading{flex-wrap:wrap}.other-tree-status{margin-left:0}.other-union-list{grid-template-columns:1fr}.other-children{grid-template-columns:repeat(auto-fit,minmax(125px,1fr))}}
 
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);padding:12px 22px;border-radius:999px;font-size:.82rem;font-weight:600;box-shadow:var(--shadow-lg);z-index:400;pointer-events:none;opacity:0;transition:opacity .25s,transform .25s;max-width:90vw;text-align:center}
 .toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -713,6 +775,7 @@ h1:not(.topbar-title),h2,h3,h4,
         <select id="search-scope" aria-label="Tipo de búsqueda">
           <option value="person">Persona</option>
           <option value="family">Familia</option>
+          <option value="other">Otros Mickles</option>
         </select>
         <input id="search-query" type="search" autocomplete="off" placeholder="Escribe un nombre o apellido" aria-label="Buscar persona o familia" aria-controls="search-results" aria-autocomplete="list">
         <button type="submit">Buscar</button>
@@ -725,6 +788,10 @@ h1:not(.topbar-title),h2,h3,h4,
       <div class="tree-toolbar">
         <span class="label">Genograma</span>
         <span class="count-badge" id="count-badge">83 personas</span>
+        <div class="tree-mode-toggle" role="group" aria-label="Vista del genograma">
+          <button id="tree-mode-data" type="button" aria-pressed="true">Datos</button>
+          <button id="tree-mode-photos" type="button" aria-pressed="false">Fotos</button>
+        </div>
         <span class="spacer"></span>
         <div class="legend-mini">
           <span><span class="sym">♂</span>Varón</span>
@@ -767,14 +834,23 @@ h1:not(.topbar-title),h2,h3,h4,
         </article>
         <article class="history-entry">
           <h3>De Le Guen y Bedoya a Mickle</h3>
-          <p>Thomas Le Guen estudió medicina en Nueva York, obtuvo la ciudadanía estadounidense en 1866 y llegó a Lima a fines de ese año o a comienzos de 1867. Su unión con María Leocadia Bedoya dio origen a la rama peruana. Su hijo Julio nació como Le Guen; después, Enrique Mickle lo reconoció y pasó a llamarse Julio Mickle Bedoya.</p>
+          <p>Thomas Le Guen estudió medicina en Nueva York, obtuvo la ciudadanía estadounidense en 1866 y llegó a Lima a fines de ese año o a comienzos de 1867. Su unión con María Leocadia Bedoya dio origen a la rama peruana. Su hijo Julio nació como Le Guen; después, Enrique Mickle lo reconoció y pasó a llamarse Julio Mickle Bedoya. Patrick Vernerie informa que María Leocadia tenía una hermana gemela, cuya identidad aún no se ha documentado.</p>
         </article>
         <article class="history-entry">
           <h3>Las ramas Mickle Ramírez y Le Guen</h3>
           <p>Julio Mickle Bedoya y Ángela/Angélica Galarza aparecen como antecesores de la rama de Gastón Félix Mickle Galarza y Esperanza Ramírez Hernández, padres de 13 hermanos. Thomas Le Guen también tuvo una segunda familia con Mercedes Guerra; sus descendientes, entre ellos Patrick Vernerie, son parientes por línea paterna de Julio.</p>
         </article>
+        <article class="history-entry">
+          <h3>La rama francesa de Patrick Vernerie</h3>
+          <p>En su carta a Eliane, Patrick dice que nació el 23 de junio de 1962 en Arès, cerca de la bahía de Arcachon. Identifica a su madre como Mercédès Courtade-Le Guen, casada con Jean-Pierre Vernerie; ambos fallecieron en 2019. Menciona a sus hermanas Martine (n. 1957) y Véronique (n. 1963), a sus dos hijos —ya representados en el árbol— y a su esposa Patricia, fallecida en 2025. Añade que, en Francia, las mujeres conservan su apellido de nacimiento y los hijos suelen llevar el apellido paterno; considera que la rama Le Guen de su lado familiar terminó hacia 1940. La carta aclara que Guillermo Le Guen no era pariente de Thomas y que Le Guen es un apellido común en Bretaña.</p>
+        </article>
+        <article class="history-entry">
+          <h3>Una duda pendiente sobre Julio y María Leocadia</h3>
+          <p>Patrick plantea como hipótesis, no como conclusión, que Julio pudiera ser hijo de otro hombre llamado Julio —cuya identidad no queda aclarada en la carta— y no de Thomas. Señala el bautismo de Julio en 1867, una posible separación y el posterior matrimonio de Thomas con Mercedes Guerra, que sitúa también en 1867 en la parroquia de San Sebastián de Lima. Propone buscar las actas de nacimiento y matrimonio de Julio, y la partida matrimonial de Thomas y Mercedes. Hasta localizar esos documentos, el genograma conserva la filiación Thomas–María Leocadia como provisional y no cambia la relación.</p>
+          <p>La carta advierte además que Thomas aparece escrito como «Tomasa Leguen» o «Leguin» en algunos documentos, posiblemente por transcripción al español. Esas variantes quedan asociadas a su ficha, no como personas distintas.</p>
+        </article>
       </div>
-      <p class="history-source"><strong>Fuentes y certeza:</strong> la historia reúne actas de nacimiento, bautismo, matrimonio y defunción, correspondencia de Patrick Vernerie y testimonios familiares. Los vínculos no confirmados directamente por un acta se describen como probables y se señalan en el árbol.</p>
+      <p class="history-source"><strong>Fuentes y certeza:</strong> la historia reúne actas de nacimiento, bautismo, matrimonio y defunción, la correspondencia de Patrick Vernerie y testimonios familiares. Las nuevas fechas y notas personales se atribuyen a su carta; la hipótesis sobre la filiación de Julio queda pendiente de comprobar con actas.</p>
     </section>
 
     <section class="activity-section" aria-labelledby="activity-title">
@@ -897,6 +973,136 @@ h1:not(.topbar-title),h2,h3,h4,
   </div>
 </section>
 
+<section class="view" id="view-references">
+  <div class="reference-page">
+    <div class="family-topbar">
+      <button class="back-btn" id="btn-back-references" type="button"><span>←</span><span>Volver al genograma</span></button>
+      <span class="title">Otros Mickles</span>
+      <span class="badge">Ramas por investigar</span>
+    </div>
+    <header class="family-hero">
+      <div class="badge-hero">Archivo genealógico</div>
+      <h1>Otros Mickles de Lima</h1>
+      <p>Personas y familias documentadas que se conservan aparte mientras no haya pruebas suficientes para conectarlas al árbol principal.</p>
+    </header>
+    <div class="reference-intro">
+      <p>El tronco principal es la familia de Julio Mickle Bedoya, hijo de Thomas Le Guen y María Leocadia Bedoya Gago, reconocido por Enrique Mickle. Las relaciones de esta sección no se dibujan en ese genograma ni se presentan como parentescos confirmados.</p>
+      <p>Las ramas marcadas como resueltas o probables ya se trasladaron al árbol principal; aquí se conservan como notas de procedencia y no se duplican como personas.</p>
+    </div>
+    <div class="other-tree-list" id="other-tree-list" aria-live="polite"><p class="other-tree-empty">Cargando árboles familiares…</p></div>
+    <details class="other-source-notes">
+      <summary>Notas de investigación originales</summary>
+      <div class="reference-list">
+      <details class="reference-entry">
+        <summary><span>Francisco Mickle Martínez y descendencia</span><span class="reference-status">Sin conexión confirmada</span></summary>
+        <div class="reference-content">
+          <p><strong>Francisco Mickle Martínez</strong> nació el 10 de octubre de 1926 en Lima y falleció el 22 de agosto de 2007 en Lima, a los 80 años. En Ancestry figuran sus padres como desconocidos.</p>
+          <h3>Uniones e hijos</h3>
+          <ul>
+            <li>Con <strong>Norma Ramos Bravo</strong>: Susana Mercedes Mickle Ramos (n. 1959, Pueblo Libre/Lima) y <strong>Carlos Alberto Mickle Ramos</strong> (n. 31 dic. 1963, Lima).</li>
+            <li>Con <strong>Lola María García Olaya</strong>: Oscar Freddy Ignacio Mickle García (n. 31 jul. 1957, Lince).</li>
+            <li>Con <strong>Dolores García Olaya</strong>: Margarita Josefina Mickle García (n. 26 nov. 1948, Lima), luego «Margarita Josefina Mickle de Eléspuru».</li>
+            <li>Con <strong>Lola García</strong>: Matilde María Mickle García, luego «Matilde María Mickle de Baffigo».</li>
+            <li>Con <strong>Luz Marina/Luz Campos</strong>: Francisco Máximo Mickle Campos (n. 14 abr. 1953, Bellavista, Callao) y Fanny Cecilia Mickle Campos (n. 22 nov. 1954, Lima).</li>
+            <li>Con <strong>Felicita Sono</strong>: Zenayda Mickle Sono (n. 1944, Lima).</li>
+          </ul>
+          <h3>Descendencia de Francisco Máximo Mickle Campos</h3>
+          <ul>
+            <li>Con <strong>María del Rosario Hidalgo (de Mickle)</strong>: Melissa del Rosario Mickle Hidalgo (n. 18 feb. 1981, Miraflores) y Francisco Mickle Hidalgo (n. 3 abr. 1984, Miraflores).</li>
+            <li>Con <strong>María del Pilar Arce Espinoza</strong>: Alejandra Mickle Arce (n. 15 abr. 1987, Miraflores).</li>
+          </ul>
+          <h3>Descendencia de Carlos Alberto Mickle Ramos</h3>
+          <p>Con <strong>Irma Mendoza Salhuana</strong>: Karla Patricia Mickle Mendoza (n. 5 abr. 1994, Santiago de Surco).</p>
+          <h3>Descendencia de Margarita Josefina Mickle de Eléspuru</h3>
+          <p>Con <strong>Roberto Javier Eléspuru Grau/Gran</strong>: Carlo Javier Eléspuru Mickle (n. 17 may. 1982, Miraflores) y Grace Charvell Eléspuru Mickle (n. 11 jul. 1978, San Juan de Miraflores).</p>
+          <h3>Descendencia de Matilde María Mickle de Baffigo</h3>
+          <p>Con <strong>Ramón Baffigo Avilés</strong>: Álvaro Ramón Baffigo Mickle (n. 23 feb. 1974, Miraflores).</p>
+        </div>
+      </details>
+
+      <details class="reference-entry">
+        <summary><span>Santiago Mickle y la familia Loza</span><span class="reference-status">Sin conexión confirmada</span></summary>
+        <div class="reference-content">
+          <p><strong>Santiago Mickle</strong> y <strong>Rosa Loza</strong> tuvieron a:</p>
+          <ul>
+            <li>Santiago Alejandro Mickle Loza (n. 9 jul. 1953, La Victoria).</li>
+            <li>Doris Mickle Loza (n. 11 abr. 1957, Lima).</li>
+            <li>Juan Alberto Mickle Loza.</li>
+          </ul>
+          <p><strong>Doris Mickle Loza</strong>, con <strong>Julio Benigno Coral Vilcariño</strong>, tuvo a Samuel David Coral Mickle (n. 23 may. 1976, Lima) y Antonio Coral Mickle (n. 22 feb. 1985, Lima).</p>
+          <p class="reference-caution"><strong>Doris Mickle (de Carrillo) parece ser otra persona.</strong> Con Benigno Félix Carrillo Gonzáles tuvo a Joe Michaél Carrillo Mickle (n. 22 may. 1972, Lima). No se considera que sea Doris Mickle Loza, nacida en 1957: habría tenido 15 años en 1972.</p>
+        </div>
+      </details>
+
+      <details class="reference-entry">
+        <summary><span>Roberto Calderón y Martha Mickle Rojas</span><span class="reference-status">Sin conexión confirmada</span></summary>
+        <div class="reference-content">
+          <p><strong>Roberto Calderón (Zipacti/Tipacti)</strong> y <strong>Martha Mickle Rojas (de Calderón)</strong> aparecen como padres de:</p>
+          <ul>
+            <li>Liliana Mónica Martha Calderón Mickle.</li>
+            <li>Patricia Cecilia Elsa Calderón Mickle (n. 9 abr. 1964, Pueblo Libre).</li>
+            <li>Mariella Jéssica Calderón Mickle (n. 30 mar. 1968, Jesús María).</li>
+            <li>Lourdes Teresa (Ingrid) Calderón Mickle.</li>
+          </ul>
+          <h3>Nietos</h3>
+          <ul>
+            <li>Liliana Mónica Martha Calderón Mickle, con <strong>Andrés Guillermo Mercier Gago</strong>: André Mercier Calderón.</li>
+            <li>Lourdes Teresa Calderón Mickle, con <strong>Eduardo Guillermo Lozada Frías</strong>: Andrea Patricia y Eduardo Arturo Lozada Calderón.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="reference-entry">
+        <summary><span>Otras ramas y registros aislados</span><span class="reference-status">Vínculos por investigar</span></summary>
+        <div class="reference-content">
+          <ul>
+            <li><strong>Julio Mickle</strong> (posiblemente distinto del patriarca), con Leonor Rodríguez: Félix Mickle Rodríguez y Victoria Vilma Mickle Rodríguez. Un registro similar nombra a «Gastón Mickle» como padre; podría ser una confusión con Gastón Mickle Galarza o tratarse de otro Gastón/Julio Mickle.</li>
+            <li><strong>Alberto Mickle (Nuevo)</strong>, con Beatriz Nuevo: Juan Mickle Nuevo (n. 27 may. 1929, Lima). Posible relación con Alberto Mickle Galarza (1900–1943), no confirmada.</li>
+            <li><strong>Alberto Mickle G.G.</strong>, con Victoria Nuevo: Santiago Julio Mickle Nuevo Nuevo.</li>
+            <li><strong>Alejandro Mickle Rojas</strong>, con Marta Rojas: Martha Ruth Teresa Mickle Rojas.</li>
+            <li><strong>Emibia Mickle (Nuevo)</strong>, con Fernando León Sarmiento: Carlos Fernando León Mickle (n. 5 feb. 1954, Lima).</li>
+            <li><strong>Julia Mickle Ramos</strong>, con Víctor Fernández Díaz: Nancy Guadalupe Fernández Mickle.</li>
+            <li><strong>Ángela Fernández Mickle</strong>, con Víctor Fernández Díaz: Fermín Fernández Fernández. Posible parentesco con Julia Mickle Ramos; no está aclarado que compartan pareja.</li>
+            <li><strong>Beatriz Mickle</strong>, con Pedro Torres: José Pedro Fernández.</li>
+            <li><strong>Clarence Rodolfo Mickley Rojas</strong> (apellido terminado en «y», posiblemente otra familia): con Julia Elena Lázaro Aguilar tuvo a María Elena Mickley Lázaro (n. 23 oct. 1971); con Ana María Polo (Erazo), a Renzo Mickley Polo (n. 11 ene. 1985) y Lorena Mickley Polo (n. 20 ene. 1994).</li>
+            <li><strong>Adela Edith Pérez Mickle</strong>, con varias uniones: Sandra Sofía Rossi Pérez (con Giovanni Bruno Rossi Spelucín) y José Miguel Velazco Pérez (con Raymundo Velazco Zúñiga). «Mickle» aparece como segundo apellido de su madre; no hay más datos de esa línea.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="reference-entry">
+        <summary><span>Ramas trasladadas al genograma principal</span><span class="reference-status">Resueltas o probables</span></summary>
+        <div class="reference-content">
+          <p>Estos apuntes se conservan aquí para explicar su procedencia; las personas y ramas ya aparecen en el genograma principal.</p>
+          <h3>Tarcila Mickle Gonzáles · conexión confirmada</h3>
+          <p>Por testimonio de Martha, bisnieta de Julio Fermín Mickle Galarza, se confirmó que Tarcila es la cuarta hija de <strong>Julio Fermín Mickle Galarza</strong> y <strong>Luisa Angélica Gonzáles Ríos</strong>. Es hermana de Julio Marcial, Marcos Fermín y Alejandrina Herminia. Su rama con <strong>Humberto Guzmán Vorsas</strong> y sus cinco hijos ya se trasladó al árbol principal.</p>
+          <h3>Paula Elvisa Mickle Ramírez · conexión confirmada</h3>
+          <p>Hija de <strong>Gastón Félix Mickle Galarza</strong> y <strong>Esperanza Ramírez Hernández</strong>; es la decimotercera hermana del grupo. Su rama con <strong>Carlos Ramírez Zegarra</strong>, sus tres hijos y un nieto ya está en el genograma principal.</p>
+          <h3>Herminio Mickle · conexión probable</h3>
+          <p>Se propone que el Herminio mencionado en estas ramas sea <strong>Herminio Mickle Galarza (1904–1996)</strong>. El bautismo de Andrés Herminio fue en San Marcelo, parroquia usada por la familia de Julio Fermín, y las fechas son compatibles. Ambas ramas se trasladaron tentativamente al árbol principal con marca de probabilidad; la conexión aún no está confirmada.</p>
+          <ul>
+            <li><strong>Eustaquia Mickle Martínez</strong>, hija atribuida a Herminio Mickle y Ana Martínez, aparece en una rama con varias uniones. Con <strong>Gastón (Guillermo) Bustamante Marillo/Murillo</strong>: Guillermo Carlos Bustamante Mickle (n. 7 abr. 1960, Lima) y Jaime Gastón Bustamante Mickle (n. 26 abr. 1966, Lima). En el registro de Guillermo, la madre figura como «Ángela Mickle» y el padre como «Gastón Guillermo Bustamante Murillo»; en el de Jaime aparecen «Eustaquia Mickle Martínez» y «Gastón Bustamante Marillo». Son nombres paternos casi idénticos; Ángela/Eustaquia podría ser la misma mujer, pero la diferencia queda anotada.</li>
+            <li>Con <strong>Luis Pérez (Escudero)</strong>: Ana Herminia Pérez Mickle (n. 24 dic. 1953, Lima), quien aparece con Ricardo Alfredo Ballesteros/Enrique Montiel Valenzuela y sus hijas Carmela, Lorena y Claudia Reyes Pérez; y Luis Ángel Pérez Mickle (n. 1 oct. 1956, Lima), quien aparece con María Mirtha Esperanza Arangurí Bellido y sus hijos Luis, Natalie y Fiorella Pérez Arangurí.</li>
+            <li><strong>Andrés Herminio Mickle Bravo</strong>, con <strong>Mercedes Bravo</strong>, aparece como hijo de Herminio. Con <strong>Ana María Dávila</strong> tuvo a Sandra Paola Mickle Dávila (n. 24 nov. 1976, Jesús María) y Erika Vanessa Mickle Dávila (n. 4 may. 1975, Jesús María).</li>
+          </ul>
+          <h3>Félix Mickle Rodríguez · conexión confirmada</h3>
+          <p>Hijo de <strong>Gastón Félix Mickle Galarza</strong> y <strong>Leonor Rodríguez</strong>, de una unión distinta a la de Esperanza Ramírez Hernández. Con <strong>Hipólita Clementina Salguero</strong> tuvo a Manuel Paul, Félix Martín y Luis Enrique; la rama y varios nietos ya se integraron al árbol principal.</p>
+        </div>
+      </details>
+
+      <details class="reference-entry">
+        <summary><span>Notas generales y pistas para investigar</span><span class="reference-status">Fuentes pendientes</span></summary>
+        <div class="reference-content">
+          <p>Los registros comparten lugares como Pueblo Libre, Jesús María y Miraflores, especialmente para nacimientos de 1950 a 1980. Esto puede sugerir que varias familias Mickle convivieron en los mismos distritos, pero no confirma un antepasado común.</p>
+          <p>Las actas de nacimiento de los fundadores de rama —Francisco Mickle Martínez, Santiago Mickle, Martha Mickle Rojas, Julio Mickle y Leonor Rodríguez, entre otros— podrían revelar a sus padres y aclarar si son hijos de Julio Mickle Bedoya o de otra familia Mickle. Las ramas Tarcila, Paula Elvisa, Herminio y Félix ya tienen las conexiones indicadas arriba, con el grado de certeza señalado.</p>
+          <p>Este archivo puede ampliarse a medida que aparezcan registros civiles, parroquiales o testimonios que aclaren las relaciones.</p>
+        </div>
+      </details>
+      </div>
+    </details>
+  </div>
+</section>
+
 <div class="modal-backdrop" id="modal-backdrop">
   <div class="modal" id="modal"></div>
 </div>
@@ -934,8 +1140,9 @@ zelie:{n:'Zélie Dubosq',s:'F',d:'s. XIX',nac:'siglo XIX',fall:'',f:'🇫🇷',d
 joaquin:{n:'Joaquín Bedoya',s:'M',d:'s. XIX',nac:'siglo XIX',fall:'',f:'🇵🇪',dec:1,gen:1,x:640,y:R1},
 gago:{n:'[?] Gago',s:'F',d:'s. XIX',nac:'siglo XIX',fall:'',f:'🇵🇪',dec:1,gen:1,x:810,y:R1},
 pedro:{n:'Pedro de la Vera',s:'M',d:'n. 1751',nac:'1751',fall:'',f:'🇪🇨',dec:1,gen:1,x:1240,y:R1},
-thomas:{n:'Thomas Le Guen',s:'M',d:'1835–1882',nac:'1835',fall:'1882',f:'🇫🇷',dec:1,gen:2,x:60,y:R2},
+thomas:{n:'Thomas Le Guen',aliases:'Tomasa Leguen; Leguin',s:'M',d:'1835–1882',nac:'1835',fall:'1882',f:'🇫🇷',dec:1,gen:2,x:60,y:R2},
 leocadia:{n:'María Leocadia Bedoya',s:'F',d:'9 dic. 1839 – 27 may. 1903',nac:'9 dic. 1839',fall:'27 may. 1903',f:'🇵🇪',dec:1,gen:2,x:230,y:R2},
+leocadiatwin:{n:'Hermana gemela de María Leocadia',notes:'Nombre propio desconocido; gemela según la carta de Patrick Vernerie.',s:'F',d:'n. 9 dic. 1839 · identidad por confirmar',nac:'9 dic. 1839',fall:'',f:'🇵🇪',dec:0,estado:'Sin dato',gen:2,x:570,y:R2},
 casimira:{n:'María Casimira de la Vera',s:'F',d:'1775 – 11 jul. 1863',nac:'1775',fall:'11 jul. 1863',f:'🇪🇨',dec:1,gen:2,x:1240,y:R2},
 morla:{n:'José Morla López',s:'M',d:'f. 20 dic. 1847',nac:'',fall:'20 dic. 1847',f:'🇪🇸',dec:1,gen:2,x:1410,y:R2},
 julio:{n:'Julio Mickle Bedoya',s:'M',d:'n. 1867',nac:'1867',fall:'',f:'🇵🇪',dec:1,gen:3,x:230,y:R3,head:1},
@@ -1059,12 +1266,15 @@ Object.assign(P,{
   eustaquia:{n:'Eustaquia Mickle Martínez *',s:'F',d:'s. XX',nac:'',fall:'',f:'🇵🇪',dec:0,gen:5,x:5160,y:R5},
   juanmicklenuevo:{n:'Juan Mickle Nuevo *',s:'M',d:'27 may. 1929 – 11 sept. 2003',nac:'27 may. 1929',fall:'11 sept. 2003',f:'🇵🇪',dec:1,gen:5,x:5330,y:R5},
   santiagomicklenuevo:{n:'Santiago Julio Mickle Nuevo Nuevo *',s:'M',d:'matr. 20 sept. 1987',nac:'',fall:'',f:'🇵🇪',dec:0,gen:5,x:5500,y:R5},
-  mercedesvernerie:{n:'Mercedes (Vernerie)',s:'F',d:'1935–2019',nac:'1935',fall:'2019',f:'🇫🇷',dec:1,gen:5,x:5670,y:R5},
-  jeanpierrevernerie:{n:'Jean-Pierre Vernerie',s:'M',d:'s. XX',nac:'',fall:'',f:'🇫🇷',dec:0,gen:5,x:5840,y:R5},
+  mercedesvernerie:{n:'Mercédès Courtade-Le Guen',aliases:'Mercedes (Vernerie)',s:'F',d:'1935–2019',nac:'1935',fall:'2019',f:'🇫🇷',dec:1,gen:5,x:5670,y:R5},
+  jeanpierrevernerie:{n:'Jean-Pierre Vernerie',s:'M',d:'f. 2019',nac:'',fall:'2019',f:'🇫🇷',dec:1,gen:5,x:5840,y:R5},
   dannygraw:{n:'Danny Graw Galarza Mickle',s:'M',d:'n. 4 dic. 1969',nac:'4 dic. 1969',fall:'',f:'🇵🇪',dec:0,gen:6,x:4610,y:R6},
   johnpaul:{n:'John Paul Galarza Miekle',s:'M',d:'n. 17 jul. 1972',nac:'17 jul. 1972',fall:'',f:'🇵🇪',dec:0,gen:6,x:4780,y:R6},
   peterwilliam:{n:'Peter William Galarza Mickle',s:'M',d:'n. 27 dic. 1973',nac:'27 dic. 1973',fall:'',f:'🇵🇪',dec:0,gen:6,x:4950,y:R6},
-  patrickvernerie:{n:'Patrick Vernerie',s:'M',d:'n. 1962 · Royan, Francia',nac:'1962',fall:'',f:'🇫🇷',dec:0,gen:6,x:5120,y:R6},
+  patrickvernerie:{n:'Patrick Vernerie',siblings:['martinevernerie','veroniquevernerie'],s:'M',d:'23 jun. 1962 · Arès, Francia',nac:'23 jun. 1962',fall:'',f:'🇫🇷',dec:0,gen:6,x:5120,y:R6},
+  martinevernerie:{n:'Martine',siblings:['patrickvernerie','veroniquevernerie'],notes:'Hermana de Patrick Vernerie; apellido no indicado en la carta.',s:'F',d:'n. 1957',nac:'1957',fall:'',f:'🇫🇷',dec:0,gen:6,x:5290,y:R6},
+  patriciavernerie:{n:'Patricia',notes:'Esposa de Patrick Vernerie; apellido no indicado en la carta.',s:'F',d:'f. 2025',nac:'',fall:'2025',f:'🇫🇷',dec:1,gen:6,x:5460,y:R6},
+  veroniquevernerie:{n:'Véronique',siblings:['patrickvernerie','martinevernerie'],notes:'Hermana de Patrick Vernerie; apellido no indicado en la carta.',s:'F',d:'n. 1963',nac:'1963',fall:'',f:'🇫🇷',dec:0,gen:6,x:5630,y:R6},
   yannvernerie:{n:'Yann Vernerie',s:'M',d:'s. XXI',nac:'',fall:'',f:'🇫🇷',dec:0,gen:7,x:2780,y:R7},
   camillevernerie:{n:'Camille Vernerie',s:'F',d:'s. XXI',nac:'',fall:'',f:'🇫🇷',dec:0,gen:7,x:2950,y:R7}
 });
@@ -1083,12 +1293,12 @@ const MARRIAGES = [
   ['julioc','zenovia','m'],['hugom','hilda','m'],['rosam','juliom','m'],
   ['thomas','mercedesguerra','m'],['leocadia','enriquemickle','m'],
   ['rosagonzalez','julio','u'],['julialeguen','jeanmariecourtade','m'],
-  ['mercedesvernerie','jeanpierrevernerie','m'],['pedroM','juliajimenez','m'],
+  ['mercedesvernerie','jeanpierrevernerie','m'],['patrickvernerie','patriciavernerie','m'],['pedroM','juliajimenez','m'],
   ['herminio','consuelo','m'],['juliofermin','luisaangelica','m'],
   ['anaclaudia','grau','m']
 ];
 const PARENT_CHILD = [
-  {p:['simon','zelie'],k:['thomas']},{p:['joaquin','gago'],k:['leocadia']},
+  {p:['simon','zelie'],k:['thomas']},{p:['joaquin','gago'],k:['leocadia','leocadiatwin']},
   {p:['pedro'],k:['casimira']},{p:['casimira','morla'],k:['angelaramona']},
   {p:['angelaramona','lizandro'],k:['angelica']},{p:['thomas','leocadia'],k:['julio']},
   {p:['julio','angelica'],k:['enrique','eduardo','juliopablo','gaston','pedroM','herminio','alberto','juliofermin']},
@@ -1118,6 +1328,7 @@ const PARENT_CHILD = [
   {p:['julialeguen','jeanmariecourtade'],k:['henriettecourtade']},
   {p:['henriettecourtade'],k:['mercedesvernerie']},
   {p:['mercedesvernerie','jeanpierrevernerie'],k:['patrickvernerie']},
+  {p:['mercedesvernerie'],k:['martinevernerie','veroniquevernerie']},
   {p:['patrickvernerie'],k:['yannvernerie','camillevernerie']},
   {p:['julio','rosagonzalez'],k:['manuelmicklegonzalez','gregoriaelvira']},
   {p:['pedroM','juliajimenez'],k:['anaclaudia']},
@@ -1141,6 +1352,123 @@ PARENT_CHILD.push(
   {p:['herminio'],k:['andresherminio','eustaquia']},
   {p:['alberto'],k:['juanmicklenuevo','santiagomicklenuevo']}
 );
+
+const OTHER_PEOPLE = {
+  francisco_martinez:{n:'Francisco Mickle Martínez',d:'10 oct. 1926 – 22 ago. 2007 · Lima',note:'Padres desconocidos en Ancestry.'},
+  norma_ramos:{n:'Norma Ramos Bravo'},susana_mickle_ramos:{n:'Susana Mercedes Mickle Ramos',d:'n. 1959 · Pueblo Libre, Lima'},
+  carlos_alberto_mickle_ramos:{n:'Carlos Alberto Mickle Ramos',d:'31 dic. 1963 · Lima'},irma_mendoza:{n:'Irma Mendoza Salhuana'},
+  karla_mickle_mendoza:{n:'Karla Patricia Mickle Mendoza',d:'5 abr. 1994 · Santiago de Surco'},
+  lola_maria_garcia:{n:'Lola María García Olaya'},oscar_mickle_garcia:{n:'Oscar Freddy Ignacio Mickle García',d:'31 jul. 1957 · Lince'},
+  dolores_garcia:{n:'Dolores García Olaya'},margarita_mickle_garcia:{n:'Margarita Josefina Mickle García',d:'26 nov. 1948 · Lima',aliases:'Margarita Josefina Mickle de Eléspuru'},
+  roberto_elespuru:{n:'Roberto Javier Eléspuru Grau/Gran'},carlo_elespuru_mickle:{n:'Carlo Javier Eléspuru Mickle',d:'17 may. 1982 · Miraflores'},
+  grace_elespuru_mickle:{n:'Grace Charvell Eléspuru Mickle',d:'11 jul. 1978 · San Juan de Miraflores'},
+  lola_garcia:{n:'Lola García'},matilde_mickle_garcia:{n:'Matilde María Mickle García',aliases:'Matilde María Mickle de Baffigo'},
+  ramon_baffigo:{n:'Ramón Baffigo Avilés'},alvaro_baffigo_mickle:{n:'Álvaro Ramón Baffigo Mickle',d:'23 feb. 1974 · Miraflores'},
+  luz_campos:{n:'Luz Marina/Luz Campos',note:'El registro presenta ambas variantes del nombre.'},
+  francisco_maximo_mickle:{n:'Francisco Máximo Mickle Campos',d:'14 abr. 1953 · Bellavista, Callao'},
+  fanny_mickle_campos:{n:'Fanny Cecilia Mickle Campos',d:'22 nov. 1954 · Lima'},felicita_sono:{n:'Felicita Sono'},
+  zenayda_mickle_sono:{n:'Zenayda Mickle Sono',d:'n. 1944 · Lima'},maria_rosario_hidalgo:{n:'María del Rosario Hidalgo (de Mickle)'},
+  melissa_mickle_hidalgo:{n:'Melissa del Rosario Mickle Hidalgo',d:'18 feb. 1981 · Miraflores'},
+  francisco_mickle_hidalgo:{n:'Francisco Mickle Hidalgo',d:'3 abr. 1984 · Miraflores'},
+  maria_pilar_arce:{n:'María del Pilar Arce Espinoza'},alejandra_mickle_arce:{n:'Alejandra Mickle Arce',d:'15 abr. 1987 · Miraflores'},
+  santiago_mickle:{n:'Santiago Mickle',note:'Identidad y fechas pendientes de confirmar.'},rosa_loza:{n:'Rosa Loza'},
+  santiago_alejandro_loza:{n:'Santiago Alejandro Mickle Loza',d:'9 jul. 1953 · La Victoria'},
+  doris_mickle_loza:{n:'Doris Mickle Loza',d:'11 abr. 1957 · Lima'},juan_alberto_loza:{n:'Juan Alberto Mickle Loza'},
+  julio_coral:{n:'Julio Benigno Coral Vilcariño'},samuel_coral_mickle:{n:'Samuel David Coral Mickle',d:'23 may. 1976 · Lima'},
+  antonio_coral_mickle:{n:'Antonio Coral Mickle',d:'22 feb. 1985 · Lima'},
+  doris_carrillo:{n:'Doris Mickle (de Carrillo)',note:'Persona distinta de Doris Mickle Loza; la cronología no coincide.'},
+  benigno_carrillo:{n:'Benigno Félix Carrillo Gonzáles'},joe_carrillo_mickle:{n:'Joe Michaél Carrillo Mickle',d:'22 may. 1972 · Lima'},
+
+  roberto_calderon:{n:'Roberto Calderón (Zipacti/Tipacti)'},martha_mickle_rojas:{n:'Martha Mickle Rojas (de Calderón)'},
+  liliana_calderon_mickle:{n:'Liliana Mónica Martha Calderón Mickle'},
+  patricia_calderon_mickle:{n:'Patricia Cecilia Elsa Calderón Mickle',d:'9 abr. 1964 · Pueblo Libre'},
+  mariella_calderon_mickle:{n:'Mariella Jéssica Calderón Mickle',d:'30 mar. 1968 · Jesús María'},
+  lourdes_calderon_mickle:{n:'Lourdes Teresa (Ingrid) Calderón Mickle'},
+  andres_mercier:{n:'Andrés Guillermo Mercier Gago'},andre_mercier_calderon:{n:'André Mercier Calderón'},
+  eduardo_lozada:{n:'Eduardo Guillermo Lozada Frías'},andrea_lozada_calderon:{n:'Andrea Patricia Lozada Calderón'},
+  eduardo_arturo_lozada:{n:'Eduardo Arturo Lozada Calderón'},
+  ana_martinez:{n:'Ana Martínez'},
+  gaston_bustamante:{n:'Gastón (Guillermo) Bustamante Marillo/Murillo',note:'Los registros varían entre Gastón Guillermo Bustamante Murillo y Gastón Bustamante Marillo.'},
+  guillermo_bustamante_mickle:{n:'Guillermo Carlos Bustamante Mickle',d:'7 abr. 1960 · Lima',note:'En su registro la madre figura como Ángela Mickle.'},
+  jaime_bustamante_mickle:{n:'Jaime Gastón Bustamante Mickle',d:'26 abr. 1966 · Lima'},
+  luis_perez:{n:'Luis Pérez (Escudero)'},ana_herminia_perez:{n:'Ana Herminia Pérez Mickle',d:'24 dic. 1953 · Lima'},
+  ballesteros_montiel:{n:'Ricardo Alfredo Ballesteros / Enrique Montiel Valenzuela',note:'El documento conserva ambas variantes del nombre.'},
+  carmela_reyes_perez:{n:'Carmela Reyes Pérez'},lorena_reyes_perez:{n:'Lorena Reyes Pérez'},claudia_reyes_perez:{n:'Claudia Reyes Pérez'},
+  luis_angel_perez:{n:'Luis Ángel Pérez Mickle',d:'1 oct. 1956 · Lima'},
+  maria_mirtha_aranguri:{n:'María Mirtha Esperanza Arangurí Bellido'},luis_perez_aranguri:{n:'Luis Pérez Arangurí'},
+  natalie_perez_aranguri:{n:'Natalie Pérez Arangurí'},fiorella_perez_aranguri:{n:'Fiorella Pérez Arangurí'},
+  mercedes_bravo:{n:'Mercedes Bravo'},ana_maria_davila:{n:'Ana María Dávila'},
+  sandra_mickle_davila:{n:'Sandra Paola Mickle Dávila',d:'24 nov. 1976 · Jesús María'},
+  erika_mickle_davila:{n:'Erika Vanessa Mickle Dávila',d:'4 may. 1975 · Jesús María'},
+
+  julio_mickle_unlinked:{n:'Julio Mickle (identidad por confirmar)',note:'Podría ser distinto de Julio Mickle Bedoya. Un registro similar menciona a Gastón Mickle como padre; no se ha aclarado si es una variante o una persona distinta.'},
+  alberto_mickle_nuevo:{n:'Alberto Mickle (Nuevo)'},beatriz_nuevo:{n:'Beatriz Nuevo'},
+  alberto_mickle_gg:{n:'Alberto Mickle G.G.'},victoria_nuevo:{n:'Victoria Nuevo'},
+  alejandro_mickle_rojas:{n:'Alejandro Mickle Rojas'},marta_rojas:{n:'Marta Rojas'},
+  martha_ruth_mickle_rojas:{n:'Martha Ruth Teresa Mickle Rojas'},emibia_mickle_nuevo:{n:'Emibia Mickle (Nuevo)'},
+  fernando_leon:{n:'Fernando León Sarmiento'},carlos_leon_mickle:{n:'Carlos Fernando León Mickle',d:'5 feb. 1954 · Lima'},
+  julia_mickle_ramos:{n:'Julia Mickle Ramos'},victor_fernandez_julia:{n:'Víctor Fernández Díaz',note:'Figura como pareja de Julia Mickle Ramos en un registro.'},
+  nancy_fernandez_mickle:{n:'Nancy Guadalupe Fernández Mickle'},
+  angela_fernandez_mickle:{n:'Ángela Fernández Mickle'},victor_fernandez_angela:{n:'Víctor Fernández Díaz',note:'Figura como pareja de Ángela Fernández Mickle en otro registro; no está aclarado si es el mismo Víctor.'},
+  fermin_fernandez:{n:'Fermín Fernández Fernández',note:'El registro no aclara el vínculo con Julia Mickle Ramos.'},
+  beatriz_mickle:{n:'Beatriz Mickle'},pedro_torres:{n:'Pedro Torres'},jose_pedro_fernandez:{n:'José Pedro Fernández'},
+  clarence_mickley:{n:'Clarence Rodolfo Mickley Rojas',note:'El apellido aparece con «y» final; podría tratarse de otra familia.'},
+  julia_lazaro:{n:'Julia Elena Lázaro Aguilar'},maria_elena_mickley:{n:'María Elena Mickley Lázaro',d:'23 oct. 1971'},
+  ana_polo:{n:'Ana María Polo (Erazo)'},renzo_mickley:{n:'Renzo Mickley Polo',d:'11 ene. 1985'},lorena_mickley:{n:'Lorena Mickley Polo',d:'20 ene. 1994'},
+  adela_perez_mickle:{n:'Adela Edith Pérez Mickle',note:'Mickle aparece como segundo apellido de su madre; no hay más datos de esa línea.'},
+  giovanni_rossi:{n:'Giovanni Bruno Rossi Spelucín'},sandra_rossi_perez:{n:'Sandra Sofía Rossi Pérez'},
+  raymundo_velazco:{n:'Raymundo Velazco Zúñiga'},jose_miguel_velazco:{n:'José Miguel Velazco Pérez'}
+};
+
+const OTHER_BRANCHES = [
+  {title:'Francisco Mickle Martínez',status:'Sin conexión confirmada',root:'francisco_martinez',units:[
+    {partner:'norma_ramos',children:[{id:'susana_mickle_ramos'},{id:'carlos_alberto_mickle_ramos',families:[{partner:'irma_mendoza',children:['karla_mickle_mendoza']}]}]},
+    {partner:'lola_maria_garcia',children:['oscar_mickle_garcia']},
+    {partner:'dolores_garcia',children:[{id:'margarita_mickle_garcia',families:[{partner:'roberto_elespuru',children:['carlo_elespuru_mickle','grace_elespuru_mickle']}]}]},
+    {partner:'lola_garcia',children:[{id:'matilde_mickle_garcia',families:[{partner:'ramon_baffigo',children:['alvaro_baffigo_mickle']}]}]},
+    {partner:'luz_campos',children:[{id:'francisco_maximo_mickle',families:[
+      {partner:'maria_rosario_hidalgo',children:['melissa_mickle_hidalgo','francisco_mickle_hidalgo']},
+      {partner:'maria_pilar_arce',children:['alejandra_mickle_arce']}
+    ]},{id:'fanny_mickle_campos'}]},
+    {partner:'felicita_sono',children:['zenayda_mickle_sono']}
+  ]},
+  {title:'Santiago Mickle y la familia Loza',status:'Sin conexión confirmada',root:'santiago_mickle',units:[
+    {partner:'rosa_loza',children:[{id:'santiago_alejandro_loza'},{id:'doris_mickle_loza',families:[{partner:'julio_coral',children:['samuel_coral_mickle','antonio_coral_mickle']}]},{id:'juan_alberto_loza'}]}
+  ]},
+  {title:'Doris Mickle (de Carrillo)',status:'Identidad separada de Doris Loza',root:'doris_carrillo',units:[
+    {partner:'benigno_carrillo',children:['joe_carrillo_mickle']}
+  ]},
+  {title:'Roberto Calderón y Martha Mickle Rojas',status:'Sin conexión confirmada',couple:['roberto_calderon','martha_mickle_rojas'],children:[
+    {id:'liliana_calderon_mickle',families:[{partner:'andres_mercier',children:['andre_mercier_calderon']}]},
+    {id:'patricia_calderon_mickle'},{id:'mariella_calderon_mickle'},
+    {id:'lourdes_calderon_mickle',families:[{partner:'eduardo_lozada',children:['andrea_lozada_calderon','eduardo_arturo_lozada']}]}
+  ]},
+  {title:'Ramas asociadas a Herminio Mickle Galarza',status:'Probables; no confirmadas',root:'herminio',note:'Los registros sugieren dos uniones de Herminio; la identificación con Herminio Mickle Galarza sigue siendo tentativa.',units:[
+    {partner:'ana_martinez',children:[{main:'eustaquia',families:[
+      {partner:'gaston_bustamante',children:['guillermo_bustamante_mickle','jaime_bustamante_mickle']},
+      {partner:'luis_perez',children:[
+        {id:'ana_herminia_perez',families:[{partner:'ballesteros_montiel',children:['carmela_reyes_perez','lorena_reyes_perez','claudia_reyes_perez']}]},
+        {id:'luis_angel_perez',families:[{partner:'maria_mirtha_aranguri',children:['luis_perez_aranguri','natalie_perez_aranguri','fiorella_perez_aranguri']}]}
+      ]}
+    ]}]},
+    {partner:'mercedes_bravo',children:[{main:'andresherminio',families:[{partner:'ana_maria_davila',children:['sandra_mickle_davila','erika_mickle_davila']}]}]}
+  ]},
+  {title:'Julio Mickle y Leonor Rodríguez',status:'Vínculo por investigar',couple:['julio_mickle_unlinked','leonor'],children:[{main:'felix'},{main:'victoria'}],note:'Félix y Victoria ya están en el genograma principal. Su vínculo con este Julio no se presenta como confirmado.'},
+  {title:'Alberto Mickle (Nuevo)',status:'Posible relación no confirmada',couple:['alberto_mickle_nuevo','beatriz_nuevo'],children:[{main:'juanmicklenuevo'}],note:'Juan Mickle Nuevo aparece en el genograma principal; su posible relación con Alberto Mickle Galarza sigue sin confirmarse.'},
+  {title:'Alberto Mickle G.G.',status:'Vínculo por investigar',couple:['alberto_mickle_gg','victoria_nuevo'],children:[{main:'santiagomicklenuevo'}]},
+  {title:'Alejandro Mickle Rojas',status:'Vínculo por investigar',couple:['alejandro_mickle_rojas','marta_rojas'],children:['martha_ruth_mickle_rojas']},
+  {title:'Emibia Mickle (Nuevo)',status:'Vínculo por investigar',couple:['emibia_mickle_nuevo','fernando_leon'],children:['carlos_leon_mickle']},
+  {title:'Julia Mickle Ramos',status:'Vínculo por investigar',couple:['julia_mickle_ramos','victor_fernandez_julia'],children:['nancy_fernandez_mickle']},
+  {title:'Ángela Fernández Mickle',status:'Vínculo por investigar',couple:['angela_fernandez_mickle','victor_fernandez_angela'],children:[{id:'fermin_fernandez',note:'La relación con Julia Mickle Ramos no está aclarada.'}]},
+  {title:'Beatriz Mickle',status:'Vínculo por investigar',couple:['beatriz_mickle','pedro_torres'],children:['jose_pedro_fernandez']},
+  {title:'Clarence Rodolfo Mickley Rojas',status:'Apellido y conexión por investigar',root:'clarence_mickley',units:[
+    {partner:'julia_lazaro',children:['maria_elena_mickley']},{partner:'ana_polo',children:['renzo_mickley','lorena_mickley']}
+  ]},
+  {title:'Adela Edith Pérez Mickle',status:'Línea materna sin datos suficientes',root:'adela_perez_mickle',children:[
+    {id:'sandra_rossi_perez',families:[{partner:'giovanni_rossi'}]},
+    {id:'jose_miguel_velazco',families:[{partner:'raymundo_velazco'}]}
+  ]}
+];
 
 const root = document.documentElement;
 const languageSelect = document.getElementById('language-select');
@@ -1286,6 +1614,15 @@ const viewport = document.getElementById('viewport');
 const zoomLevel = document.getElementById('zoom-level');
 const countBadge = document.getElementById('count-badge');
 let zoom = 1;
+let photoTreeMode = false;
+let activeTreeVisibleIds = null;
+let profilePhotoUrls = new Map();
+const PHOTO_NODE_SIZE = 58;
+const PHOTO_NODE_X = (W - PHOTO_NODE_SIZE) / 2;
+
+function escapeSvgAttribute(value){
+  return String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
 const BANDS = [
   {gen:1,y:R1-20,label:'I · Raíces'},
@@ -1298,6 +1635,7 @@ const BANDS = [
 ];
 
 function renderSVG(visSet){
+  activeTreeVisibleIds = visSet ? new Set(visSet) : null;
   const isVis = visSet ? (id) => visSet.has(id) : () => true;
   const parts = [];
   const visGens = new Set();
@@ -1315,7 +1653,8 @@ function renderSVG(visSet){
     if (!isVis(a) || !isVis(b)) return;
     const pa = P[a], pb = P[b];
     const y = pa.y + H/2;
-    const x1 = pa.x + W, x2 = pb.x;
+    const x1 = pa.x + (photoTreeMode ? W/2 + PHOTO_NODE_SIZE/2 : W);
+    const x2 = pb.x + (photoTreeMode ? W/2 - PHOTO_NODE_SIZE/2 : 0);
     if (x2 > x1){
       const mx = (x1 + x2) / 2;
       if (tipo === 'a'){
@@ -1346,7 +1685,7 @@ function renderSVG(visSet){
     let mx, my;
     if (vP.length === 2){
       const pa = P[vP[0]], pb = P[vP[1]];
-      mx = (pa.x + W + pb.x) / 2;
+      mx = photoTreeMode ? (pa.x + pb.x + W) / 2 : (pa.x + W + pb.x) / 2;
       my = pa.y + H/2;
     } else {
       const pa = P[vP[0]];
@@ -1368,29 +1707,54 @@ function renderSVG(visSet){
     const p = P[id];
     const isF = p.s === 'F';
     let shape;
-    if (isF){
+    if (photoTreeMode){
+      if (isF){
+        shape = `<circle class="node-photo-frame female" cx="${W/2}" cy="${H/2}" r="${PHOTO_NODE_SIZE/2 - 1}"/>`;
+      } else {
+        shape = `<rect class="node-photo-frame" x="${PHOTO_NODE_X}" y="1" width="${PHOTO_NODE_SIZE-2}" height="${PHOTO_NODE_SIZE-2}" rx="8"/>`;
+      }
+    } else if (isF){
       shape = `<circle class="node-bg" cx="${H/2}" cy="${H/2}" r="${H/2 - 1}"/>`;
     } else {
       shape = `<rect class="node-bg" width="${W}" height="${H}" rx="8"/>`;
     }
     let cls = 'node';
     if (isF) cls += ' female';
+    if (photoTreeMode) cls += ' photo-node';
     if (p.head) cls += ' head';
     const sexSymbol = isF ? '♀' : '♂';
     const crossMark = p.dec ? `<text class="node-cross" x="${W-14}" y="23" font-size="16" font-weight="700">✝</text>` : '';
     const nombreCorto = p.n.length > 20 ? p.n.slice(0, 18) + '…' : p.n;
-    parts.push(`<g class="${cls}" data-id="${id}" transform="translate(${p.x},${p.y})">
-      ${shape}
-      <text class="node-sym" x="12" y="26" font-size="17">${sexSymbol}</text>
-      ${crossMark}
-      <text class="node-flag" x="${W-10}" y="${p.dec ? 42 : 22}" text-anchor="end">${p.f}</text>
-      <text class="node-name" x="${W/2}" y="${p.dec ? 40 : 42}" text-anchor="middle">${nombreCorto}</text>
-      <text class="node-dates" x="${W/2}" y="53" text-anchor="middle">${p.d}</text>
-    </g>`);
+    const accessibleName = escapeSvgAttribute(p.n);
+    if (photoTreeMode){
+      const clipId = `photo-clip-${id}`;
+      const clipShape = isF
+        ? `<circle cx="${W/2}" cy="${H/2}" r="${PHOTO_NODE_SIZE/2 - 2}"/>`
+        : `<rect x="${PHOTO_NODE_X+1}" y="2" width="${PHOTO_NODE_SIZE-4}" height="${PHOTO_NODE_SIZE-4}" rx="7"/>`;
+      const photoUrl = profilePhotoUrls.get(id);
+      const portrait = photoUrl
+        ? `<image class="node-photo" href="${escapeSvgAttribute(photoUrl)}" x="${PHOTO_NODE_X}" y="0" width="${PHOTO_NODE_SIZE}" height="${PHOTO_NODE_SIZE}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clipId})"/>`
+        : `<g clip-path="url(#${clipId})"><rect x="${PHOTO_NODE_X}" y="0" width="${PHOTO_NODE_SIZE}" height="${PHOTO_NODE_SIZE}" fill="${isF ? '#f3e6e7' : '#e5edf0'}"/><circle cx="${W/2}" cy="21" r="10" fill="${isF ? '#a8434f' : '#3b6ea5'}" opacity=".68"/><path d="M${W/2-19} 57c1-13 9-20 19-20s18 7 19 20" fill="${isF ? '#a8434f' : '#3b6ea5'}" opacity=".68"/></g>`;
+      parts.push(`<g class="${cls}" data-id="${id}" transform="translate(${p.x},${p.y})" role="button" tabindex="0" aria-label="Abrir ficha: ${accessibleName}">
+        <defs><clipPath id="${clipId}">${clipShape}</clipPath></defs>
+        ${portrait}<rect class="node-hit-target" x="${PHOTO_NODE_X}" y="0" width="${PHOTO_NODE_SIZE}" height="${PHOTO_NODE_SIZE}"/>${shape}
+      </g>`);
+    } else {
+      parts.push(`<g class="${cls}" data-id="${id}" transform="translate(${p.x},${p.y})" role="button" tabindex="0" aria-label="Abrir ficha: ${accessibleName}">
+        ${shape}
+        <text class="node-sym" x="12" y="26" font-size="17">${sexSymbol}</text>
+        ${crossMark}
+        <text class="node-flag" x="${W-10}" y="${p.dec ? 42 : 22}" text-anchor="end">${p.f}</text>
+        <text class="node-name" x="${W/2}" y="${p.dec ? 40 : 42}" text-anchor="middle">${nombreCorto}</text>
+        <text class="node-dates" x="${W/2}" y="53" text-anchor="middle">${p.d}</text>
+      </g>`);
+    }
   });
 
   svg.innerHTML = parts.join('');
   localizeTextTree(svg);
+  document.getElementById('tree-mode-data').setAttribute('aria-pressed', String(!photoTreeMode));
+  document.getElementById('tree-mode-photos').setAttribute('aria-pressed', String(photoTreeMode));
   if (visSet) countBadge.textContent = visSet.size + ' personas';
   else countBadge.textContent = Object.keys(P).length + ' personas';
   localizeTextTree(countBadge);
@@ -1403,6 +1767,11 @@ function conectarNodos(){
       e.stopPropagation();
       abrirFicha(node.dataset.id);
     });
+    node.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      abrirFicha(node.dataset.id);
+    });
     node.addEventListener('mouseenter', () => {
       const id = node.dataset.id;
       svg.querySelectorAll('.node').forEach(n => {
@@ -1413,6 +1782,29 @@ function conectarNodos(){
       svg.querySelectorAll('.node').forEach(n => { n.style.opacity = ''; });
     });
   });
+}
+
+document.getElementById('tree-mode-data').addEventListener('click', () => {
+  photoTreeMode = false;
+  renderSVG(activeTreeVisibleIds);
+});
+document.getElementById('tree-mode-photos').addEventListener('click', () => {
+  photoTreeMode = true;
+  renderSVG(activeTreeVisibleIds);
+});
+
+async function loadProfilePhotoUrls(){
+  if (!supabaseClient) return;
+  try{
+    const {data, error} = await supabaseClient.from('person_media')
+      .select('person_id,object_path').eq('kind', 'photo');
+    if (error) throw error;
+    const bucket = supabaseClient.storage.from(SUPABASE_BUCKET);
+    profilePhotoUrls = new Map(data
+      .filter(file => !file.person_id.startsWith('family:'))
+      .map(file => [file.person_id, bucket.getPublicUrl(file.object_path).data.publicUrl]));
+    if (photoTreeMode) renderSVG(activeTreeVisibleIds);
+  }catch(error){}
 }
 
 function applyZoom(z){
@@ -1488,6 +1880,18 @@ const PERSON_MEDIA_MAX_SIZE = 10 * 1024 * 1024;
 let personMediaDatabasePromise;
 let personMediaObjectUrls = [];
 let activeMediaPersonId = null;
+const DOCUMENT_TYPE_LABELS = {
+  birth:'Partida de nacimiento',
+  death:'Partida de defunción',
+  marriage:'Acta de matrimonio',
+  baptism:'Acta de bautismo',
+  other:'Otro documento'
+};
+
+function renderDocumentTypeOptions(){
+  return Object.entries(DOCUMENT_TYPE_LABELS)
+    .map(([value,label]) => `<option value="${value}">${label}</option>`).join('');
+}
 
 function openPersonMediaDatabase(){
   if (!window.indexedDB) return Promise.reject(new Error('IndexedDB unavailable'));
@@ -1576,6 +1980,7 @@ function renderPersonMedia(id, personName, record){
     record.documents.forEach(file => {
       const item = document.createElement('li');
       const link = document.createElement('a');
+      const type = document.createElement('span');
       const size = document.createElement('span');
       const remove = document.createElement('button');
       const url = file.url || URL.createObjectURL(file.blob);
@@ -1585,6 +1990,8 @@ function renderPersonMedia(id, personName, record){
       link.download = file.name;
       link.title = 'Abrir documento';
       link.textContent = file.name;
+      type.className = 'pc-document-type';
+      type.textContent = DOCUMENT_TYPE_LABELS[file.document_type || file.documentType || 'other'] || DOCUMENT_TYPE_LABELS.other;
       size.className = 'pc-document-size';
       size.textContent = `${(Number(file.size_bytes ?? file.blob?.size ?? 0) / 1024 / 1024).toFixed(1)} MB`;
       remove.className = 'pc-document-remove';
@@ -1594,7 +2001,7 @@ function renderPersonMedia(id, personName, record){
       remove.setAttribute('aria-label', 'Eliminar documento');
       remove.dataset.removeDocument = file.id;
       remove.hidden = SUPABASE_CONFIGURED && !supabaseSession;
-      item.append(link, size, remove);
+      item.append(link, type, size, remove);
       documentList.append(item);
     });
   }
@@ -1618,7 +2025,7 @@ async function loadSupabasePersonMedia(id){
   if (!supabaseClient) throw new Error('Supabase is not configured');
   const {data, error} = await supabaseClient
     .from('person_media')
-    .select('id,person_id,kind,object_path,file_name,mime_type,size_bytes,created_at')
+    .select('id,person_id,kind,object_path,file_name,mime_type,size_bytes,document_type,created_at')
     .eq('person_id', id)
     .order('created_at', {ascending:true});
   if (error) throw error;
@@ -1633,6 +2040,7 @@ async function loadSupabasePersonMedia(id){
       id:file.id,
       name:file.file_name,
       size_bytes:file.size_bytes,
+      document_type:file.document_type || 'other',
       object_path:file.object_path,
       url:bucket.getPublicUrl(file.object_path, {download:file.file_name}).data.publicUrl
     }))
@@ -1648,7 +2056,7 @@ async function refreshSupabasePersonMedia(id, personName){
   }
 }
 
-async function uploadSupabasePersonFile(personId, file, kind){
+async function uploadSupabasePersonFile(personId, file, kind, documentType='other'){
   const extension = (file.name.match(/\.([a-z0-9]{1,8})$/i) || [,''])[1].toLowerCase();
   const fileId = window.crypto?.randomUUID ? window.crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
   const objectPath = `${personId}/${kind}/${fileId}${extension ? '.' + extension : ''}`;
@@ -1660,7 +2068,8 @@ async function uploadSupabasePersonFile(personId, file, kind){
 
   const metadata = {
     person_id:personId,kind,object_path:objectPath,file_name:file.name,
-    mime_type:file.type || 'application/octet-stream',size_bytes:file.size
+    mime_type:file.type || 'application/octet-stream',size_bytes:file.size,
+    document_type:kind === 'document' ? documentType : 'other'
   };
   if (kind === 'photo'){
     const {data:existing, error:lookupError} = await supabaseClient.from('person_media')
@@ -1840,6 +2249,7 @@ function setupSupabasePersonMedia(id, personName){
   const authStatus = document.getElementById('person-media-auth-status');
   const photoInput = document.getElementById('person-photo-upload');
   const documentInput = document.getElementById('person-document-upload');
+  const documentTypeSelect = document.getElementById('person-document-type');
   const removePhoto = document.getElementById('person-photo-remove');
   const documentList = document.getElementById('person-documents');
   const note = document.getElementById('person-media-note');
@@ -1902,12 +2312,13 @@ function setupSupabasePersonMedia(id, personName){
 
   documentInput.addEventListener('change', async () => {
     const files = Array.from(documentInput.files);
+    const documentType = documentTypeSelect.value;
     documentInput.value = '';
     if (!files.length) return;
     documentInput.disabled = true;
     const accepted = files.filter(file => file.size <= PERSON_MEDIA_MAX_SIZE);
     try{
-      for (const file of accepted) await uploadSupabasePersonFile(id, file, 'document');
+      for (const file of accepted) await uploadSupabasePersonFile(id, file, 'document', documentType);
       if (accepted.length) await refreshSupabasePersonMedia(id, personName);
       if (accepted.length !== files.length) mostrarToast('Los documentos mayores de 10 MB se omitieron.', 'error', 4000);
     }catch(error){ mostrarToast('No se pudo guardar el archivo.', 'error', 4000); }
@@ -1954,6 +2365,7 @@ function setupPersonMedia(id, personName){
   document.getElementById('person-document-tools').hidden = false;
   const photoInput = document.getElementById('person-photo-upload');
   const documentInput = document.getElementById('person-document-upload');
+  const documentTypeSelect = document.getElementById('person-document-type');
   const removePhoto = document.getElementById('person-photo-remove');
   const documentList = document.getElementById('person-documents');
 
@@ -1979,6 +2391,7 @@ function setupPersonMedia(id, personName){
 
   documentInput.addEventListener('change', async () => {
     const files = Array.from(documentInput.files);
+    const documentType = documentTypeSelect.value;
     documentInput.value = '';
     if (!files.length) return;
     documentInput.disabled = true;
@@ -1990,6 +2403,7 @@ function setupPersonMedia(id, personName){
         record.documents.push(...accepted.map(file => ({
           id:window.crypto?.randomUUID ? window.crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
           name:file.name,
+          document_type:documentType,
           blob:file
         })));
         await savePersonMedia(record);
@@ -2034,6 +2448,10 @@ function setupPersonMedia(id, personName){
     .catch(() => mostrarToast(window.indexedDB ? 'No se pudo cargar la foto o documentos.' : 'Almacenamiento del navegador no disponible.', 'error', 4000));
 }
 
+function mediaPersonName(id){
+  return P[id]?.n || OTHER_PEOPLE[id]?.n || id;
+}
+
 function initializeSupabaseMediaAuth(){
   if (!supabaseClient) return;
   supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -2044,7 +2462,7 @@ function initializeSupabaseMediaAuth(){
     if (activeFamilyPhotoKey) refreshFamilyPhoto(activeFamilyPhotoKey);
     if (activeMediaPersonId){
       const id = activeMediaPersonId;
-      setTimeout(() => { if (activeMediaPersonId === id) refreshSupabasePersonMedia(id, P[id].n); }, 0);
+      setTimeout(() => { if (activeMediaPersonId === id) refreshSupabasePersonMedia(id, mediaPersonName(id)); }, 0);
     }
   });
   supabaseClient.auth.getSession().then(({data, error}) => {
@@ -2053,7 +2471,7 @@ function initializeSupabaseMediaAuth(){
     updateSupabaseMediaControls();
     updateFamilyPhotoControls();
     if (supabaseSession) synchronizeGenogramSnapshot();
-    if (activeMediaPersonId) refreshSupabasePersonMedia(activeMediaPersonId, P[activeMediaPersonId].n);
+    if (activeMediaPersonId) refreshSupabasePersonMedia(activeMediaPersonId, mediaPersonName(activeMediaPersonId));
   }).catch(() => {});
 }
 
@@ -2067,12 +2485,13 @@ function abrirFicha(id){
 
   const cony = [];
   MARRIAGES.forEach(([a, b]) => { if (a === id) cony.push(b); else if (b === id) cony.push(a); });
-  const padres = [];
-  PARENT_CHILD.forEach(({p: parents, k}) => { if (k.includes(id)) padres.push(...parents); });
+  const padres = new Set();
+  PARENT_CHILD.forEach(({p: parents, k}) => { if (k.includes(id)) parents.forEach(parent => padres.add(parent)); });
   const hermanos = new Set();
   PARENT_CHILD.forEach(({p: parents, k}) => { if (k.includes(id)) k.forEach(s => { if (s !== id) hermanos.add(s); }); });
-  const hijos = [];
-  PARENT_CHILD.forEach(({p: parents, k}) => { if (parents.includes(id)) hijos.push(...k); });
+  (p.siblings || []).forEach(sibling => hermanos.add(sibling));
+  const hijos = new Set();
+  PARENT_CHILD.forEach(({p: parents, k}) => { if (parents.includes(id)) k.forEach(child => hijos.add(child)); });
 
   const chipsHTML = (label, ids) => {
     if (!ids.length) return '';
@@ -2099,12 +2518,14 @@ function abrirFicha(id){
       <div class="pc-info">
         <h4>Datos</h4>
         <div class="row"><strong>Nombre:</strong> ${p.n}</div>
+        ${p.aliases ? `<div class="row"><strong>Variantes en registros:</strong> ${p.aliases}</div>` : ''}
+        ${p.notes ? `<div class="row"><strong>Nota:</strong> ${p.notes}</div>` : ''}
         <div class="row"><strong>Sexo:</strong> ${p.s === 'M' ? '♂ Varón' : '♀ Mujer'}</div>
         <div class="row"><strong>Fecha de nacimiento:</strong> ${p.nac || '—'}</div>
         ${p.dec ? `<div class="row"><strong>Fecha de fallecimiento:</strong> ${p.fall || '—'}</div>` : ''}
         ${p.pais ? `<div class="row"><strong>País:</strong> ${p.f} ${p.pais}</div>` : ''}
         <div class="row"><strong>Generación:</strong> ${p.gen}</div>
-        <div class="row"><strong>Estado:</strong> ${p.dec ? '✝ Fallecido/a' : 'Vivo/a'}</div>
+        <div class="row"><strong>Estado:</strong> ${p.estado || (p.dec ? '✝ Fallecido/a' : 'Vivo/a')}</div>
       </div>
       <div class="pc-info pc-media">
         <h4>Foto de perfil</h4>
@@ -2116,8 +2537,10 @@ function abrirFicha(id){
       <div class="pc-info pc-media">
         <h4>Documentos</h4>
         <div class="pc-media-controls pc-media-tools" id="person-document-tools">
+          <label class="pc-document-type-field">Tipo de documento<select id="person-document-type">${renderDocumentTypeOptions()}</select></label>
           <label class="pc-upload-label">Agregar documentos<input id="person-document-upload" type="file" multiple aria-label="Agregar documentos" disabled></label>
         </div>
+        <small class="pc-media-note">El tipo seleccionado se aplicará a todos los archivos de esta carga.</small>
         <ul class="pc-documents" id="person-documents" aria-live="polite"><li>Todavía no hay documentos.</li></ul>
         <small class="pc-media-note" id="person-media-note">Los archivos se guardan solo en este navegador. Cada archivo puede pesar hasta 10 MB.</small>
       </div>
@@ -2132,9 +2555,9 @@ function abrirFicha(id){
         <small class="pc-media-auth-status" id="person-media-auth-status" role="status"></small>
       </div>
       ${chipsHTML(cony.length > 1 ? 'Cónyuges' : 'Cónyuge', cony)}
-      ${chipsHTML('Padres', padres)}
+      ${chipsHTML('Padres', Array.from(padres))}
       ${chipsHTML('Hermanos', Array.from(hermanos))}
-      ${chipsHTML('Hijos', hijos)}
+      ${chipsHTML('Hijos', Array.from(hijos))}
     </div>
   `;
   localizeTextTree(modalEl);
@@ -2187,7 +2610,7 @@ document.addEventListener('keydown', event => {
 });
 
 function activityEntityName(entry){
-  if (entry.entity_type === 'person') return P[entry.entity_id]?.n || entry.entity_name || 'Persona';
+  if (entry.entity_type === 'person') return P[entry.entity_id]?.n || OTHER_PEOPLE[entry.entity_id]?.n || entry.entity_name || 'Persona';
   if (entry.entity_type === 'family') return VIEW_META[entry.entity_id]?.name || entry.entity_name || 'Familia';
   return entry.entity_name || 'Genograma familiar';
 }
@@ -2247,8 +2670,8 @@ async function synchronizeGenogramSnapshot(){
   const people = {};
   Object.entries(P).forEach(([id, person]) => {
     people[id] = {
-      name:person.n,sex:person.s,dates:person.d,birth:person.nac || '',death:person.fall || '',
-      country:person.pais || '',flag:person.f || '',generation:person.gen,deceased:Boolean(person.dec)
+      name:person.n,aliases:person.aliases || '',notes:person.notes || '',siblings:person.siblings || [],sex:person.s,dates:person.d,birth:person.nac || '',death:person.fall || '',
+      country:person.pais || '',flag:person.f || '',generation:person.gen,deceased:Boolean(person.dec),status:person.estado || ''
     };
   });
   const snapshot = {
@@ -2268,12 +2691,20 @@ async function synchronizeGenogramSnapshot(){
 
 const viewTree = document.getElementById('view-tree');
 const viewFamily = document.getElementById('view-family');
+const viewReferences = document.getElementById('view-references');
 
 function mostrarVistaArbol(){
   viewFamily.classList.remove('is-active');
+  viewReferences.classList.remove('is-active');
   viewTree.classList.add('is-active');
   window.scrollTo({top: 0, behavior: 'auto'});
   setTimeout(fitToView, 60);
+}
+function mostrarVistaReferencias(){
+  viewTree.classList.remove('is-active');
+  viewFamily.classList.remove('is-active');
+  viewReferences.classList.add('is-active');
+  window.scrollTo({top: 0, behavior: 'auto'});
 }
 function mostrarVistaFamilia(viewKey){
   const meta = VIEW_META[viewKey];
@@ -2288,6 +2719,7 @@ function mostrarVistaFamilia(viewKey){
   localizeTextTree(document.getElementById('print-family-title'));
   renderFamilyPage(viewKey);
   viewTree.classList.remove('is-active');
+  viewReferences.classList.remove('is-active');
   viewFamily.classList.add('is-active');
   window.scrollTo({top: 0, behavior: 'auto'});
 }
@@ -2406,7 +2838,8 @@ const VIEW_META = {
   'gen-4':{icon:'🌳',name:'Generación IV · Abuelos',desc:'1900–1980'},
   'gen-5':{icon:'🌲',name:'Generación V · Padres y tíos',desc:'Los 13 hermanos Mickle Ramírez'},
   'gen-6':{icon:'🌴',name:'Generación VI · Hijos',desc:'Descendientes directos'},
-  'gen-7':{icon:'🌵',name:'Generación VII · Nietos',desc:'Nietos y bisnietos'}
+  'gen-7':{icon:'🌵',name:'Generación VII · Nietos',desc:'Nietos y bisnietos'},
+  'unlinked':{icon:'🗂️',name:'Otros Mickles',desc:'Ramas por investigar, sin conexión confirmada'}
 };
 
 function renderFamilyPage(viewKey){
@@ -2535,7 +2968,8 @@ const MENU_STRUCTURE = [
     'familia-soria-mickle','familia-postigo-mickle','familia-mickle-alegre',
     'familia-mickle-sagastizabal','familia-mickle-salguero'
   ]},
-  { label:'Por generación', items:['gen-1','gen-2','gen-3','gen-4','gen-5','gen-6','gen-7'] }
+  { label:'Por generación', items:['gen-1','gen-2','gen-3','gen-4','gen-5','gen-6','gen-7'] },
+  { label:'Archivo', items:['unlinked'] }
 ];
 
 function renderMenu(){
@@ -2544,8 +2978,8 @@ function renderMenu(){
     html += `<div class="menu-section"><div class="menu-section-title">${group.label}</div>`;
     group.items.forEach(viewKey => {
       const meta = VIEW_META[viewKey]; if (!meta) return;
-      const isFamily = FAMILY_VIEW_KEYS.has(viewKey);
-      const arrow = isFamily ? '<span class="mi-arrow">→</span>' : '';
+      const hasDetailPage = FAMILY_VIEW_KEYS.has(viewKey) || viewKey === 'unlinked';
+      const arrow = hasDetailPage ? '<span class="mi-arrow">→</span>' : '';
       html += `<a class="menu-item" data-view="${viewKey}">
         <span class="mi-icon">${meta.icon}</span>
         <span class="mi-info" style="flex:1;min-width:0">
@@ -2563,10 +2997,12 @@ function renderMenu(){
   menuBody.querySelectorAll('.menu-item').forEach(item => {
     item.addEventListener('click', () => {
       const viewKey = item.dataset.view;
-      if (!VIEWS[viewKey]) return;
+      if (viewKey !== 'unlinked' && !VIEWS[viewKey]) return;
       document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('is-active'));
       item.classList.add('is-active');
-      if (FAMILY_VIEW_KEYS.has(viewKey)){
+      if (viewKey === 'unlinked'){
+        mostrarVistaReferencias();
+      } else if (FAMILY_VIEW_KEYS.has(viewKey)){
         mostrarVistaFamilia(viewKey);
       } else {
         mostrarVistaArbol();
@@ -2613,12 +3049,129 @@ function normalizeSearchText(value){
   return String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase();
 }
 
+function escapeHtml(value){
+  return String(value ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function otherPersonRecord(id){
+  return OTHER_PEOPLE[id] || P[id] || null;
+}
+
+function renderOtherPersonButton(id){
+  const person = otherPersonRecord(id);
+  if (!person) return '';
+  const isMainProfile = !OTHER_PEOPLE[id] && Boolean(P[id]);
+  const name = person.n || person.name;
+  const dates = person.d || person.dates || person.nac || '';
+  const initials = name.replace(/[\[\]?()]/g,'').trim().split(/\s+/).slice(0,2).map(word=>word[0] || '').join('').toUpperCase();
+  return `<button class="other-person-button${isMainProfile ? ' other-main-link' : ''}" type="button" data-other-profile="${escapeHtml(id)}" data-main-profile="${isMainProfile}" aria-label="Abrir ficha de ${escapeHtml(name)}">
+    <span class="other-person-initials" aria-hidden="true">${escapeHtml(initials)}</span>
+    <span><span class="other-person-name">${escapeHtml(name)}</span>${dates ? `<span class="other-person-meta">${escapeHtml(dates)}</span>` : ''}</span>
+  </button>`;
+}
+
+function renderOtherChild(child){
+  const descriptor = typeof child === 'string' ? {id:child} : child;
+  const personId = descriptor.main || descriptor.id;
+  if (!personId || !otherPersonRecord(personId)) return '';
+  const familyHtml = (descriptor.families || []).map(family => `
+    <div class="other-subfamily">
+      <span class="other-union-context">Pareja con</span>
+      <div class="other-union-partner">${renderOtherPersonButton(family.partner)}</div>
+      ${(family.children || []).length ? `<div class="other-grandchildren">${family.children.map(renderOtherChild).join('')}</div>` : ''}
+    </div>`).join('');
+  return `<div class="other-descendant">${renderOtherPersonButton(personId)}${descriptor.note ? `<p class="other-person-meta">${escapeHtml(descriptor.note)}</p>` : ''}${familyHtml}</div>`;
+}
+
+function renderOtherUnion(unit, rootId){
+  const children = unit.children || [];
+  const rootName = otherPersonRecord(rootId)?.n || 'la persona principal';
+  return `<section class="other-union">
+    <span class="other-union-context">Pareja de ${escapeHtml(rootName)}</span>
+    <div class="other-union-partner">${renderOtherPersonButton(unit.partner)}</div>
+    ${children.length ? `<div class="other-children">${children.map(renderOtherChild).join('')}</div>` : ''}
+  </section>`;
+}
+
+function renderOtherBranches(){
+  const container = document.getElementById('other-tree-list');
+  container.innerHTML = OTHER_BRANCHES.map(branch => {
+    const mainCouple = branch.couple || (branch.root ? [branch.root] : []);
+    const partnersHtml = mainCouple.map(renderOtherPersonButton).join('<span class="other-union-mark">×</span>');
+    const children = branch.children || [];
+    const rootHtml = `<div class="other-tree-root">${partnersHtml}</div>`;
+    const childrenHtml = children.length
+      ? `<div class="other-children">${children.map(renderOtherChild).join('')}</div>`
+      : '';
+    const unionsHtml = (branch.units || []).map(unit => renderOtherUnion(unit, branch.root)).join('');
+    return `<article class="other-tree-card">
+      <header class="other-tree-heading"><div><h2>${escapeHtml(branch.title)}</h2>${branch.note ? `<p>${escapeHtml(branch.note)}</p>` : ''}</div><span class="other-tree-status">${escapeHtml(branch.status)}</span></header>
+      ${rootHtml}${unionsHtml}${childrenHtml}
+    </article>`;
+  }).join('');
+  container.addEventListener('click', event => {
+    const button = event.target.closest('[data-other-profile]');
+    if (!button) return;
+    if (button.dataset.mainProfile === 'true') abrirFicha(button.dataset.otherProfile);
+    else abrirFichaOtro(button.dataset.otherProfile);
+  });
+}
+
+function abrirFichaOtro(id){
+  const person = OTHER_PEOPLE[id];
+  if (!person) return;
+  revokePersonMediaUrls();
+  activeMediaPersonId = null;
+  const initials = person.n.replace(/[\[\]?()]/g,'').trim().split(/\s+/).slice(0,2).map(word=>word[0] || '').join('').toUpperCase();
+  const facts = [
+    person.d ? `<div class="row"><strong>Fechas y lugar:</strong> ${escapeHtml(person.d)}</div>` : '',
+    person.aliases ? `<div class="row"><strong>Otros nombres:</strong> ${escapeHtml(person.aliases)}</div>` : '',
+    person.note ? `<div class="row"><strong>Nota:</strong> ${escapeHtml(person.note)}</div>` : ''
+  ].filter(Boolean).join('');
+  modalEl.innerHTML = `<button class="modal-close" id="modal-close" type="button" aria-label="Cerrar ficha">✕</button>
+    <div class="person-card other-profile-card"><div class="pc-hero"><div class="pc-photo" data-initials="${escapeHtml(initials)}">${escapeHtml(initials)}</div>
+      <div class="pc-name">${escapeHtml(person.n)}</div><div class="pc-dates">${escapeHtml(person.d || 'Sin fecha o lugar documentados')}</div></div>
+      <div class="pc-info"><h4>Datos disponibles</h4>${facts || '<div class="row">Los apuntes no incluyen más datos biográficos.</div>'}</div>
+      <div class="pc-info"><h4>Estado de la investigación</h4><div class="row">Esta rama se conserva aparte del genograma principal hasta confirmar su relación documental.</div></div>
+      <div class="pc-info pc-media"><h4>Foto de perfil</h4><div class="pc-media-controls pc-media-tools" id="person-photo-tools">
+        <label class="pc-upload-label">Cambiar foto<input id="person-photo-upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" aria-label="Cambiar foto" disabled></label>
+        <button class="pc-media-remove" id="person-photo-remove" type="button" disabled>Quitar foto</button>
+      </div></div>
+      <div class="pc-info pc-media"><h4>Documentos</h4><div class="pc-media-controls pc-media-tools" id="person-document-tools">
+        <label class="pc-document-type-field">Tipo de documento<select id="person-document-type">${renderDocumentTypeOptions()}</select></label>
+        <label class="pc-upload-label">Agregar documentos<input id="person-document-upload" type="file" multiple aria-label="Agregar documentos" disabled></label>
+      </div><small class="pc-media-note">El tipo seleccionado se aplicará a todos los archivos de esta carga.</small>
+      <ul class="pc-documents" id="person-documents" aria-live="polite"><li>Todavía no hay documentos.</li></ul>
+      <small class="pc-media-note" id="person-media-note">Los archivos publicados son visibles para todos.</small></div>
+      <div class="pc-media-auth" id="person-media-auth" hidden>
+        <button class="pc-upload-label" id="person-media-login-toggle" type="button">Administrar archivos</button>
+        <form class="pc-media-login-form" id="person-media-login-form" hidden>
+          <label>Correo electrónico<input id="person-media-email" type="email" autocomplete="username" required></label>
+          <label>Contraseña<input id="person-media-password" type="password" autocomplete="current-password" required></label>
+          <button class="pc-upload-label" type="submit">Iniciar sesión</button>
+        </form>
+        <button class="pc-media-remove" id="person-media-logout" type="button" hidden>Cerrar sesión</button>
+        <small class="pc-media-auth-status" id="person-media-auth-status" role="status"></small>
+      </div>
+    </div>`;
+  localizeTextTree(modalEl);
+  modalBackdrop.classList.add('is-open');
+  document.getElementById('modal-close').addEventListener('click', cerrarFicha);
+  setupPersonMedia(id, person.n);
+}
+
 function findSearchMatches(){
   const query = normalizeSearchText(searchQuery.value.trim());
   if (query.length < 2) return [];
+  if (searchScope.value === 'other'){
+    return Object.entries(OTHER_PEOPLE)
+      .filter(([,person]) => normalizeSearchText(`${person.n} ${person.aliases || ''} ${person.d || ''} ${person.note || ''}`).includes(query))
+      .slice(0, 10)
+      .map(([id,person]) => ({type:'other',id,label:person.n,detail:person.d || person.note || 'Rama separada del genograma principal'}));
+  }
   if (searchScope.value === 'person'){
     return Object.keys(P)
-      .filter(id => normalizeSearchText(P[id].n).includes(query))
+      .filter(id => normalizeSearchText(`${P[id].n} ${P[id].aliases || ''}`).includes(query))
       .slice(0, 10)
       .map(id => ({type:'person',id,label:P[id].n,detail:P[id].d}));
   }
@@ -2648,7 +3201,7 @@ function updateSearchResults(){
     button.dataset.searchType = match.type;
     button.dataset.searchId = match.id;
     kind.className = 'search-kind';
-    kind.textContent = match.type === 'person' ? 'Persona' : 'Familia';
+    kind.textContent = match.type === 'person' ? 'Persona' : match.type === 'other' ? 'Otro Mickle' : 'Familia';
     label.textContent = match.label;
     detail.textContent = match.detail;
     button.append(kind, label, detail);
@@ -2662,6 +3215,10 @@ function openSearchMatch(type, id){
   searchResults.replaceChildren();
   searchFeedback.textContent = '';
   searchQuery.value = '';
+  if (type === 'other'){
+    abrirFichaOtro(id);
+    return;
+  }
   if (type === 'person'){
     abrirFicha(id);
     return;
@@ -2700,6 +3257,11 @@ document.getElementById('menu-close').addEventListener('click', cerrarMenu);
 menuBackdrop.addEventListener('click', cerrarMenu);
 
 document.getElementById('btn-back-tree').addEventListener('click', () => {
+  document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('is-active'));
+  mostrarVistaArbol();
+  renderSVG(null);
+});
+document.getElementById('btn-back-references').addEventListener('click', () => {
   document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('is-active'));
   mostrarVistaArbol();
   renderSVG(null);
@@ -2784,9 +3346,11 @@ form.addEventListener('submit', async e => {
 });
 
 poblarPersonasReporte();
+renderOtherBranches();
 renderMenu();
 renderSVG(null);
 initializeSupabaseMediaAuth();
+loadProfilePhotoUrls();
 document.getElementById('activity-refresh').addEventListener('click', loadRecentActivity);
 loadRecentActivity();
 let savedLanguage = 'es';

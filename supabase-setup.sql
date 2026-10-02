@@ -8,8 +8,17 @@ create table if not exists public.person_media (
   file_name text not null,
   mime_type text not null default 'application/octet-stream',
   size_bytes bigint not null check (size_bytes >= 0 and size_bytes <= 10485760),
+  document_type text not null default 'other',
   created_at timestamptz not null default now()
 );
+
+alter table public.person_media
+  add column if not exists document_type text not null default 'other';
+alter table public.person_media
+  drop constraint if exists person_media_document_type_check;
+alter table public.person_media
+  add constraint person_media_document_type_check
+  check (document_type in ('birth', 'death', 'marriage', 'baptism', 'other'));
 
 create unique index if not exists person_media_one_profile_photo
   on public.person_media (person_id)
@@ -105,6 +114,7 @@ declare
   activity_entity_type text;
   activity_entity_id text;
   activity_summary text;
+  document_label text;
 begin
   if tg_op = 'DELETE' then
     media_row := old;
@@ -129,12 +139,19 @@ begin
       activity_summary := 'Se quitó una foto.';
     end if;
   else
+    document_label := case media_row.document_type
+      when 'birth' then 'una partida de nacimiento'
+      when 'death' then 'una partida de defunción'
+      when 'marriage' then 'un acta de matrimonio'
+      when 'baptism' then 'un acta de bautismo'
+      else 'un documento'
+    end;
     if tg_op = 'INSERT' then
-      activity_summary := 'Se agregó un documento.';
+      activity_summary := 'Se agregó ' || document_label || '.';
     elsif tg_op = 'UPDATE' then
-      activity_summary := 'Se actualizó un documento.';
+      activity_summary := 'Se actualizó ' || document_label || '.';
     else
-      activity_summary := 'Se quitó un documento.';
+      activity_summary := 'Se quitó ' || document_label || '.';
     end if;
   end if;
 
