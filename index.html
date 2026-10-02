@@ -318,6 +318,7 @@ a{color:inherit;text-decoration:none}
 .person-card{padding:0 24px 24px}
 .pc-hero{padding:22px 0 18px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:18px}
 .pc-photo{width:110px;height:110px;border-radius:50%;background:var(--surface-3);border:3px solid var(--surface);box-shadow:0 6px 20px rgba(0,0,0,.2),0 0 0 1px var(--border);display:inline-flex;align-items:center;justify-content:center;overflow:hidden;font-family:"Playfair Display",serif;font-weight:700;font-size:2.2rem;color:var(--text-soft);margin-bottom:12px}
+.pc-photo img{width:100%;height:100%;object-fit:cover}
 .pc-photo.male{border-radius:16px;border-color:var(--male)}
 .pc-photo.female{border-color:var(--female)}
 .pc-name{font-family:"Playfair Display",serif;font-size:1.35rem;font-weight:700;margin-bottom:4px;color:var(--text)}
@@ -328,6 +329,25 @@ a{color:inherit;text-decoration:none}
 .pc-info h4::after{content:"";flex:1;height:1px;background:var(--border)}
 .pc-info .row{padding:9px 12px;background:var(--surface-2);border-radius:var(--radius-sm);font-size:.82rem;color:var(--text-muted);line-height:1.55;margin-bottom:6px}
 .pc-info .row strong{color:var(--text)}
+.pc-media-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pc-upload-label,.pc-media-remove{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 12px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.78rem;font-weight:600;cursor:pointer}
+.pc-upload-label:hover,.pc-media-remove:hover:not(:disabled){background:var(--surface-3)}
+.pc-upload-label:focus-within,.pc-media-remove:focus-visible{outline:2px solid var(--ui-accent,var(--border-strong));outline-offset:2px}
+.pc-upload-label input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.pc-media-remove:disabled{display:none}
+.pc-media-note{display:block;margin-top:6px;color:var(--text-soft);font-size:.72rem}
+.pc-documents{display:grid;gap:6px;margin:8px 0 0;padding:0;list-style:none}
+.pc-documents li{display:flex;align-items:center;gap:8px;min-width:0;padding:8px 10px;background:var(--surface-2);border-radius:var(--radius-sm)}
+.pc-document-link{flex:1;min-width:0;overflow-wrap:anywhere;color:var(--text);font-size:.78rem}
+.pc-document-link:hover{text-decoration:underline}
+.pc-document-size{flex:0 0 auto;color:var(--text-soft);font-size:.68rem}
+.pc-document-remove{flex:0 0 auto;width:28px;height:28px;border:1px solid var(--border);border-radius:50%;background:var(--surface);color:var(--text-muted);font:inherit;cursor:pointer}
+.pc-media-auth{padding-top:10px;border-top:1px solid var(--border)}
+.pc-media-login-form{display:grid;gap:8px;margin:10px 0}
+.pc-media-login-form label{display:grid;gap:4px;color:var(--text-muted);font-size:.76rem;font-weight:600}
+.pc-media-login-form input{width:100%;min-height:38px;padding:7px 10px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface-2);color:var(--text);font:inherit}
+.pc-media-login-form input:focus{outline:2px solid var(--ui-accent,var(--border-strong));outline-offset:1px}
+.pc-media-auth-status{display:block;margin-top:6px;color:var(--danger);font-size:.76rem}
 .pc-rel{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .pc-rel .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);font-size:.76rem;font-weight:500;cursor:pointer;transition:background .15s;color:var(--text)}
 .pc-rel .chip:hover{background:var(--surface-3)}
@@ -440,9 +460,6 @@ a{color:inherit;text-decoration:none}
   :root[data-theme="dark"] .request-intro{background:#202020}
   :root[data-theme="dark"] .history-entry{border-left-color:#777}
   :root[data-theme="dark"] .history-source{background:rgba(255,255,255,.05)}
-  :root[data-theme="dark"] .node-flag,
-  :root[data-theme="dark"] .pc-flag,
-  :root[data-theme="dark"] .member .flags,
   :root[data-theme="dark"] .menu-item .mi-icon,
   :root[data-theme="dark"] .family-section h2 .icon{filter:grayscale(1)}
   :root[data-theme="dark"] .tree-toolbar{border-bottom-color:var(--border-strong);background:rgba(255,255,255,.035)}
@@ -848,9 +865,21 @@ h1:not(.topbar-title),h2,h3,h4,
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
 (function(){
 "use strict";
+
+const SUPABASE_CONFIG = window.GENOGRAMA_SUPABASE_CONFIG || {};
+const SUPABASE_URL = typeof SUPABASE_CONFIG.url === 'string' ? SUPABASE_CONFIG.url.trim() : '';
+const SUPABASE_ANON_KEY = typeof SUPABASE_CONFIG.anonKey === 'string' ? SUPABASE_CONFIG.anonKey.trim() : '';
+const SUPABASE_CONFIGURED = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+const SUPABASE_BUCKET = 'person-media';
+const supabaseClient = SUPABASE_CONFIGURED && window.supabase?.createClient
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+let supabaseSession = null;
 
 const W = 130, H = 58;
 const R1=80,R2=240,R3=400,R4=560,R5=760,R6=960,R7=1140;
@@ -1090,6 +1119,7 @@ const TRANSLATIONS = {
     'Generación I · Raíces':'Generation I · Roots','Generación II · Ancestros':'Generation II · Ancestors','Generación III · Bisabuelos':'Generation III · Great-grandparents','Generación IV · Abuelos':'Generation IV · Grandparents','Generación V · Padres y tíos':'Generation V · Parents and aunts/uncles','Generación VI · Hijos':'Generation VI · Children','Generación VII · Nietos':'Generation VII · Grandchildren',
     'Siglo XVIII':'18th century','1775–1850':'1775–1850','1800–1900':'1800–1900','1900–1980':'1900–1980','Los 13 hermanos Mickle Ramírez':'The 13 Mickle Ramírez siblings','Descendientes directos':'Direct descendants','Nietos y bisnietos':'Grandchildren and great-grandchildren',
     'Total':'Total','Generaciones':'Generations','Países':'Countries','Volver al árbol':'Back to tree','Familia':'Family','Cargando…':'Loading…','Amorío':'Affair','Divorciados (2025)':'Divorced (2025)','Unión libre':'Domestic partnership','Pareja principal':'Main couple','Cónyuge':'Spouse','Hijo/a':'Child',
+    'Foto de perfil':'Profile photo','Cambiar foto':'Change photo','Quitar foto':'Remove photo','Documentos':'Documents','Agregar documentos':'Add documents','Abrir documento':'Download document','Eliminar documento':'Delete document','Se guarda en este navegador':'Saved in this browser','Todavía no hay documentos.':'No documents yet.','Los archivos se guardan solo en este navegador.':'Files are stored only in this browser.','Cada archivo puede pesar hasta 10 MB.':'Each file can be up to 10 MB.','Elige una imagen válida.':'Choose a valid image.','La foto no puede superar los 10 MB.':'The photo cannot exceed 10 MB.','Los documentos mayores de 10 MB se omitieron.':'Documents larger than 10 MB were skipped.','No se pudo guardar el archivo.':'Could not save the file.','No se pudo cargar la foto o documentos.':'Could not load the photo or documents.','Almacenamiento del navegador no disponible.':'Browser storage is unavailable.','Administrar archivos':'Manage files','Iniciar sesión':'Sign in','Correo electrónico':'Email address','Contraseña':'Password','Entrar':'Sign in','Cerrar sesión':'Sign out','Los archivos publicados son visibles para todos.':'Published files are visible to everyone.','Configura Supabase para habilitar los archivos compartidos.':'Configure Supabase to enable shared files.','No se pudo iniciar sesión. Verifica tu correo y contraseña.':'Could not sign in. Check your email and password.','No se pudo cerrar sesión.':'Could not sign out.',
     'Datos':'Details','Nombre:':'Name:','Sexo:':'Gender:','♂ Varón':'♂ Male','♀ Mujer':'♀ Female','Fecha de nacimiento:':'Date of birth:','Fecha de fallecimiento:':'Date of death:','País:':'Country:','Generación:':'Generation:','Estado:':'Status:','✝ Fallecido/a':'✝ Deceased','Vivo/a':'Living','Cónyuges':'Spouses','Padres':'Parents','Hermanos':'Siblings','Hijos':'Children',
     'Cónyuge':'Spouse','Todas las generaciones':'All generations','n.':'b.','El archivo supera los 5 MB.':'The file is larger than 5 MB.','Por favor rellena todos los campos obligatorios.':'Please fill in all required fields.','Enviando…':'Sending…','¡Solicitud enviada!':'Request sent!','Hubo un problema al enviar. Intenta de nuevo o escríbenos a alvaradonicolemickle@gmail.com':'There was a problem sending your request. Please try again or email alvaradonicolemickle@gmail.com.'
   },
@@ -1106,6 +1136,7 @@ const TRANSLATIONS = {
     'Generación I · Raíces':'Génération I · Racines','Generación II · Ancestros':'Génération II · Ancêtres','Generación III · Bisabuelos':'Génération III · Arrière-grands-parents','Generación IV · Abuelos':'Génération IV · Grands-parents','Generación V · Padres y tíos':'Génération V · Parents et oncles/tantes','Generación VI · Hijos':'Génération VI · Enfants','Generación VII · Nietos':'Génération VII · Petits-enfants',
     'Siglo XVIII':'XVIIIe siècle','1775–1850':'1775–1850','1800–1900':'1800–1900','1900–1980':'1900–1980','Los 13 hermanos Mickle Ramírez':'Les 13 frères et sœurs Mickle Ramírez','Descendientes directos':'Descendants directs','Nietos y bisnietos':'Petits-enfants et arrière-petits-enfants',
     'Total':'Total','Generaciones':'Générations','Países':'Pays','Volver al árbol':'Retour à l’arbre','Familia':'Famille','Cargando…':'Chargement…','Amorío':'Relation extraconjugale','Divorciados (2025)':'Divorcés (2025)','Unión libre':'Union libre','Pareja principal':'Couple principal','Cónyuge':'Conjoint/e','Hijo/a':'Enfant',
+    'Foto de perfil':'Photo de profil','Cambiar foto':'Changer la photo','Quitar foto':'Retirer la photo','Documentos':'Documents','Agregar documentos':'Ajouter des documents','Abrir documento':'Télécharger le document','Eliminar documento':'Supprimer le document','Se guarda en este navegador':'Enregistré dans ce navigateur','Todavía no hay documentos.':'Aucun document pour le moment.','Los archivos se guardan solo en este navegador.':'Les fichiers sont enregistrés uniquement dans ce navigateur.','Cada archivo puede pesar hasta 10 MB.':'Chaque fichier peut peser jusqu’à 10 Mo.','Elige una imagen válida.':'Choisissez une image valide.','La foto no puede superar los 10 MB.':'La photo ne peut pas dépasser 10 Mo.','Los documentos mayores de 10 MB se omitieron.':'Les documents de plus de 10 Mo ont été ignorés.','No se pudo guardar el archivo.':'Impossible d’enregistrer le fichier.','No se pudo cargar la foto o documentos.':'Impossible de charger la photo ou les documents.','Almacenamiento del navegador no disponible.':'Le stockage du navigateur n’est pas disponible.','Administrar archivos':'Gérer les fichiers','Iniciar sesión':'Se connecter','Correo electrónico':'Adresse e-mail','Contraseña':'Mot de passe','Entrar':'Se connecter','Cerrar sesión':'Se déconnecter','Los archivos publicados son visibles para todos.':'Les fichiers publiés sont visibles par tous.','Configura Supabase para habilitar los archivos compartidos.':'Configurez Supabase pour activer les fichiers partagés.','No se pudo iniciar sesión. Verifica tu correo y contraseña.':'Connexion impossible. Vérifiez votre adresse e-mail et votre mot de passe.','No se pudo cerrar sesión.':'Déconnexion impossible.',
     'Datos':'Informations','Nombre:':'Nom :','Sexo:':'Sexe :','♂ Varón':'♂ Homme','♀ Mujer':'♀ Femme','Fecha de nacimiento:':'Date de naissance :','Fecha de fallecimiento:':'Date de décès :','País:':'Pays :','Generación:':'Génération :','Estado:':'État :','✝ Fallecido/a':'✝ Décédé/e','Vivo/a':'En vie','Cónyuges':'Conjoints','Padres':'Parents','Hermanos':'Frères et sœurs','Hijos':'Enfants',
     'El archivo supera los 5 MB.':'Le fichier dépasse 5 Mo.','Por favor rellena todos los campos obligatorios.':'Veuillez remplir tous les champs obligatoires.','Enviando…':'Envoi en cours…','¡Solicitud enviada!':'Demande envoyée !','Hubo un problema al enviar. Intenta de nuevo o escríbenos a alvaradonicolemickle@gmail.com':'Un problème est survenu lors de l’envoi. Réessayez ou écrivez à alvaradonicolemickle@gmail.com.'
   }
@@ -1408,8 +1439,428 @@ function mostrarToast(msg, tipo, dur){
 
 const modalBackdrop = document.getElementById('modal-backdrop');
 const modalEl = document.getElementById('modal');
+const PERSON_MEDIA_DATABASE = 'genograma-familiar-media';
+const PERSON_MEDIA_STORE = 'person-media';
+const PERSON_MEDIA_MAX_SIZE = 10 * 1024 * 1024;
+let personMediaDatabasePromise;
+let personMediaObjectUrls = [];
+let activeMediaPersonId = null;
+
+function openPersonMediaDatabase(){
+  if (!window.indexedDB) return Promise.reject(new Error('IndexedDB unavailable'));
+  if (!personMediaDatabasePromise){
+    personMediaDatabasePromise = new Promise((resolve, reject) => {
+      const request = window.indexedDB.open(PERSON_MEDIA_DATABASE, 1);
+      request.onupgradeneeded = () => {
+        const database = request.result;
+        if (!database.objectStoreNames.contains(PERSON_MEDIA_STORE)){
+          database.createObjectStore(PERSON_MEDIA_STORE, {keyPath:'id'});
+        }
+      };
+      request.onsuccess = () => {
+        const database = request.result;
+        database.onversionchange = () => database.close();
+        resolve(database);
+      };
+      request.onerror = () => {
+        personMediaDatabasePromise = null;
+        reject(request.error || new Error('Could not open media database'));
+      };
+    });
+  }
+  return personMediaDatabasePromise;
+}
+
+async function loadPersonMedia(id){
+  const database = await openPersonMediaDatabase();
+  return new Promise((resolve, reject) => {
+    const request = database.transaction(PERSON_MEDIA_STORE, 'readonly').objectStore(PERSON_MEDIA_STORE).get(id);
+    request.onsuccess = () => resolve(request.result || {id,photo:null,documents:[]});
+    request.onerror = () => reject(request.error || new Error('Could not load media'));
+  });
+}
+
+async function savePersonMedia(record){
+  const database = await openPersonMediaDatabase();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(PERSON_MEDIA_STORE, 'readwrite');
+    transaction.objectStore(PERSON_MEDIA_STORE).put(record);
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error || new Error('Could not save media'));
+    transaction.onabort = () => reject(transaction.error || new Error('Media save aborted'));
+  });
+}
+
+function revokePersonMediaUrls(){
+  personMediaObjectUrls.forEach(url => URL.revokeObjectURL(url));
+  personMediaObjectUrls = [];
+}
+
+function renderPersonMedia(id, personName, record){
+  if (activeMediaPersonId !== id) return;
+  revokePersonMediaUrls();
+  const photo = modalEl.querySelector('.pc-photo');
+  const photoInput = document.getElementById('person-photo-upload');
+  const documentInput = document.getElementById('person-document-upload');
+  const removePhoto = document.getElementById('person-photo-remove');
+  const documentList = document.getElementById('person-documents');
+
+  photo.replaceChildren();
+  if (record.photoUrl || record.photo){
+    const image = document.createElement('img');
+    const url = record.photoUrl || URL.createObjectURL(record.photo);
+    if (record.photo) personMediaObjectUrls.push(url);
+    image.src = url;
+    image.alt = `Foto de perfil: ${personName}`;
+    photo.append(image);
+  } else {
+    photo.textContent = photo.dataset.initials;
+  }
+  const canManageFiles = !SUPABASE_CONFIGURED || Boolean(supabaseSession);
+  photoInput.disabled = !canManageFiles;
+  documentInput.disabled = !canManageFiles;
+  removePhoto.disabled = !canManageFiles;
+  removePhoto.hidden = !(record.photoUrl || record.photo);
+
+  documentList.replaceChildren();
+  if (!(record.documents || []).length){
+    const empty = document.createElement('li');
+    empty.textContent = 'Todavía no hay documentos.';
+    documentList.append(empty);
+  } else {
+    record.documents.forEach(file => {
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      const size = document.createElement('span');
+      const remove = document.createElement('button');
+      const url = file.url || URL.createObjectURL(file.blob);
+      if (file.blob) personMediaObjectUrls.push(url);
+      link.className = 'pc-document-link';
+      link.href = url;
+      link.download = file.name;
+      link.title = 'Abrir documento';
+      link.textContent = file.name;
+      size.className = 'pc-document-size';
+      size.textContent = `${(Number(file.size_bytes ?? file.blob?.size ?? 0) / 1024 / 1024).toFixed(1)} MB`;
+      remove.className = 'pc-document-remove';
+      remove.type = 'button';
+      remove.textContent = '×';
+      remove.title = 'Eliminar documento';
+      remove.setAttribute('aria-label', 'Eliminar documento');
+      remove.dataset.removeDocument = file.id;
+      remove.hidden = SUPABASE_CONFIGURED && !supabaseSession;
+      item.append(link, size, remove);
+      documentList.append(item);
+    });
+  }
+  localizeTextTree(documentList);
+  localizeAttributes();
+}
+
+function updateSupabaseMediaControls(){
+  const authPanel = document.getElementById('person-media-auth');
+  if (!authPanel) return;
+  const authenticated = Boolean(supabaseSession);
+  document.getElementById('person-media-login-toggle').hidden = authenticated;
+  document.getElementById('person-media-login-toggle').disabled = !supabaseClient;
+  document.getElementById('person-media-logout').hidden = !authenticated;
+  document.getElementById('person-photo-tools').hidden = SUPABASE_CONFIGURED && !authenticated;
+  document.getElementById('person-document-tools').hidden = SUPABASE_CONFIGURED && !authenticated;
+  if (authenticated) document.getElementById('person-media-login-form').hidden = true;
+}
+
+async function loadSupabasePersonMedia(id){
+  if (!supabaseClient) throw new Error('Supabase is not configured');
+  const {data, error} = await supabaseClient
+    .from('person_media')
+    .select('id,person_id,kind,object_path,file_name,mime_type,size_bytes,created_at')
+    .eq('person_id', id)
+    .order('created_at', {ascending:true});
+  if (error) throw error;
+  const bucket = supabaseClient.storage.from(SUPABASE_BUCKET);
+  const photo = data.find(file => file.kind === 'photo');
+  return {
+    id,
+    photo:null,
+    photoUrl:photo ? bucket.getPublicUrl(photo.object_path).data.publicUrl : null,
+    photoRow:photo || null,
+    documents:data.filter(file => file.kind === 'document').map(file => ({
+      id:file.id,
+      name:file.file_name,
+      size_bytes:file.size_bytes,
+      object_path:file.object_path,
+      url:bucket.getPublicUrl(file.object_path, {download:file.file_name}).data.publicUrl
+    }))
+  };
+}
+
+async function refreshSupabasePersonMedia(id, personName){
+  try{
+    const record = await loadSupabasePersonMedia(id);
+    renderPersonMedia(id, personName, record);
+  }catch(error){
+    if (activeMediaPersonId === id) mostrarToast('No se pudo cargar la foto o documentos.', 'error', 4000);
+  }
+}
+
+async function uploadSupabasePersonFile(personId, file, kind){
+  const extension = (file.name.match(/\.([a-z0-9]{1,8})$/i) || [,''])[1].toLowerCase();
+  const fileId = window.crypto?.randomUUID ? window.crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
+  const objectPath = `${personId}/${kind}/${fileId}${extension ? '.' + extension : ''}`;
+  const bucket = supabaseClient.storage.from(SUPABASE_BUCKET);
+  const {error:uploadError} = await bucket.upload(objectPath, file, {
+    cacheControl:'3600',contentType:file.type || 'application/octet-stream',upsert:false
+  });
+  if (uploadError) throw uploadError;
+
+  const metadata = {
+    person_id:personId,kind,object_path:objectPath,file_name:file.name,
+    mime_type:file.type || 'application/octet-stream',size_bytes:file.size
+  };
+  if (kind === 'photo'){
+    const {data:existing, error:lookupError} = await supabaseClient.from('person_media')
+      .select('id,object_path').eq('person_id', personId).eq('kind', 'photo').maybeSingle();
+    if (lookupError){ await bucket.remove([objectPath]); throw lookupError; }
+    const result = existing
+      ? await supabaseClient.from('person_media').update(metadata).eq('id', existing.id)
+      : await supabaseClient.from('person_media').insert(metadata);
+    if (result.error){ await bucket.remove([objectPath]); throw result.error; }
+    if (existing) await bucket.remove([existing.object_path]);
+  } else {
+    const {error:metadataError} = await supabaseClient.from('person_media').insert(metadata);
+    if (metadataError){ await bucket.remove([objectPath]); throw metadataError; }
+  }
+}
+
+async function deleteSupabasePersonFile(file){
+  const bucket = supabaseClient.storage.from(SUPABASE_BUCKET);
+  const {error:storageError} = await bucket.remove([file.object_path]);
+  if (storageError) throw storageError;
+  const {error:metadataError} = await supabaseClient.from('person_media').delete().eq('id', file.id);
+  if (metadataError) throw metadataError;
+}
+
+function setupSupabasePersonMedia(id, personName){
+  const authPanel = document.getElementById('person-media-auth');
+  const loginToggle = document.getElementById('person-media-login-toggle');
+  const loginForm = document.getElementById('person-media-login-form');
+  const logoutButton = document.getElementById('person-media-logout');
+  const authStatus = document.getElementById('person-media-auth-status');
+  const photoInput = document.getElementById('person-photo-upload');
+  const documentInput = document.getElementById('person-document-upload');
+  const removePhoto = document.getElementById('person-photo-remove');
+  const documentList = document.getElementById('person-documents');
+  const note = document.getElementById('person-media-note');
+
+  authPanel.hidden = false;
+  note.textContent = supabaseClient
+    ? 'Los archivos publicados son visibles para todos.'
+    : 'Configura Supabase para habilitar los archivos compartidos.';
+  localizeTextTree(note);
+  updateSupabaseMediaControls();
+
+  loginToggle.addEventListener('click', () => {
+    loginForm.hidden = !loginForm.hidden;
+    if (!loginForm.hidden) document.getElementById('person-media-email').focus();
+  });
+  loginForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!supabaseClient) return;
+    const submit = loginForm.querySelector('button[type="submit"]');
+    authStatus.textContent = '';
+    submit.disabled = true;
+    try{
+      const {data, error} = await supabaseClient.auth.signInWithPassword({
+        email:document.getElementById('person-media-email').value.trim(),
+        password:document.getElementById('person-media-password').value
+      });
+      if (error) throw error;
+      supabaseSession = data.session;
+      loginForm.reset();
+      updateSupabaseMediaControls();
+      await refreshSupabasePersonMedia(id, personName);
+    }catch(error){
+      authStatus.textContent = translateText('No se pudo iniciar sesión. Verifica tu correo y contraseña.');
+    }finally{
+      submit.disabled = false;
+    }
+  });
+  logoutButton.addEventListener('click', async () => {
+    if (!supabaseClient) return;
+    const {error} = await supabaseClient.auth.signOut();
+    if (error) authStatus.textContent = translateText('No se pudo cerrar sesión.');
+  });
+
+  photoInput.addEventListener('change', async () => {
+    const file = photoInput.files[0];
+    photoInput.value = '';
+    if (!file) return;
+    const validImage = ['image/jpeg','image/png','image/webp','image/gif','image/avif'].includes(file.type) || /\.(jpe?g|png|webp|gif|avif)$/i.test(file.name);
+    if (!validImage){ mostrarToast('Elige una imagen válida.', 'error'); return; }
+    if (file.size > PERSON_MEDIA_MAX_SIZE){ mostrarToast('La foto no puede superar los 10 MB.', 'error'); return; }
+    photoInput.disabled = true;
+    try{
+      await uploadSupabasePersonFile(id, file, 'photo');
+      await refreshSupabasePersonMedia(id, personName);
+    }catch(error){ mostrarToast('No se pudo guardar el archivo.', 'error', 4000); }
+    finally{ if (activeMediaPersonId === id) photoInput.disabled = false; }
+  });
+
+  documentInput.addEventListener('change', async () => {
+    const files = Array.from(documentInput.files);
+    documentInput.value = '';
+    if (!files.length) return;
+    documentInput.disabled = true;
+    const accepted = files.filter(file => file.size <= PERSON_MEDIA_MAX_SIZE);
+    try{
+      for (const file of accepted) await uploadSupabasePersonFile(id, file, 'document');
+      if (accepted.length) await refreshSupabasePersonMedia(id, personName);
+      if (accepted.length !== files.length) mostrarToast('Los documentos mayores de 10 MB se omitieron.', 'error', 4000);
+    }catch(error){ mostrarToast('No se pudo guardar el archivo.', 'error', 4000); }
+    finally{ if (activeMediaPersonId === id) documentInput.disabled = false; }
+  });
+
+  removePhoto.addEventListener('click', async () => {
+    removePhoto.disabled = true;
+    try{
+      const record = await loadSupabasePersonMedia(id);
+      if (record.photoRow) await deleteSupabasePersonFile(record.photoRow);
+      await refreshSupabasePersonMedia(id, personName);
+    }catch(error){ mostrarToast('No se pudo guardar el archivo.', 'error', 4000); }
+    finally{ if (activeMediaPersonId === id) removePhoto.disabled = false; }
+  });
+
+  documentList.addEventListener('click', async event => {
+    const button = event.target.closest('[data-remove-document]');
+    if (!button) return;
+    button.disabled = true;
+    try{
+      const record = await loadSupabasePersonMedia(id);
+      const file = record.documents.find(document => document.id === button.dataset.removeDocument);
+      if (file) await deleteSupabasePersonFile(file);
+      await refreshSupabasePersonMedia(id, personName);
+    }catch(error){ mostrarToast('No se pudo guardar el archivo.', 'error', 4000); }
+  });
+
+  if (!supabaseClient){
+    authStatus.textContent = translateText('Configura Supabase para habilitar los archivos compartidos.');
+    return;
+  }
+  refreshSupabasePersonMedia(id, personName);
+}
+
+function setupPersonMedia(id, personName){
+  activeMediaPersonId = id;
+  if (SUPABASE_CONFIGURED){
+    setupSupabasePersonMedia(id, personName);
+    return;
+  }
+  document.getElementById('person-media-auth').hidden = true;
+  document.getElementById('person-photo-tools').hidden = false;
+  document.getElementById('person-document-tools').hidden = false;
+  const photoInput = document.getElementById('person-photo-upload');
+  const documentInput = document.getElementById('person-document-upload');
+  const removePhoto = document.getElementById('person-photo-remove');
+  const documentList = document.getElementById('person-documents');
+
+  photoInput.addEventListener('change', async () => {
+    const file = photoInput.files[0];
+    photoInput.value = '';
+    if (!file) return;
+    const validImage = ['image/jpeg','image/png','image/webp','image/gif','image/avif'].includes(file.type) || /\.(jpe?g|png|webp|gif|avif)$/i.test(file.name);
+    if (!validImage){ mostrarToast('Elige una imagen válida.', 'error'); return; }
+    if (file.size > PERSON_MEDIA_MAX_SIZE){ mostrarToast('La foto no puede superar los 10 MB.', 'error'); return; }
+    photoInput.disabled = true;
+    try{
+      const record = await loadPersonMedia(id);
+      record.photo = file;
+      await savePersonMedia(record);
+      renderPersonMedia(id, personName, record);
+    }catch(error){
+      mostrarToast('No se pudo guardar el archivo.', 'error', 4000);
+    }finally{
+      if (activeMediaPersonId === id) photoInput.disabled = false;
+    }
+  });
+
+  documentInput.addEventListener('change', async () => {
+    const files = Array.from(documentInput.files);
+    documentInput.value = '';
+    if (!files.length) return;
+    documentInput.disabled = true;
+    const accepted = files.filter(file => file.size <= PERSON_MEDIA_MAX_SIZE);
+    const skippedFiles = accepted.length !== files.length;
+    try{
+      if (accepted.length){
+        const record = await loadPersonMedia(id);
+        record.documents.push(...accepted.map(file => ({
+          id:window.crypto?.randomUUID ? window.crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
+          name:file.name,
+          blob:file
+        })));
+        await savePersonMedia(record);
+        renderPersonMedia(id, personName, record);
+      }
+      if (skippedFiles) mostrarToast('Los documentos mayores de 10 MB se omitieron.', 'error', 4000);
+    }catch(error){
+      mostrarToast('No se pudo guardar el archivo.', 'error', 4000);
+    }finally{
+      if (activeMediaPersonId === id) documentInput.disabled = false;
+    }
+  });
+
+  removePhoto.addEventListener('click', async () => {
+    removePhoto.disabled = true;
+    try{
+      const record = await loadPersonMedia(id);
+      record.photo = null;
+      await savePersonMedia(record);
+      renderPersonMedia(id, personName, record);
+    }catch(error){
+      mostrarToast('No se pudo guardar el archivo.', 'error', 4000);
+    }
+  });
+
+  documentList.addEventListener('click', async event => {
+    const button = event.target.closest('[data-remove-document]');
+    if (!button) return;
+    button.disabled = true;
+    try{
+      const record = await loadPersonMedia(id);
+      record.documents = record.documents.filter(file => file.id !== button.dataset.removeDocument);
+      await savePersonMedia(record);
+      renderPersonMedia(id, personName, record);
+    }catch(error){
+      mostrarToast('No se pudo guardar el archivo.', 'error', 4000);
+    }
+  });
+
+  loadPersonMedia(id)
+    .then(record => renderPersonMedia(id, personName, record))
+    .catch(() => mostrarToast(window.indexedDB ? 'No se pudo cargar la foto o documentos.' : 'Almacenamiento del navegador no disponible.', 'error', 4000));
+}
+
+function initializeSupabaseMediaAuth(){
+  if (!supabaseClient) return;
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    supabaseSession = session;
+    updateSupabaseMediaControls();
+    if (activeMediaPersonId){
+      const id = activeMediaPersonId;
+      setTimeout(() => { if (activeMediaPersonId === id) refreshSupabasePersonMedia(id, P[id].n); }, 0);
+    }
+  });
+  supabaseClient.auth.getSession().then(({data, error}) => {
+    if (error) throw error;
+    supabaseSession = data.session;
+    updateSupabaseMediaControls();
+    if (activeMediaPersonId) refreshSupabasePersonMedia(activeMediaPersonId, P[activeMediaPersonId].n);
+  }).catch(() => {});
+}
 
 function abrirFicha(id){
+  revokePersonMediaUrls();
+  activeMediaPersonId = null;
   const p = P[id]; if (!p) return;
   const isF = p.s === 'F';
   const iniciales = p.n.replace(/[\[\]?]/g,'').trim().split(/\s+/)
@@ -1441,7 +1892,7 @@ function abrirFicha(id){
     <button class="modal-close" id="modal-close" type="button">✕</button>
     <div class="person-card">
       <div class="pc-hero">
-        <div class="pc-photo ${isF ? 'female' : 'male'}">${iniciales}</div>
+        <div class="pc-photo ${isF ? 'female' : 'male'}" data-initials="${iniciales}">${iniciales}</div>
         <div class="pc-name">${p.dec ? '✝ ' : ''}${p.n}</div>
         <div class="pc-dates">${p.d}</div>
         <div class="pc-flag">${p.f}${p.pais ? ' ' + p.pais : ''}</div>
@@ -1456,6 +1907,31 @@ function abrirFicha(id){
         <div class="row"><strong>Generación:</strong> ${p.gen}</div>
         <div class="row"><strong>Estado:</strong> ${p.dec ? '✝ Fallecido/a' : 'Vivo/a'}</div>
       </div>
+      <div class="pc-info pc-media">
+        <h4>Foto de perfil</h4>
+        <div class="pc-media-controls pc-media-tools" id="person-photo-tools">
+          <label class="pc-upload-label">Cambiar foto<input id="person-photo-upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" aria-label="Cambiar foto" disabled></label>
+          <button class="pc-media-remove" id="person-photo-remove" type="button" disabled>Quitar foto</button>
+        </div>
+      </div>
+      <div class="pc-info pc-media">
+        <h4>Documentos</h4>
+        <div class="pc-media-controls pc-media-tools" id="person-document-tools">
+          <label class="pc-upload-label">Agregar documentos<input id="person-document-upload" type="file" multiple aria-label="Agregar documentos" disabled></label>
+        </div>
+        <ul class="pc-documents" id="person-documents" aria-live="polite"><li>Todavía no hay documentos.</li></ul>
+        <small class="pc-media-note" id="person-media-note">Los archivos se guardan solo en este navegador. Cada archivo puede pesar hasta 10 MB.</small>
+      </div>
+      <div class="pc-media-auth" id="person-media-auth" hidden>
+        <button class="pc-upload-label" id="person-media-login-toggle" type="button">Administrar archivos</button>
+        <form class="pc-media-login-form" id="person-media-login-form" hidden>
+          <label>Correo electrónico<input id="person-media-email" type="email" autocomplete="username" required></label>
+          <label>Contraseña<input id="person-media-password" type="password" autocomplete="current-password" required></label>
+          <button class="pc-upload-label" type="submit">Iniciar sesión</button>
+        </form>
+        <button class="pc-media-remove" id="person-media-logout" type="button" hidden>Cerrar sesión</button>
+        <small class="pc-media-auth-status" id="person-media-auth-status" role="status"></small>
+      </div>
       ${chipsHTML(cony.length > 1 ? 'Cónyuges' : 'Cónyuge', cony)}
       ${chipsHTML('Padres', padres)}
       ${chipsHTML('Hermanos', Array.from(hermanos))}
@@ -1465,12 +1941,15 @@ function abrirFicha(id){
   localizeTextTree(modalEl);
   modalBackdrop.classList.add('is-open');
   document.getElementById('modal-close').addEventListener('click', cerrarFicha);
+  setupPersonMedia(id, p.n);
   modalEl.querySelectorAll('[data-goto]').forEach(el => {
     el.addEventListener('click', () => abrirFicha(el.dataset.goto));
   });
 }
 function cerrarFicha(){
   modalBackdrop.classList.remove('is-open');
+  activeMediaPersonId = null;
+  revokePersonMediaUrls();
   modalEl.innerHTML = '';
 }
 modalBackdrop.addEventListener('click', e => { if (e.target === modalBackdrop) cerrarFicha(); });
@@ -1994,6 +2473,7 @@ form.addEventListener('submit', async e => {
 poblarPersonasReporte();
 renderMenu();
 renderSVG(null);
+initializeSupabaseMediaAuth();
 let savedLanguage = 'es';
 try{savedLanguage=localStorage.getItem(LANGUAGE_KEY)||'es'}catch(e){}
 languageSelect.addEventListener('change',()=>applyLanguage(languageSelect.value));
