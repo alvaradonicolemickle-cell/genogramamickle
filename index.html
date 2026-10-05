@@ -439,6 +439,11 @@ a{color:inherit;text-decoration:none}
 
 .couple-block{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}
 @media (max-width:640px){.couple-block{grid-template-columns:1fr}}
+.descendant-couple-list{display:grid;gap:10px}
+.descendant-couple-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:12px}
+.descendant-couple-row>.member{margin-bottom:0}
+.descendant-partner-empty{display:flex;align-items:center;min-height:92px;padding:16px;border:1px dashed var(--border-strong);border-left:4px solid var(--border-strong);border-radius:var(--radius);color:var(--text-soft);font-size:.82rem}
+@media (max-width:640px){.descendant-couple-row{grid-template-columns:1fr}}
 
 .member{display:flex;gap:14px;padding:16px;background:var(--surface-2);border-radius:var(--radius);margin-bottom:10px;border-left:4px solid var(--accent,var(--g4));transition:all .15s}
 .member:hover{background:var(--surface-3);transform:translateX(2px)}
@@ -2927,6 +2932,10 @@ function renderFamilyPage(viewKey){
     const ids = byGen[gen];
     const isCoupleGen = couple && P[couple[0]] && P[couple[0]].gen == gen;
     if (isCoupleGen && ids.length === 2) return;
+    if (couple && (gen === '6' || gen === '7')){
+      html += renderDescendantGeneration(Number(gen), ids, visibleIds);
+      return;
+    }
 
     html += `<div class="family-section">
       <h2><span class="icon">👥</span> Generación ${gen} · ${GEN_NAMES[gen]}</h2>
@@ -2963,6 +2972,64 @@ function renderFamilyPage(viewKey){
   localizeTextTree(document.getElementById('family-content'));
   setupFamilyPhoto(viewKey);
   refreshFamilyMemberPhotos(Array.from(visibleIds));
+}
+
+function renderDescendantGeneration(generation, ids, visibleIds){
+  const groups = new Map();
+  const assignedChildren = new Set();
+  const represented = new Set();
+
+  PARENT_CHILD.forEach(({p, k}) => {
+    const children = k.filter(id => P[id]?.gen === generation && visibleIds.has(id) && !assignedChildren.has(id));
+    if (!children.length) return;
+    const parents = [...new Set(p)].sort((a, b) => (P[a]?.x ?? Infinity) - (P[b]?.x ?? Infinity));
+    const key = parents.join('|');
+    if (!groups.has(key)) groups.set(key, {parents, children:[]});
+    const group = groups.get(key);
+    children.forEach(id => {
+      group.children.push(id);
+      assignedChildren.add(id);
+    });
+  });
+
+  let html = '';
+  const renderRows = children => {
+    let rows = '';
+    children.sort((a, b) => P[a].x - P[b].x).forEach(childId => {
+      const spouseIds = [...new Set(MARRIAGES.flatMap(([a, b]) => a === childId ? [b] : b === childId ? [a] : []))]
+        .filter(id => visibleIds.has(id) && P[id]);
+      const partners = spouseIds.length ? spouseIds : [null];
+      partners.forEach(spouseId => {
+        rows += `<div class="descendant-couple-row">
+          ${renderFamilyMember(childId, 'Hijo/a')}
+          ${spouseId ? renderFamilyMember(spouseId, 'Cónyuge') : '<div class="descendant-partner-empty">Sin cónyuge registrado</div>'}
+        </div>`;
+        represented.add(childId);
+        if (spouseId) represented.add(spouseId);
+      });
+    });
+    return rows;
+  };
+
+  groups.forEach(({parents, children}) => {
+    const parentNames = parents.map(id => P[id]?.n).filter(Boolean).join(' y ');
+    html += `<div class="family-section">
+      <h2><span class="icon">👥</span> Generación ${generation} · Hijos de ${parentNames || 'filiación no identificada'}</h2>
+      <p class="sub">${children.length} descendiente${children.length === 1 ? '' : 's'}</p>
+      <div class="descendant-couple-list">${renderRows(children)}</div>
+    </div>`;
+  });
+
+  const ungrouped = ids.filter(id => !represented.has(id));
+  if (ungrouped.length){
+    html += `<div class="family-section">
+      <h2><span class="icon">👥</span> Generación ${generation} · Filiación no registrada</h2>
+      <p class="sub">${ungrouped.length} integrante${ungrouped.length === 1 ? '' : 's'}</p>
+      <div class="descendant-couple-list">${renderRows(ungrouped)}</div>
+    </div>`;
+  }
+
+  return html;
 }
 
 function renderFamilyMember(id, role){
