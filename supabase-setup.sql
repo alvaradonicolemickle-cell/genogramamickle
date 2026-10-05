@@ -9,11 +9,14 @@ create table if not exists public.person_media (
   mime_type text not null default 'application/octet-stream',
   size_bytes bigint not null check (size_bytes >= 0 and size_bytes <= 10485760),
   document_type text not null default 'other',
+  description text,
   created_at timestamptz not null default now()
 );
 
 alter table public.person_media
   add column if not exists document_type text not null default 'other';
+alter table public.person_media
+  add column if not exists description text;
 alter table public.person_media
   drop constraint if exists person_media_document_type_check;
 alter table public.person_media
