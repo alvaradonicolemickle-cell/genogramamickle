@@ -366,10 +366,17 @@ a{color:inherit;text-decoration:none}
 .pc-upload-label input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
 .pc-media-remove:disabled{display:none}
 .pc-media-note{display:block;margin-top:6px;color:var(--text-soft);font-size:.72rem}
-.pc-documents{display:grid;gap:6px;margin:8px 0 0;padding:0;list-style:none}
-.pc-documents li{display:flex;align-items:center;gap:8px;min-width:0;padding:8px 10px;background:var(--surface-2);border-radius:var(--radius-sm)}
-.pc-document-link{flex:1;min-width:0;overflow-wrap:anywhere;padding:0;border:0;background:none;color:var(--text);font:inherit;font-size:.78rem;text-align:left;cursor:pointer}
-.pc-document-link:hover{text-decoration:underline}
+.pc-documents{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;margin:8px 0 0;padding:0;list-style:none}
+.pc-documents li{display:grid;grid-template-rows:minmax(0,1fr) auto;min-width:0;overflow:hidden;border:1px solid var(--border);border-radius:6px;background:var(--surface-2)}
+.pc-document-link{display:grid;grid-template-rows:auto 1fr;width:100%;min-width:0;padding:0;border:0;background:none;color:var(--text);font:inherit;text-align:left;cursor:pointer}
+.pc-document-link:hover .pc-document-type{text-decoration:underline}
+.pc-document-thumb{position:relative;display:grid;place-items:center;aspect-ratio:4/3;overflow:hidden;background:var(--surface-3);color:var(--text-soft);font-family:inherit;font-size:1.5rem;font-weight:700}
+.pc-document-thumb img,.pc-document-thumb canvas{display:block;max-width:100%;max-height:100%;object-fit:contain}
+.pc-document-thumb-label{position:absolute;right:6px;bottom:6px;padding:2px 6px;border-radius:4px;background:var(--surface);color:var(--text);font-size:.62rem;font-weight:700}
+.pc-document-card-info{display:grid;gap:3px;min-width:0;padding:9px 10px}
+.pc-document-type{padding:0;background:none;color:var(--text);font-size:.76rem;line-height:1.3;overflow-wrap:anywhere}
+.pc-document-filename{overflow:hidden;color:var(--text-soft);font-size:.67rem;line-height:1.35;text-overflow:ellipsis;white-space:nowrap}
+.pc-document-actions{display:flex;align-items:center;gap:6px;padding:0 8px 8px}
 .pc-document-download{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border:1px solid var(--border);border-radius:50%;background:var(--surface);color:var(--text-muted);text-decoration:none;font-size:.9rem}
 .pc-document-download:hover{background:var(--surface-3);color:var(--text)}
 .pc-document-type-field{display:grid;gap:4px;max-width:280px;margin:8px 0;color:var(--text-muted);font-size:.74rem;font-weight:600}
@@ -1971,6 +1978,55 @@ function renderDocumentTypeOptions(){
     .map(([value,label]) => `<option value="${value}">${label}</option>`).join('');
 }
 
+let pdfJsPromise;
+function loadPdfJs(){
+  if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  if (!pdfJsPromise){
+    pdfJsPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
+      script.async = true;
+      script.onload = () => {
+        if (!window.pdfjsLib){ reject(new Error('PDF.js did not load')); return; }
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+        resolve(window.pdfjsLib);
+      };
+      script.onerror = () => reject(new Error('PDF.js could not be loaded'));
+      document.head.append(script);
+    }).catch(error => {
+      pdfJsPromise = null;
+      throw error;
+    });
+  }
+  return pdfJsPromise;
+}
+
+async function renderPdfThumbnail(file, previewUrl, canvas, fallback){
+  let pdf;
+  try{
+    const pdfjs = await loadPdfJs();
+    const data = file.blob
+      ? new Uint8Array(await file.blob.arrayBuffer())
+      : new Uint8Array(await (await fetch(previewUrl)).arrayBuffer());
+    pdf = await pdfjs.getDocument({data}).promise;
+    if (!canvas.isConnected) return;
+    const page = await pdf.getPage(1);
+    const originalViewport = page.getViewport({scale:1});
+    const viewport = page.getViewport({scale:Math.min(260 / originalViewport.width, 180 / originalViewport.height)});
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(viewport.width * pixelRatio);
+    canvas.height = Math.round(viewport.height * pixelRatio);
+    const context = canvas.getContext('2d');
+    context.scale(pixelRatio, pixelRatio);
+    await page.render({canvasContext:context,viewport}).promise;
+    fallback.hidden = true;
+  }catch(error){
+    fallback.hidden = false;
+  }finally{
+    if (pdf) await pdf.destroy();
+  }
+}
+
 function openPersonMediaDatabase(){
   if (!window.indexedDB) return Promise.reject(new Error('IndexedDB unavailable'));
   if (!personMediaDatabasePromise){
@@ -2038,6 +2094,7 @@ function openDocumentPreview(file, trigger){
   closeDocumentPreview(false);
   documentPreviewReturnFocus = trigger;
   const name = file.name || 'Documento';
+  const documentType = DOCUMENT_TYPE_LABELS[file.document_type || file.documentType || 'other'] || DOCUMENT_TYPE_LABELS.other;
   const mimeType = file.mime_type || file.blob?.type || '';
   const isPdf = mimeType === 'application/pdf' || /\.pdf$/i.test(name);
   const isImage = mimeType.startsWith('image/') || /\.(png|jpe?g|gif|webp|avif|bmp|svg)$/i.test(name);
@@ -2047,7 +2104,7 @@ function openDocumentPreview(file, trigger){
     activeDocumentPreviewObjectUrl = previewUrl;
   }
 
-  documentPreviewTitle.textContent = name;
+  documentPreviewTitle.textContent = documentType;
   const downloadUrl = file.url || previewUrl;
   if (downloadUrl) documentPreviewDownload.href = downloadUrl;
   else documentPreviewDownload.removeAttribute('href');
@@ -2121,27 +2178,64 @@ function renderPersonMedia(id, personName, record){
       const item = document.createElement('li');
       const preview = document.createElement('button');
       const download = document.createElement('a');
+      const thumbnail = document.createElement('div');
+      const thumbnailFallback = document.createElement('span');
+      const cardInfo = document.createElement('span');
       const type = document.createElement('span');
+      const fileName = document.createElement('span');
       const size = document.createElement('span');
+      const actions = document.createElement('div');
       const remove = document.createElement('button');
-      const url = file.url || URL.createObjectURL(file.blob);
-      if (file.blob) personMediaObjectUrls.push(url);
+      const localUrl = file.blob ? URL.createObjectURL(file.blob) : '';
+      const url = file.url || localUrl;
+      const previewUrl = file.previewUrl || localUrl || file.url || '';
+      if (localUrl) personMediaObjectUrls.push(localUrl);
+      const documentType = DOCUMENT_TYPE_LABELS[file.document_type || file.documentType || 'other'] || DOCUMENT_TYPE_LABELS.other;
+      const isPdf = file.mime_type === 'application/pdf' || file.blob?.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+      const isImage = (file.mime_type || file.blob?.type || '').startsWith('image/') || /\.(png|jpe?g|gif|webp|avif|bmp|svg)$/i.test(file.name);
       preview.className = 'pc-document-link';
       preview.type = 'button';
-      preview.textContent = file.name;
+      preview.setAttribute('aria-label', `Vista previa: ${documentType}`);
       preview.title = 'Vista previa del documento';
-      preview.setAttribute('aria-label', `Vista previa de ${file.name}`);
       preview.addEventListener('click', () => openDocumentPreview(file, preview));
+      thumbnail.className = 'pc-document-thumb';
+      thumbnailFallback.className = 'pc-document-thumb-fallback';
+      thumbnailFallback.textContent = isPdf ? 'PDF' : '▤';
+      thumbnail.append(thumbnailFallback);
+      if (isPdf){
+        const pdfLabel = document.createElement('span');
+        const canvas = document.createElement('canvas');
+        pdfLabel.className = 'pc-document-thumb-label';
+        pdfLabel.textContent = 'PDF';
+        canvas.setAttribute('aria-label', `Miniatura de ${documentType}`);
+        thumbnail.append(canvas, pdfLabel);
+        renderPdfThumbnail(file, previewUrl, canvas, thumbnailFallback);
+      } else if (isImage && previewUrl){
+        const image = document.createElement('img');
+        image.src = previewUrl;
+        image.alt = `Miniatura: ${documentType}`;
+        image.onload = () => { thumbnailFallback.hidden = true; };
+        image.onerror = () => { thumbnailFallback.hidden = false; };
+        thumbnail.append(image);
+      }
+      cardInfo.className = 'pc-document-card-info';
+      type.className = 'pc-document-type';
+      type.textContent = documentType;
+      fileName.className = 'pc-document-filename';
+      fileName.textContent = file.name;
+      fileName.title = file.name;
+      size.className = 'pc-document-size';
+      size.textContent = `${(Number(file.size_bytes ?? file.blob?.size ?? 0) / 1024 / 1024).toFixed(1)} MB`;
+      cardInfo.append(type, fileName, size);
+      preview.append(thumbnail, cardInfo);
+      preview.className = 'pc-document-link';
+      actions.className = 'pc-document-actions';
       download.className = 'pc-document-download';
       download.href = url;
       download.download = file.name;
       download.title = 'Descargar documento';
       download.setAttribute('aria-label', `Descargar ${file.name}`);
       download.textContent = '⇩';
-      type.className = 'pc-document-type';
-      type.textContent = DOCUMENT_TYPE_LABELS[file.document_type || file.documentType || 'other'] || DOCUMENT_TYPE_LABELS.other;
-      size.className = 'pc-document-size';
-      size.textContent = `${(Number(file.size_bytes ?? file.blob?.size ?? 0) / 1024 / 1024).toFixed(1)} MB`;
       remove.className = 'pc-document-remove';
       remove.type = 'button';
       remove.textContent = '×';
@@ -2149,7 +2243,8 @@ function renderPersonMedia(id, personName, record){
       remove.setAttribute('aria-label', 'Eliminar documento');
       remove.dataset.removeDocument = file.id;
       remove.hidden = SUPABASE_CONFIGURED && !supabaseSession;
-      item.append(preview, type, size, download, remove);
+      actions.append(download, remove);
+      item.append(preview, actions);
       documentList.append(item);
     });
   }
