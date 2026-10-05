@@ -7,8 +7,8 @@ Las fotos y documentos se publican para lectura pública. Solo la cuenta adminis
 3. En Authentication, crea el usuario administrador con ese correo y una contraseña. Desactiva el registro público de usuarios.
 4. En Project Settings > API, copia el Project URL y la clave pública `anon`/publishable en `supabase-config.js`, en `url` y `anonKey`.
 5. Publica juntos `index.html`, `Tritopani.otf` y `supabase-config.js`. El navegador debe tener acceso a Internet para cargar el cliente de Supabase.
-6. Vuelve a ejecutar el `supabase-setup.sql` actualizado en el SQL Editor de Supabase para habilitar el registro de actividad y guardar descripciones de fotos familiares. El script puede ejecutarse más de una vez.
-7. Busca una persona o un perfil de «Otros Mickles», abre su ficha e inicia sesión en «Administrar archivos». Para documentos, elige su tipo y luego usa «Agregar documentos»; si seleccionas varios a la vez, todos recibirán ese tipo. En una página de familia, usa «Administrar foto familiar» para iniciar sesión, cargar su retrato y añadir o editar su descripción.
+6. Vuelve a ejecutar el `supabase-setup.sql` actualizado en el SQL Editor de Supabase para habilitar el registro de actividad, guardar descripciones de fotos familiares y permitir varias fotos por familia. El script puede ejecutarse más de una vez.
+7. Busca una persona o un perfil de «Otros Mickles», abre su ficha e inicia sesión en «Administrar archivos». Para documentos, elige su tipo y luego usa «Agregar documentos»; si seleccionas varios a la vez, todos recibirán ese tipo. En una página de familia, usa «Administrar foto familiar» para iniciar sesión, cargar varias fotos y añadir o editar el título o descripción de cada una.
 
 La clave `anon`/publishable está diseñada para usarse en el navegador; las políticas SQL restringen las escrituras al correo administrador. Nunca pongas la clave `service_role` en `supabase-config.js` ni en el HTML.
 

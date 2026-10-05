@@ -424,15 +424,22 @@ a{color:inherit;text-decoration:none}
 .family-hero .badge-hero{display:inline-block;font-size:.74rem;font-weight:700;color:var(--text-soft);letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--surface-3);margin-bottom:12px}
 .family-hero h1{font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:10px}
 .family-hero p{color:var(--text-muted);font-size:.92rem;font-style:italic;max-width:640px;margin:0 auto}
-.family-photo-layout{display:grid;grid-template-columns:minmax(180px,280px) 1fr;align-items:center;gap:20px}
+.family-photo-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:14px 0}
+.family-photo-card{min-width:0;overflow:hidden;border:1px solid var(--border);border-radius:6px;background:var(--surface-2)}
 .family-photo-preview{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/3;overflow:hidden;padding:0;border:1px solid var(--border);border-radius:6px;background:var(--surface-2);color:var(--text-soft);font:inherit}
 .family-photo-preview:not(:disabled){cursor:zoom-in}
 .family-photo-preview img{width:100%;height:100%;object-fit:cover}
-.family-photo-description{margin:8px 0 0;color:var(--text-muted);font-size:.82rem;line-height:1.55;overflow-wrap:anywhere}
-.family-photo-description[hidden]{display:none}
+.family-photo-card .family-photo-preview{border:0;border-radius:0}
+.family-photo-card-details{padding:10px 12px}
+.family-photo-caption{margin:0;color:var(--text);font-size:.86rem;font-weight:700;line-height:1.4;overflow-wrap:anywhere}
+.family-photo-filename{display:block;margin-top:3px;color:var(--text-soft);font-size:.68rem;overflow-wrap:anywhere}
 .family-photo-tools{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.family-photo-description-editor{display:grid;flex:1 1 260px;gap:4px;color:var(--text-muted);font-size:.74rem;font-weight:600}
-.family-photo-description-editor textarea{width:100%;min-height:76px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface-2);color:var(--text);font:inherit;font-weight:400;resize:vertical}
+.family-photo-card-admin{display:grid;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.family-photo-card-admin[hidden]{display:none}
+.family-photo-card-admin label{display:grid;gap:4px;color:var(--text-muted);font-size:.72rem;font-weight:600}
+.family-photo-card-admin textarea{width:100%;min-height:64px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text);font:inherit;font-size:.78rem;font-weight:400;resize:vertical}
+.family-photo-card-actions{display:flex;gap:8px}
+.family-photo-empty{margin:10px 0;color:var(--text-soft);font-size:.82rem}
 .family-photo-auth{display:grid;gap:8px;max-width:360px}
 .family-photo-status{display:block;color:var(--text-soft);font-size:.78rem}
 .family-photo-status:empty{display:none}
@@ -452,7 +459,7 @@ a{color:inherit;text-decoration:none}
 .activity-item time{display:block;margin-top:3px;color:var(--text-soft);font-size:.65rem}
 .activity-empty{padding:14px 0;color:var(--text-soft);font-size:.85rem}
 @media(max-width:900px){.family-activity-layout{grid-template-columns:1fr}.activity-section{position:static;max-height:none}.activity-list{max-height:240px}}
-@media(max-width:640px){.family-photo-layout{grid-template-columns:1fr}.family-photo-preview{max-width:100%}.activity-section{padding:16px 14px;margin:0 0 20px}}
+@media(max-width:640px){.family-photo-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.family-photo-card-details{padding:8px}.family-photo-caption{font-size:.76rem}.family-photo-tools{gap:6px}.activity-section{padding:16px 14px;margin:0 0 20px}}
 
 .family-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:26px}
 .family-stats .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;text-align:center;box-shadow:var(--shadow-sm)}
@@ -1618,6 +1625,8 @@ Object.assign(TRANSLATIONS.en,{'Descargar genograma':'Download genogram','Pantal
 Object.assign(TRANSLATIONS.fr,{'Descargar genograma':'Télécharger le génogramme','Pantalla completa':'Plein écran','Salir de pantalla completa':'Quitter le plein écran','No se pudo abrir pantalla completa.':'Impossible d’ouvrir le plein écran.'});
 Object.assign(TRANSLATIONS.en,{'Descripción':'Description','Escribe una descripción para esta foto familiar':'Write a description for this family photo','Guardar descripción':'Save description','Descripción guardada.':'Description saved.','No se pudo guardar la descripción.':'Could not save the description.'});
 Object.assign(TRANSLATIONS.fr,{'Descripción':'Description','Escribe una descripción para esta foto familiar':'Décrivez cette photo de famille','Guardar descripción':'Enregistrer la description','Descripción guardada.':'Description enregistrée.','No se pudo guardar la descripción.':'Impossible d’enregistrer la description.'});
+Object.assign(TRANSLATIONS.en,{'Fotos familiares':'Family photos','Todavía no hay fotos familiares.':'No family photos yet.','Agregar fotos':'Add photos','Administrar fotos familiares':'Manage family photos','Título o descripción':'Title or description','Guardar':'Save'});
+Object.assign(TRANSLATIONS.fr,{'Fotos familiares':'Photos de famille','Todavía no hay fotos familiares.':'Aucune photo de famille pour le moment.','Agregar fotos':'Ajouter des photos','Administrar fotos familiares':'Gérer les photos de famille','Título o descripción':'Titre ou description','Guardar':'Enregistrer'});
 function translateText(value){
   const text=String(value).trim();
   const dictionary=TRANSLATIONS[currentLanguage]||{};
@@ -2228,7 +2237,6 @@ function renderPersonMedia(id, personName, record){
       size.textContent = `${(Number(file.size_bytes ?? file.blob?.size ?? 0) / 1024 / 1024).toFixed(1)} MB`;
       cardInfo.append(type, fileName, size);
       preview.append(thumbnail, cardInfo);
-      preview.className = 'pc-document-link';
       actions.className = 'pc-document-actions';
       download.className = 'pc-document-download';
       download.href = url;
@@ -2318,7 +2326,10 @@ async function uploadSupabasePersonFile(personId, file, kind, documentType='othe
     document_type:kind === 'document' ? documentType : 'other'
   };
   if (kind === 'photo' && personId.startsWith('family:')) metadata.description = description.trim() || null;
-  if (kind === 'photo'){
+  if (kind === 'photo' && personId.startsWith('family:')){
+    const {error:metadataError} = await supabaseClient.from('person_media').insert(metadata);
+    if (metadataError){ await bucket.remove([objectPath]); throw metadataError; }
+  } else if (kind === 'photo'){
     const {data:existing, error:lookupError} = await supabaseClient.from('person_media')
       .select('id,object_path').eq('person_id', personId).eq('kind', 'photo').maybeSingle();
     if (lookupError){ await bucket.remove([objectPath]); throw lookupError; }
@@ -2342,6 +2353,18 @@ async function deleteSupabasePersonFile(file){
 }
 
 let activeFamilyPhotoKey = null;
+async function loadSupabaseFamilyPhotos(viewKey){
+  const personId = `family:${viewKey}`;
+  const {data, error} = await supabaseClient.from('person_media')
+    .select('id,person_id,kind,object_path,file_name,mime_type,size_bytes,description,created_at')
+    .eq('person_id', personId)
+    .eq('kind', 'photo')
+    .order('created_at', {ascending:true});
+  if (error) throw error;
+  const bucket = supabaseClient.storage.from(SUPABASE_BUCKET);
+  return data.map(photo => ({...photo,url:bucket.getPublicUrl(photo.object_path).data.publicUrl}));
+}
+
 function updateFamilyPhotoControls(){
   const section = document.getElementById('family-photo-section');
   if (!section) return;
@@ -2362,35 +2385,110 @@ function updateFamilyPhotoControls(){
 async function refreshFamilyPhoto(viewKey){
   const section = document.getElementById('family-photo-section');
   if (!section || activeFamilyPhotoKey !== viewKey || !supabaseClient) return;
-  const preview = section.querySelector('#family-photo-preview');
-  const description = section.querySelector('#family-photo-description');
-  const descriptionInput = section.querySelector('#family-photo-description-input');
-  const descriptionSave = section.querySelector('#family-photo-description-save');
+  const gallery = section.querySelector('#family-photo-gallery');
+  const emptyMessage = section.querySelector('#family-photo-empty');
   const status = section.querySelector('#family-photo-status');
-  const removeButton = section.querySelector('#family-photo-remove');
   try{
-    const record = await loadSupabasePersonMedia(`family:${viewKey}`);
-    preview.replaceChildren();
-    preview.disabled = !record.photoUrl;
-    removeButton.hidden = !record.photoRow;
-    description.textContent = record.photoDescription || '';
-    description.hidden = !record.photoDescription;
-    descriptionInput.value = record.photoDescription || '';
-    descriptionInput.dataset.savedValue = record.photoDescription || '';
-    descriptionInput.dataset.hasPhoto = String(Boolean(record.photoRow));
-    descriptionSave.disabled = !record.photoRow || descriptionInput.value.trim() === descriptionInput.dataset.savedValue;
-    if (record.photoUrl){
-      const image = document.createElement('img');
-      image.src = record.photoUrl;
-      image.alt = `Foto de ${VIEW_META[viewKey].name}`;
-      preview.append(image);
-    } else {
-      preview.textContent = 'Todavía no hay una foto familiar';
-    }
+    const photos = await loadSupabaseFamilyPhotos(viewKey);
+    renderFamilyPhotoGallery(photos, viewKey, section);
+    emptyMessage.hidden = photos.length > 0;
     status.textContent = '';
   }catch(error){
     status.textContent = 'No se pudo cargar la foto familiar.';
   }
+}
+
+function renderFamilyPhotoGallery(photos, viewKey, section){
+  const gallery = section.querySelector('#family-photo-gallery');
+  const status = section.querySelector('#family-photo-status');
+  gallery.replaceChildren();
+  photos.forEach(photo => {
+    const card = document.createElement('article');
+    const preview = document.createElement('button');
+    const image = document.createElement('img');
+    const details = document.createElement('div');
+    const caption = document.createElement('p');
+    const fileName = document.createElement('small');
+    const admin = document.createElement('div');
+    const editorLabel = document.createElement('label');
+    const descriptionInput = document.createElement('textarea');
+    const actions = document.createElement('div');
+    const saveButton = document.createElement('button');
+    const removeButton = document.createElement('button');
+    const savedDescription = photo.description || '';
+
+    card.className = 'family-photo-card';
+    preview.className = 'family-photo-preview';
+    preview.type = 'button';
+    preview.setAttribute('aria-label', `Ampliar foto: ${photo.file_name}`);
+    image.src = photo.url;
+    image.alt = photo.description || photo.file_name;
+    preview.append(image);
+    details.className = 'family-photo-card-details';
+    caption.className = 'family-photo-caption';
+    caption.textContent = photo.description || photo.file_name;
+    fileName.className = 'family-photo-filename';
+    fileName.textContent = photo.file_name;
+    fileName.title = photo.file_name;
+    details.append(caption, fileName);
+
+    admin.className = 'family-photo-card-admin';
+    admin.hidden = !supabaseSession;
+    editorLabel.textContent = 'Título o descripción';
+    descriptionInput.maxLength = 500;
+    descriptionInput.rows = 3;
+    descriptionInput.value = savedDescription;
+    editorLabel.append(descriptionInput);
+    actions.className = 'family-photo-card-actions';
+    saveButton.className = 'pc-upload-label';
+    saveButton.type = 'button';
+    saveButton.textContent = 'Guardar';
+    saveButton.disabled = true;
+    removeButton.className = 'pc-media-remove';
+    removeButton.type = 'button';
+    removeButton.textContent = 'Quitar foto';
+    removeButton.setAttribute('aria-label', `Quitar foto ${photo.file_name}`);
+    actions.append(saveButton, removeButton);
+    admin.append(editorLabel, actions);
+    descriptionInput.addEventListener('input', () => {
+      saveButton.disabled = descriptionInput.value.trim() === savedDescription;
+    });
+    saveButton.addEventListener('click', async () => {
+      saveButton.disabled = true;
+      status.textContent = '';
+      try{
+        const {error} = await supabaseClient.from('person_media')
+          .update({description:descriptionInput.value.trim() || null})
+          .eq('id', photo.id)
+          .eq('person_id', `family:${viewKey}`)
+          .eq('kind', 'photo');
+        if (error) throw error;
+        await refreshFamilyPhoto(viewKey);
+        await loadRecentActivity();
+        status.textContent = 'Descripción guardada.';
+        localizeTextTree(status);
+      }catch(error){
+        status.textContent = 'No se pudo guardar la descripción.';
+        localizeTextTree(status);
+        saveButton.disabled = false;
+      }
+    });
+    removeButton.addEventListener('click', async () => {
+      removeButton.disabled = true;
+      try{
+        await deleteSupabasePersonFile(photo);
+        await refreshFamilyPhoto(viewKey);
+        await loadRecentActivity();
+      }catch(error){
+        mostrarToast('No se pudo guardar el archivo.', 'error', 4000);
+        removeButton.disabled = false;
+      }
+    });
+    card.append(preview, details, admin);
+    gallery.append(card);
+  });
+  localizeTextTree(gallery);
+  localizeAttributes();
 }
 
 function setupFamilyPhoto(viewKey){
@@ -2400,29 +2498,20 @@ function setupFamilyPhoto(viewKey){
   section.hidden = false;
   section.innerHTML = `
     <h2 id="family-photo-title"><span class="icon">▧</span> Retrato familiar</h2>
-    <p class="sub">Una imagen compartida para ${familyName}</p>
-    <div class="family-photo-layout">
-      <div>
-        <button class="family-photo-preview" id="family-photo-preview" type="button" disabled>Todavía no hay una foto familiar</button>
-        <p class="family-photo-description" id="family-photo-description" hidden></p>
-      </div>
-      <div>
-        <div class="family-photo-tools" id="family-photo-tools" hidden>
-          <label class="pc-upload-label">Subir o cambiar foto<input id="family-photo-upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" aria-label="Subir o cambiar foto familiar"></label>
-          <button class="pc-media-remove" id="family-photo-remove" type="button" hidden>Quitar foto</button>
-          <label class="family-photo-description-editor">Descripción<textarea id="family-photo-description-input" maxlength="500" rows="3" placeholder="Escribe una descripción para esta foto familiar"></textarea></label>
-          <button class="pc-media-remove" id="family-photo-description-save" type="button" disabled>Guardar descripción</button>
-        </div>
-        <div class="family-photo-auth">
-          <button class="pc-upload-label" id="family-photo-login-toggle" type="button">Administrar foto familiar</button>
-          <form class="pc-media-login-form" id="family-photo-login-form" hidden>
-            <label>Correo electrónico<input id="family-photo-email" type="email" autocomplete="username" required></label>
-            <label>Contraseña<input id="family-photo-password" type="password" autocomplete="current-password" required></label>
-            <button class="pc-upload-label" type="submit">Iniciar sesión</button>
-          </form>
-          <small class="family-photo-status" id="family-photo-status" role="status"></small>
-        </div>
-      </div>
+    <p class="sub">Fotos familiares</p>
+    <div class="family-photo-gallery" id="family-photo-gallery" aria-live="polite"></div>
+    <p class="family-photo-empty" id="family-photo-empty">Todavía no hay fotos familiares.</p>
+    <div class="family-photo-tools" id="family-photo-tools" hidden>
+      <label class="pc-upload-label">Agregar fotos<input id="family-photo-upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" aria-label="Agregar fotos familiares" multiple></label>
+    </div>
+    <div class="family-photo-auth">
+      <button class="pc-upload-label" id="family-photo-login-toggle" type="button">Administrar fotos familiares</button>
+      <form class="pc-media-login-form" id="family-photo-login-form" hidden>
+        <label>Correo electrónico<input id="family-photo-email" type="email" autocomplete="username" required></label>
+        <label>Contraseña<input id="family-photo-password" type="password" autocomplete="current-password" required></label>
+        <button class="pc-upload-label" type="submit">Iniciar sesión</button>
+      </form>
+      <small class="family-photo-status" id="family-photo-status" role="status"></small>
     </div>`;
   updateFamilyPhotoControls();
 
@@ -2430,9 +2519,6 @@ function setupFamilyPhoto(viewKey){
   const loginForm = section.querySelector('#family-photo-login-form');
   const status = section.querySelector('#family-photo-status');
   const photoInput = section.querySelector('#family-photo-upload');
-  const removeButton = section.querySelector('#family-photo-remove');
-  const descriptionInput = section.querySelector('#family-photo-description-input');
-  const descriptionSave = section.querySelector('#family-photo-description-save');
   loginToggle.addEventListener('click', () => {
     loginForm.hidden = !loginForm.hidden;
     if (!loginForm.hidden) section.querySelector('#family-photo-email').focus();
@@ -2460,55 +2546,27 @@ function setupFamilyPhoto(viewKey){
     }
   });
   photoInput.addEventListener('change', async () => {
-    const file = photoInput.files[0];
+    const files = Array.from(photoInput.files);
     photoInput.value = '';
-    if (!file) return;
-    const validImage = ['image/jpeg','image/png','image/webp','image/gif','image/avif'].includes(file.type) || /\.(jpe?g|png|webp|gif|avif)$/i.test(file.name);
-    if (!validImage){ mostrarToast('Elige una imagen válida.', 'error'); return; }
-    if (file.size > PERSON_MEDIA_MAX_SIZE){ mostrarToast('La foto no puede superar los 10 MB.', 'error'); return; }
+    if (!files.length) return;
+    const validImages = files.every(file => ['image/jpeg','image/png','image/webp','image/gif','image/avif'].includes(file.type) || /\.(jpe?g|png|webp|gif|avif)$/i.test(file.name));
+    if (!validImages){ mostrarToast('Elige una imagen válida.', 'error'); return; }
+    if (files.some(file => file.size > PERSON_MEDIA_MAX_SIZE)){ mostrarToast('La foto no puede superar los 10 MB.', 'error'); return; }
     photoInput.disabled = true;
+    let uploadFailed = false;
     try{
-      await uploadSupabasePersonFile(`family:${viewKey}`, file, 'photo', 'other', descriptionInput.value);
+      for (const file of files){
+        try{
+          await uploadSupabasePersonFile(`family:${viewKey}`, file, 'photo');
+        }catch(error){
+          uploadFailed = true;
+        }
+      }
       await refreshFamilyPhoto(viewKey);
       await loadRecentActivity();
+      if (uploadFailed) mostrarToast('No se pudo guardar el archivo.', 'error', 4000);
     }catch(error){ mostrarToast('No se pudo guardar el archivo.', 'error', 4000); }
     finally{ photoInput.disabled = false; }
-  });
-  descriptionInput.addEventListener('input', () => {
-    descriptionSave.disabled = descriptionInput.dataset.hasPhoto !== 'true'
-      || descriptionInput.value.trim() === descriptionInput.dataset.savedValue;
-  });
-  descriptionSave.addEventListener('click', async () => {
-    descriptionSave.disabled = true;
-    status.textContent = '';
-    try{
-      const record = await loadSupabasePersonMedia(`family:${viewKey}`);
-      if (!record.photoRow) throw new Error('No family photo to describe');
-      const {error} = await supabaseClient.from('person_media')
-        .update({description:descriptionInput.value.trim() || null})
-        .eq('id', record.photoRow.id)
-        .eq('person_id', `family:${viewKey}`)
-        .eq('kind', 'photo');
-      if (error) throw error;
-      await refreshFamilyPhoto(viewKey);
-      await loadRecentActivity();
-      status.textContent = 'Descripción guardada.';
-      localizeTextTree(status);
-    }catch(error){
-      status.textContent = 'No se pudo guardar la descripción.';
-      localizeTextTree(status);
-      descriptionSave.disabled = false;
-    }
-  });
-  removeButton.addEventListener('click', async () => {
-    removeButton.disabled = true;
-    try{
-      const record = await loadSupabasePersonMedia(`family:${viewKey}`);
-      if (record.photoRow) await deleteSupabasePersonFile(record.photoRow);
-      await refreshFamilyPhoto(viewKey);
-      await loadRecentActivity();
-    }catch(error){ mostrarToast('No se pudo guardar el archivo.', 'error', 4000); }
-    finally{ removeButton.disabled = false; }
   });
   refreshFamilyPhoto(viewKey);
 }

@@ -23,9 +23,10 @@ alter table public.person_media
   add constraint person_media_document_type_check
   check (document_type in ('birth', 'death', 'marriage', 'baptism', 'other'));
 
+drop index if exists public.person_media_one_profile_photo;
 create unique index if not exists person_media_one_profile_photo
   on public.person_media (person_id)
-  where kind = 'photo';
+  where kind = 'photo' and person_id not like 'family:%';
 
 alter table public.person_media enable row level security;
 grant select on public.person_media to anon, authenticated;
