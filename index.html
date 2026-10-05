@@ -205,6 +205,7 @@ a{color:inherit;text-decoration:none}
 .search-results button{display:flex;width:100%;align-items:baseline;gap:8px;padding:9px 10px;text-align:left;border:0;border-radius:4px;background:transparent;color:var(--text);font:inherit;cursor:pointer}
 .search-results button:hover,.search-results button:focus-visible{background:var(--surface-3);outline:none}
 .search-results .search-kind{flex:0 0 auto;color:var(--text-soft);font-size:.72em;text-transform:uppercase}
+.search-results .search-detail{color:var(--text-muted);font-size:.76em}
 .search-feedback{margin:5px 0 0;color:var(--text-muted);font-size:.82rem}
 @media(max-width:520px){.search-form{grid-template-columns:1fr auto}.search-form select{grid-column:1/-1}.search-results{left:0;right:0}}
 .tree-card{background:var(--surface);border:2px solid #63202D;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:22px;transition:background .3s,border-color .3s}
@@ -1216,7 +1217,7 @@ thomas:{n:'Thomas Le Guen',aliases:'Tomasa Leguen; Leguin',s:'M',d:'1835–1882'
 leocadia:{n:'María Leocadia Bedoya Gago',notes:'Martha Guzmán Mickle dice que fue monja y maestra antes de conocer a Thomas Le Guen; pendiente de confirmar con registros.',s:'F',d:'9 dic. 1839 – 27 may. 1903',nac:'9 dic. 1839',fall:'27 may. 1903',f:'🇵🇪',dec:1,gen:2,x:230,y:R2},
 casimira:{n:'María Casimira de la Vera',s:'F',d:'1775 – 11 jul. 1863',nac:'1775',fall:'11 jul. 1863',f:'🇪🇨',dec:1,gen:2,x:1240,y:R2},
 morla:{n:'José Morla López',s:'M',d:'f. 20 dic. 1847',nac:'',fall:'20 dic. 1847',f:'🇪🇸',dec:1,gen:2,x:1410,y:R2},
-julio:{n:'Julio Mickle Bedoya',notes:'Martha Guzmán Mickle dice que no encontró una fotografía suya entre las que consultó; sí conserva una de su esposa. Según información familiar recibida, también tuvo a Roberto Mickle (n. 1895) de un amorío; la identidad de la madre se desconoce.',s:'M',d:'n. 1867',nac:'1867',fall:'',f:'🇵🇪',dec:1,gen:3,x:230,y:R3,head:1},
+julio:{n:'Julio Mickle Bedoya',notes:'Martha Guzmán Mickle dice que no encontró una fotografía suya entre las que consultó; sí conserva una de su esposa. Según información familiar recibida, también tuvo a Roberto Mickle (n. 1895) de un amorío; la identidad de la madre se desconoce. Un registro de defunción de Roberto en Chile no confirma su filiación.',s:'M',d:'n. 1867',nac:'1867',fall:'',f:'🇵🇪',dec:1,gen:3,x:230,y:R3,head:1},
 angelica:{n:'Ángela Tarsila Galarza Morla',aliases:'Angélica Galarza; Angélica Galarza Morla',notes:'Nombre completo y nacimiento en Guayaquil atribuidos a Martha Guzmán Mickle en carta del 22 sep. 2026.',s:'F',d:'s. XIX · Guayaquil, Ecuador',nac:'siglo XIX',lugarNacimiento:'Guayaquil, Ecuador',fall:'',pais:'Ecuador',f:'🇪🇨',dec:1,gen:3,x:400,y:R3},
 angelaramona:{n:'Ángela Ramona Morla de la Vera',notes:'Apellidos completados según sus padres José Morla López y María Casimira de la Vera.',s:'F',d:'27 feb. 1802 – 1864',nac:'27 feb. 1802',fall:'1864',f:'🇪🇨',dec:1,gen:3,x:1180,y:R3},
 lizandro:{n:'José Lizandro Galarza',s:'M',d:'s. XIX',nac:'siglo XIX',fall:'',f:'🇪🇨',dec:1,gen:3,x:1350,y:R3},
@@ -1230,7 +1231,7 @@ pedroM:{n:'Pedro Mickle Galarza',notes:'Martha Guzmán Mickle recuerda que Pedro
 herminio:{n:'Herminio Mickle Galarza',notes:'Martha Guzmán Mickle recuerda su cercanía con Julio Fermín y sus frecuentes visitas a la casa familiar durante su infancia.',s:'M',d:'25 abr. 1904 – 12 ago. 1996',nac:'25 abr. 1904',fall:'12 ago. 1996',f:'🇵🇪',dec:1,gen:4,x:1250,y:R4},
 alberto:{n:'Alberto Mickle Galarza',s:'M',d:'1900 – 28 may. 1943',nac:'1900',fall:'28 may. 1943',f:'🇵🇪',dec:1,gen:4,x:1420,y:R4},
 juliofermin:{n:'Julio Fermín Mickle Galarza',s:'M',d:'7 jul. 1906 – 21 dic. 1969',nac:'7 jul. 1906',fall:'21 dic. 1969',f:'🇵🇪',dec:1,gen:4,x:1590,y:R4},
-robertomickle:{n:'Roberto Mickle',notes:'Se reporta como hijo de Julio Mickle Bedoya, nacido en 1895 de un amorío; la identidad de la madre no está identificada, según información familiar. No consta fecha de defunción.',s:'M',d:'n. 1895',nac:'1895',fall:'',f:'',estado:'Desconocido',dec:0,gen:4,x:1760,y:R4},
+robertomickle:{n:'Roberto Mickle',notes:'Según información familiar, era hijo de Julio Mickle Bedoya, nació en 1895 de un amorío y se desconoce la identidad de su madre; el registro de defunción no confirma esa filiación. Un registro de defunción de Iquique, Tarapacá, Chile, consigna su muerte el 3 de febrero de 1895, edad 0, y año de nacimiento estimado 1895. No consta la fecha exacta de nacimiento; ambas fechas son compatibles a nivel de año, pero el registro no permite precisarlas. Certificado 202, página 102.',s:'M',d:'1895 – 3 feb. 1895',nac:'1895 (estimado)',fall:'3 feb. 1895',f:'🇨🇱',pais:'Chile',lugarNacimiento:'',estado:'Fallecido',dec:1,gen:4,x:1760,y:R4},
 felix:{n:'Félix Mickle Rodríguez',s:'M',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:60,y:R5},
 hipolita:{n:'Hipólita Clementina Salguero Chancay',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:230,y:R5},
 victoria:{n:'Victoria Vilma Mickle Rodríguez',s:'F',d:'s. XX',nac:'siglo XX',fall:'',f:'🇵🇪',dec:0,gen:5,x:400,y:R5},
@@ -1564,7 +1565,7 @@ let currentLanguage = 'es';
 const TRANSLATIONS = {
   en:{
     'Genograma Familiar':'Family Genogram','Francia · Cuba · EE. UU. · Ecuador · Perú · España':'France · Cuba · U.S. · Ecuador · Peru · Spain',
-    'Buscar en el genograma':'Search the family tree','Tipo de búsqueda':'Search type','Persona':'Person','Familia':'Family','Escribe un nombre o apellido':'Type a first or last name','Buscar persona o familia':'Search for a person or family','Buscar':'Search','No se encontraron resultados.':'No results found.','Escribe al menos dos caracteres para buscar.':'Type at least two characters to search.',
+    'Buscar en el genograma':'Search the family tree','Tipo de búsqueda':'Search type','Persona':'Person','Familia':'Family','Escribe un nombre o apellido':'Type a first or last name','Buscar persona o familia':'Search for a person or family','Buscar':'Search','No se encontraron resultados.':'No results found.','Escribe al menos dos caracteres para buscar.':'Type at least two characters to search.','Otro Mickle':'Other Mickle','Por el momento, sin parentesco directo confirmado':'No direct relationship confirmed yet.',
     'Menú':'Menu','Menú del árbol':'Tree menu','Genograma':'Genogram','personas':'people','Varón':'Male','Mujer':'Female','Matrimonio':'Marriage','Amorío':'Affair','Divorcio':'Divorce','Fallecido':'Deceased',
     'Alejar':'Zoom out','Acercar':'Zoom in','Ajustar a pantalla':'Fit to screen','Imprimir / Guardar como PDF':'Print / Save as PDF','Modo noche':'Dark mode','Modo claro':'Light mode','Cambiar a modo noche':'Switch to dark mode','Cambiar a modo claro':'Switch to light mode','Idioma':'Language',
     'Solicitar un cambio':'Request a correction','¿Detectaste un dato incorrecto o falta información? Avísanos y te llegará directo.':'Found an error or missing information? Let us know and we will receive it directly.',
@@ -1581,7 +1582,7 @@ const TRANSLATIONS = {
   },
   fr:{
     'Genograma Familiar':'Génogramme familial','Francia · Cuba · EE. UU. · Ecuador · Perú · España':'France · Cuba · États-Unis · Équateur · Pérou · Espagne',
-    'Buscar en el genograma':'Rechercher dans l’arbre','Tipo de búsqueda':'Type de recherche','Persona':'Personne','Familia':'Famille','Escribe un nombre o apellido':'Saisissez un nom ou un prénom','Buscar persona o familia':'Rechercher une personne ou une famille','Buscar':'Rechercher','No se encontraron resultados.':'Aucun résultat.','Escribe al menos dos caracteres para buscar.':'Saisissez au moins deux caractères.',
+    'Buscar en el genograma':'Rechercher dans l’arbre','Tipo de búsqueda':'Type de recherche','Persona':'Personne','Familia':'Famille','Escribe un nombre o apellido':'Saisissez un nom ou un prénom','Buscar persona o familia':'Rechercher une personne ou une famille','Buscar':'Rechercher','No se encontraron resultados.':'Aucun résultat.','Escribe al menos dos caracteres para buscar.':'Saisissez au moins deux caractères.','Otro Mickle':'Autre Mickle','Por el momento, sin parentesco directo confirmado':'Aucun lien de parenté direct confirmé pour le moment.',
     'Menú':'Menu','Menú del árbol':'Menu de l’arbre','Genograma':'Génogramme','personas':'personnes','Varón':'Homme','Mujer':'Femme','Matrimonio':'Mariage','Amorío':'Relation extraconjugale','Divorcio':'Divorce','Fallecido':'Décédé',
     'Alejar':'Dézoomer','Acercar':'Zoomer','Ajustar a pantalla':'Ajuster à l’écran','Imprimir / Guardar como PDF':'Imprimer / Enregistrer en PDF','Modo noche':'Mode sombre','Modo claro':'Mode clair','Cambiar a modo noche':'Passer en mode sombre','Cambiar a modo claro':'Passer en mode clair','Idioma':'Langue',
     'Solicitar un cambio':'Signaler une modification','¿Detectaste un dato incorrecto o falta información? Avísanos y te llegará directo.':'Vous avez repéré une erreur ou une information manquante ? Signalez-le-nous.',
@@ -3654,10 +3655,14 @@ function findSearchMatches(){
       .map(([id,person]) => ({type:'other',id,label:person.n,detail:person.d || person.note || 'Rama separada del genograma principal'}));
   }
   if (searchScope.value === 'person'){
-    return Object.keys(P)
+    const connectedMatches = Object.keys(P)
       .filter(id => normalizeSearchText(`${P[id].n} ${P[id].aliases || ''}`).includes(query))
-      .slice(0, 10)
       .map(id => ({type:'person',id,label:P[id].n,detail:P[id].d}));
+    const otherMickleMatches = Object.entries(OTHER_PEOPLE)
+      .filter(([id,person]) => !P[id] && /mickley?/.test(normalizeSearchText(`${person.n} ${person.aliases || ''}`)))
+      .filter(([,person]) => normalizeSearchText(`${person.n} ${person.aliases || ''} ${person.d || ''}`).includes(query))
+      .map(([id,person]) => ({type:'other',id,label:person.n,detail:'Por el momento, sin parentesco directo confirmado'}));
+    return [...connectedMatches,...otherMickleMatches].slice(0, 10);
   }
   return Array.from(FAMILY_VIEW_KEYS)
     .filter(id => normalizeSearchText(`${VIEW_META[id].name} ${VIEW_META[id].desc}`).includes(query))
@@ -3688,6 +3693,7 @@ function updateSearchResults(){
     kind.textContent = match.type === 'person' ? 'Persona' : match.type === 'other' ? 'Otro Mickle' : 'Familia';
     label.textContent = match.label;
     detail.textContent = match.detail;
+    detail.className = 'search-detail';
     button.append(kind, label, detail);
     item.append(button);
     searchResults.append(item);
