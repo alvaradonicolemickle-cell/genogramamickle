@@ -329,7 +329,7 @@ a{color:inherit;text-decoration:none}
 .person-card{padding:0 24px 24px}
 .pc-hero{padding:22px 0 18px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:18px}
 .pc-photo{width:110px;height:110px;border-radius:50%;background:var(--surface-3);border:3px solid var(--surface);box-shadow:0 6px 20px rgba(0,0,0,.2),0 0 0 1px var(--border);display:inline-flex;align-items:center;justify-content:center;overflow:hidden;font-family:"Playfair Display",serif;font-weight:700;font-size:2.2rem;color:var(--text-soft);margin-bottom:12px}
-.pc-photo img{width:100%;height:100%;object-fit:cover}
+.pc-photo img{display:block;width:100%;height:100%;object-fit:contain}
 .pc-photo.has-photo{cursor:zoom-in}
 .photo-viewer[hidden]{display:none}
 .photo-viewer{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(14,18,20,.92)}
@@ -409,20 +409,23 @@ a{color:inherit;text-decoration:none}
 .family-photo-auth{display:grid;gap:8px;max-width:360px}
 .family-photo-status{display:block;color:var(--text-soft);font-size:.78rem}
 .family-photo-status:empty{display:none}
-.activity-section{margin:28px 0;padding:22px 24px;border-top:3px solid var(--g3);background:var(--surface-2)}
+.family-activity-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;align-items:start;gap:20px}
+.family-activity-layout .family-history{margin:0}
+.activity-section{position:sticky;top:112px;max-height:490px;overflow:hidden;margin:0;padding:16px;border:1px solid var(--border);border-top:3px solid var(--g3);border-radius:6px;background:var(--surface-2)}
 .activity-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.activity-header h2{font-size:1.15rem}
-.activity-header p{margin:3px 0 0;color:var(--text-soft);font-size:.8rem}
+.activity-header h2{font-size:1rem}
+.activity-header p{margin:3px 0 0;color:var(--text-soft);font-size:.7rem;line-height:1.4}
 .activity-refresh{flex:0 0 38px;width:38px;height:38px;margin-left:auto;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text);font-size:1.2rem;cursor:pointer}
-.activity-list{display:grid;gap:0;margin:0;padding:0;list-style:none}
-.activity-item{position:relative;display:grid;grid-template-columns:16px 1fr;gap:12px;padding:0 0 18px}
+.activity-list{display:grid;gap:0;max-height:400px;overflow-y:auto;margin:0;padding:0 5px 0 0;list-style:none}
+.activity-item{position:relative;display:grid;grid-template-columns:16px 1fr;gap:8px;padding:0 0 14px}
 .activity-item:not(:last-child)::before{position:absolute;top:13px;bottom:0;left:6px;width:1px;background:var(--border-strong);content:""}
 .activity-dot{position:relative;z-index:1;width:13px;height:13px;margin-top:4px;border:3px solid var(--g3);border-radius:50%;background:var(--surface)}
-.activity-item p{margin:0;color:var(--text-muted);font-size:.85rem}
+.activity-item p{margin:0;color:var(--text-muted);font-size:.75rem;line-height:1.45}
 .activity-item strong{color:var(--text)}
-.activity-item time{display:block;margin-top:3px;color:var(--text-soft);font-size:.72rem}
+.activity-item time{display:block;margin-top:3px;color:var(--text-soft);font-size:.65rem}
 .activity-empty{padding:14px 0;color:var(--text-soft);font-size:.85rem}
-@media(max-width:640px){.family-photo-layout{grid-template-columns:1fr}.family-photo-preview{max-width:100%}.activity-section{padding:18px 14px;margin:20px 0}}
+@media(max-width:900px){.family-activity-layout{grid-template-columns:1fr}.activity-section{position:static;max-height:none}.activity-list{max-height:240px}}
+@media(max-width:640px){.family-photo-layout{grid-template-columns:1fr}.family-photo-preview{max-width:100%}.activity-section{padding:16px 14px;margin:0 0 20px}}
 
 .family-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:26px}
 .family-stats .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;text-align:center;box-shadow:var(--shadow-sm)}
@@ -440,6 +443,8 @@ a{color:inherit;text-decoration:none}
 .member{display:flex;gap:14px;padding:16px;background:var(--surface-2);border-radius:var(--radius);margin-bottom:10px;border-left:4px solid var(--accent,var(--g4));transition:all .15s}
 .member:hover{background:var(--surface-3);transform:translateX(2px)}
 .member .avatar{flex:0 0 auto;width:60px;height:60px;border-radius:50%;background:var(--surface-3);border:2px solid var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:"Playfair Display",serif;font-weight:700;font-size:1.3rem;color:var(--text-soft)}
+.member .avatar img{display:block;width:100%;height:100%;object-fit:contain}
+.member .avatar.has-photo{cursor:zoom-in}
 .member .avatar.male{border-radius:12px;border-color:var(--male)}
 .member .avatar.female{border-color:var(--female)}
 .member .info{flex:1;min-width:0}
@@ -818,6 +823,7 @@ h1:not(.topbar-title),h2,h3,h4,
       </div>
     </div>
 
+    <div class="family-activity-layout">
     <section class="family-history" id="family-history">
       <header class="history-header">
         <p class="history-kicker">Historia familiar</p>
@@ -866,6 +872,7 @@ h1:not(.topbar-title),h2,h3,h4,
       </header>
       <ol class="activity-list" id="activity-list" aria-live="polite"><li class="activity-empty">Cargando actividad…</li></ol>
     </section>
+    </div>
 
     <div class="form-wrapper">
       <div class="tool-card">
@@ -2254,7 +2261,12 @@ async function refreshFamilyMemberPhotos(personIds){
     const image = document.createElement('img');
     image.src = bucket.getPublicUrl(objectPath).data.publicUrl;
     image.alt = `Foto de ${P[member.dataset.personId]?.n || 'integrante de la familia'}`;
-    member.querySelector('.avatar').replaceChildren(image);
+    const avatar = member.querySelector('.avatar');
+    avatar.replaceChildren(image);
+    avatar.classList.add('has-photo');
+    avatar.setAttribute('role', 'button');
+    avatar.setAttribute('tabindex', '0');
+    avatar.setAttribute('aria-label', `Ampliar foto de ${P[member.dataset.personId]?.n || 'integrante de la familia'}`);
   });
 }
 
@@ -2620,7 +2632,7 @@ document.addEventListener('keydown', event => {
     if (!photoViewer.hidden) closePhotoViewer();
     else cerrarFicha();
   }
-  if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.pc-photo.has-photo')){
+  if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.pc-photo.has-photo, .member .avatar.has-photo')){
     event.preventDefault();
     const image = event.target.querySelector('img');
     if (image) openPhotoViewer(image);
@@ -2763,22 +2775,23 @@ const FAMILY_COUPLES = {
 };
 
 function getCoupleFamily(aId, bId){
-  const set = new Set([aId, bId]);
-  PARENT_CHILD.forEach(({p, k}) => {
-    if (p.includes(aId) && p.includes(bId)){
-      k.forEach(kid => set.add(kid));
-    }
-  });
+  const roots = new Set([aId, bId]);
+  const set = new Set(roots);
   let changed = true;
   while (changed){
     changed = false;
     PARENT_CHILD.forEach(({p, k}) => {
-      if (p.some(pid => set.has(pid))){
+      const belongsToAnotherRootUnion = p.some(pid => roots.has(pid)) && !(p.includes(aId) && p.includes(bId));
+      if (!belongsToAnotherRootUnion && p.some(pid => set.has(pid))){
         k.forEach(kid => { if (!set.has(kid)){ set.add(kid); changed = true; } });
       }
     });
   }
-  MARRIAGES.forEach(([a,b]) => { if (set.has(a)) set.add(b); if (set.has(b)) set.add(a); });
+  MARRIAGES.forEach(([a,b]) => {
+    if (roots.has(a) || roots.has(b)) return;
+    if (set.has(a)) set.add(b);
+    if (set.has(b)) set.add(a);
+  });
   return set;
 }
 
