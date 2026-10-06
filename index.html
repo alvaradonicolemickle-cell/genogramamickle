@@ -2085,6 +2085,47 @@ async function savePersonMedia(record){
   });
 }
 
+const SEED_PERSON_DOCUMENTS = [
+  {personId:'leocadia', path:'family-documents/leocadia-padre.pdf', name:'papá de leocadia.pdf', document_type:'birth'},
+  {personId:'leocadia', path:'family-documents/leocadia-abuelo.pdf', name:'abuelo de leocadia.pdf', document_type:'birth'},
+  {personId:'julio', path:'family-documents/julio-hermanastro.pdf', name:'hermanastro de julio.pdf', document_type:'other'},
+  {personId:'julio', path:'family-documents/julio-hermanastra.pdf', name:'hermanastra de julio.pdf', document_type:'other'},
+  {personId:'julio', path:'family-documents/julio-matrimonio.pdf', name:'partida de matrimonio julio.pdf', document_type:'marriage'}
+];
+
+async function seedFamilyDocuments(){
+  if (!window.indexedDB) return;
+  for (const seed of SEED_PERSON_DOCUMENTS){
+    try{
+      const response = await fetch(seed.path, {cache:'no-cache'});
+      if (!response.ok) continue;
+      const blob = await response.blob();
+      const record = await loadPersonMedia(seed.personId).catch(() => ({id:seed.personId, photo:null, documents:[]}));
+      const docs = record.documents || [];
+      const existing = docs.find(doc => doc.name === seed.name || doc.id === `${seed.personId}-${seed.name}`);
+      const documentEntry = {
+        id: existing ? existing.id : `${seed.personId}-${seed.name}`,
+        name: seed.name,
+        size_bytes: blob.size,
+        mime_type: blob.type || 'application/pdf',
+        document_type: seed.document_type,
+        blob
+      };
+      const nextDocuments = docs.filter(doc => doc.id !== documentEntry.id && doc.name !== documentEntry.name);
+      nextDocuments.push(documentEntry);
+      record.documents = nextDocuments;
+      await savePersonMedia(record);
+      if (activeMediaPersonId === seed.personId){
+        renderPersonMedia(seed.personId, mediaPersonName(seed.personId), record);
+      }
+    }catch(error){
+      console.warn('No se pudo cargar el documento semilla', seed, error);
+    }
+  }
+}
+
+window.addEventListener('DOMContentLoaded', seedFamilyDocuments);
+
 function revokePersonMediaUrls(){
   personMediaObjectUrls.forEach(url => URL.revokeObjectURL(url));
   personMediaObjectUrls = [];
