@@ -240,6 +240,7 @@ a{color:inherit;text-decoration:none}
 .legend-mini .sym.love{border:none;font-size:1rem;width:auto;color:var(--love)}
 .legend-mini .sym.div{border:none;font-size:.9rem;width:auto;font-weight:700;color:var(--marriage)}
 .legend-mini .sym.dec{border:none;font-size:1.1rem;width:auto;color:var(--g6)}
+.legend-mini .sym.step{width:18px;height:0;border:0;border-top:2px dashed var(--conn)}
 
 .viewport-wrap{position:relative}
 .viewport{overflow:auto;background:radial-gradient(circle at 1px 1px,rgba(90,96,105,.07) 1px,transparent 0) 0 0/24px 24px;cursor:grab;max-height:74vh;overscroll-behavior:contain;transition:background .3s}
@@ -853,6 +854,7 @@ h1:not(.topbar-title),h2,h3,h4,
           <span><span class="sym ci">♀</span>Mujer</span>
           <span><span class="sym mar">♦</span>Matrimonio</span>
           <span><span class="sym love">♥</span>Amorío</span>
+          <span><span class="sym step"></span>Relación de padrastro</span>
           <span><span class="sym div">//</span>Divorcio</span>
           <span><span class="sym dec">✝</span>Fallecido</span>
         </div>
@@ -1592,6 +1594,7 @@ const TRANSLATIONS = {
     'Describe el cambio con el mayor detalle posible (fechas, actas, nombres completos…)':'Describe the change in as much detail as possible (dates, records, full names…)','Adjuntar archivo (opcional)':'Attach a file (optional)','Toca para subir una foto o PDF':'Click to upload a photo or PDF','Partidas, actas, certificados (máx. 5 MB)':'Records and certificates (max 5 MB)','Tu solicitud se enviará directamente a':'Your request will be sent directly to','Enviar solicitud':'Send request','¡Gracias! Tu solicitud se envió correctamente.':'Thank you! Your request was sent successfully.',
     'Vista general':'Overview','Ramas ancestrales':'Ancestral branches','Familias':'Families','Por generación':'By generation','Genograma completo':'Full genogram','Todas las generaciones':'All generations','Rama paterna · Le Guen':'Paternal branch · Le Guen','Descendencia Le Guen · Bedoya · Mickle':'Le Guen · Bedoya · Mickle descendants','Rama materna · Morla Galarza':'Maternal branch · Morla Galarza','Descendencia De la Vera · Morla · Galarza':'De la Vera · Morla · Galarza descendants',
     'Familia Le Guen':'Le Guen Family','Familia Le Guen Guerra':'Le Guen Guerra Family','Familia Bedoya':'Bedoya Family','Familia Morla':'Morla Family','Familia Galarza':'Galarza Family','Familia Mickle Galarza':'Mickle Galarza Family','Familia Mickle Ramírez':'Mickle Ramírez Family','Familia Mickle Rodríguez':'Mickle Rodríguez Family','Familia Quiroz Mickle':'Quiroz Mickle Family','Familia Ramírez Mickle':'Ramírez Mickle Family','Familia Komori Mickle':'Komori Mickle Family','Familia Mickle Ubillas':'Mickle Ubillas Family','Familia Alvarado Mickle':'Alvarado Mickle Family','Familia Soria Mickle':'Soria Mickle Family','Familia Postigo Mickle':'Postigo Mickle Family','Familia Mickle Alegre':'Mickle Alegre Family','Familia Mickle Sagastizábal':'Mickle Sagastizábal Family','Familia Mickle Salguero':'Mickle Salguero Family',
+    'Familia de Enrique Mickle':'Enrique Mickle Family','Padres, hermanos, parejas y descendencia documentada':'Documented parents, siblings, partners, and descendants','Relación de padrastro':'Stepparent relationship','Padrastro':'Stepparent','Hijastros':'Stepchildren',
     'Generación I · Raíces':'Generation I · Roots','Generación II · Ancestros':'Generation II · Ancestors','Generación III · Bisabuelos':'Generation III · Great-grandparents','Generación IV · Abuelos':'Generation IV · Grandparents','Generación V · Padres y tíos':'Generation V · Parents and aunts/uncles','Generación VI · Hijos':'Generation VI · Children','Generación VII · Nietos':'Generation VII · Grandchildren',
     'Siglo XVIII':'18th century','1775–1850':'1775–1850','1800–1900':'1800–1900','1900–1980':'1900–1980','Los 13 hermanos Mickle Ramírez':'The 13 Mickle Ramírez siblings','Descendientes directos':'Direct descendants','Nietos y bisnietos':'Grandchildren and great-grandchildren',
     'Total':'Total','Generaciones':'Generations','Países':'Countries','Volver al árbol':'Back to tree','Familia':'Family','Cargando…':'Loading…','Amorío':'Affair','Divorciados (2025)':'Divorced (2025)','Unión libre':'Domestic partnership','Pareja principal':'Main couple','Cónyuge':'Spouse','Hijo/a':'Child',
@@ -1609,6 +1612,7 @@ const TRANSLATIONS = {
     'Describe el cambio con el mayor detalle posible (fechas, actas, nombres completos…)':'Décrivez la modification avec le plus de détails possible (dates, actes, noms complets…)','Adjuntar archivo (opcional)':'Joindre un fichier (facultatif)','Toca para subir una foto o PDF':'Cliquez pour ajouter une photo ou un PDF','Partidas, actas, certificados (máx. 5 MB)':'Actes et certificats (max. 5 Mo)','Tu solicitud se enviará directamente a':'Votre demande sera envoyée directement à','Enviar solicitud':'Envoyer la demande','¡Gracias! Tu solicitud se envió correctamente.':'Merci ! Votre demande a bien été envoyée.',
     'Vista general':'Vue d’ensemble','Ramas ancestrales':'Branches ancestrales','Familias':'Familles','Por generación':'Par génération','Genograma completo':'Génogramme complet','Todas las generaciones':'Toutes les générations','Rama paterna · Le Guen':'Branche paternelle · Le Guen','Descendencia Le Guen · Bedoya · Mickle':'Descendance Le Guen · Bedoya · Mickle','Rama materna · Morla Galarza':'Branche maternelle · Morla Galarza','Descendencia De la Vera · Morla · Galarza':'Descendance De la Vera · Morla · Galarza',
     'Familia Le Guen':'Famille Le Guen','Familia Le Guen Guerra':'Famille Le Guen Guerra','Familia Bedoya':'Famille Bedoya','Familia Morla':'Famille Morla','Familia Galarza':'Famille Galarza','Familia Mickle Galarza':'Famille Mickle Galarza','Familia Mickle Ramírez':'Famille Mickle Ramírez','Familia Mickle Rodríguez':'Famille Mickle Rodríguez','Familia Quiroz Mickle':'Famille Quiroz Mickle','Familia Ramírez Mickle':'Famille Ramírez Mickle','Familia Komori Mickle':'Famille Komori Mickle','Familia Mickle Ubillas':'Famille Mickle Ubillas','Familia Alvarado Mickle':'Famille Alvarado Mickle','Familia Soria Mickle':'Famille Soria Mickle','Familia Postigo Mickle':'Famille Postigo Mickle','Familia Mickle Alegre':'Famille Mickle Alegre','Familia Mickle Sagastizábal':'Famille Mickle Sagastizábal','Familia Mickle Salguero':'Famille Mickle Salguero',
+    'Familia de Enrique Mickle':'Famille d’Enrique Mickle','Padres, hermanos, parejas y descendencia documentada':'Parents, frères et sœurs, partenaires et descendance documentés','Relación de padrastro':'Lien beau-parent','Padrastro':'Beau-père','Hijastros':'Beaux-enfants',
     'Generación I · Raíces':'Génération I · Racines','Generación II · Ancestros':'Génération II · Ancêtres','Generación III · Bisabuelos':'Génération III · Arrière-grands-parents','Generación IV · Abuelos':'Génération IV · Grands-parents','Generación V · Padres y tíos':'Génération V · Parents et oncles/tantes','Generación VI · Hijos':'Génération VI · Enfants','Generación VII · Nietos':'Génération VII · Petits-enfants',
     'Siglo XVIII':'XVIIIe siècle','1775–1850':'1775–1850','1800–1900':'1800–1900','1900–1980':'1900–1980','Los 13 hermanos Mickle Ramírez':'Les 13 frères et sœurs Mickle Ramírez','Descendientes directos':'Descendants directs','Nietos y bisnietos':'Petits-enfants et arrière-petits-enfants',
     'Total':'Total','Generaciones':'Générations','Países':'Pays','Volver al árbol':'Retour à l’arbre','Familia':'Famille','Cargando…':'Chargement…','Amorío':'Relation extraconjugale','Divorciados (2025)':'Divorcés (2025)','Unión libre':'Union libre','Pareja principal':'Couple principal','Cónyuge':'Conjoint/e','Hijo/a':'Enfant',
@@ -1726,6 +1730,7 @@ const countBadge = document.getElementById('count-badge');
 let zoom = 1;
 let photoTreeMode = false;
 let activeTreeVisibleIds = null;
+let activeTreePositionOverrides = null;
 let profilePhotoUrls = new Map();
 const PHOTO_NODE_SIZE = 58;
 const PHOTO_NODE_X = (W - PHOTO_NODE_SIZE) / 2;
@@ -1744,7 +1749,14 @@ const BANDS = [
   {gen:7,y:R7-20,label:'VII · Nietos'}
 ];
 
-function renderSVG(visSet){
+function treePoint(id){
+  const point = P[id];
+  const override = activeTreePositionOverrides?.[id];
+  return override ? {...point,...override} : point;
+}
+
+function renderSVG(visSet, positionOverrides){
+  if (arguments.length > 1) activeTreePositionOverrides = positionOverrides;
   activeTreeVisibleIds = visSet ? new Set(visSet) : null;
   const isVis = visSet ? (id) => visSet.has(id) : () => true;
   const parts = [];
@@ -1761,7 +1773,7 @@ function renderSVG(visSet){
 
   MARRIAGES.forEach(([a, b, tipo]) => {
     if (!isVis(a) || !isVis(b)) return;
-    const pa = P[a], pb = P[b];
+    const pa = treePoint(a), pb = treePoint(b);
     const y = pa.y + H/2;
     const x1 = pa.x + (photoTreeMode ? W/2 + PHOTO_NODE_SIZE/2 : W);
     const x2 = pb.x + (photoTreeMode ? W/2 - PHOTO_NODE_SIZE/2 : 0);
@@ -1794,27 +1806,28 @@ function renderSVG(visSet){
     drawn.add(key);
     let mx, my;
     if (vP.length === 2){
-      const pa = P[vP[0]], pb = P[vP[1]];
+      const pa = treePoint(vP[0]), pb = treePoint(vP[1]);
       mx = photoTreeMode ? (pa.x + pb.x + W) / 2 : (pa.x + W + pb.x) / 2;
       my = pa.y + H/2;
     } else {
-      const pa = P[vP[0]];
+      const pa = treePoint(vP[0]);
       mx = pa.x + W/2;
       my = pa.y + H;
     }
     const busY = my + 32;
     parts.push(`<line class="conn-line" x1="${mx}" y1="${my}" x2="${mx}" y2="${busY}"/>`);
-    const centers = vK.map(id => P[id].x + W/2);
+    const centers = vK.map(id => treePoint(id).x + W/2);
     parts.push(`<line class="conn-line" x1="${Math.min(...centers, mx)}" y1="${busY}" x2="${Math.max(...centers, mx)}" y2="${busY}"/>`);
     vK.forEach(id => {
-      const cx = P[id].x + W/2;
-      parts.push(`<line class="conn-line" x1="${cx}" y1="${busY}" x2="${cx}" y2="${P[id].y}"/>`);
+      const point = treePoint(id);
+      const cx = point.x + W/2;
+      parts.push(`<line class="conn-line" x1="${cx}" y1="${busY}" x2="${cx}" y2="${point.y}"/>`);
     });
   });
 
   STEP_PARENT_CHILD.forEach(([parentId, childId]) => {
     if (!isVis(parentId) || !isVis(childId)) return;
-    const parent = P[parentId], child = P[childId];
+    const parent = treePoint(parentId), child = treePoint(childId);
     const parentCenter = parent.x + W/2;
     const childCenter = child.x + W/2;
     const busY = parent.y + H + 16;
@@ -1823,7 +1836,7 @@ function renderSVG(visSet){
 
   Object.keys(P).forEach(id => {
     if (!isVis(id)) return;
-    const p = P[id];
+    const p = treePoint(id);
     const isF = p.s === 'F';
     let shape;
     if (photoTreeMode){
@@ -1905,11 +1918,11 @@ function conectarNodos(){
 
 document.getElementById('tree-mode-data').addEventListener('click', () => {
   photoTreeMode = false;
-  renderSVG(activeTreeVisibleIds);
+  renderSVG(activeTreeVisibleIds, activeTreePositionOverrides);
 });
 document.getElementById('tree-mode-photos').addEventListener('click', () => {
   photoTreeMode = true;
-  renderSVG(activeTreeVisibleIds);
+  renderSVG(activeTreeVisibleIds, activeTreePositionOverrides);
 });
 
 async function loadProfilePhotoUrls(){
@@ -1922,7 +1935,7 @@ async function loadProfilePhotoUrls(){
     profilePhotoUrls = new Map(data
       .filter(file => !file.person_id.startsWith('family:'))
       .map(file => [file.person_id, bucket.getPublicUrl(file.object_path).data.publicUrl]));
-    if (photoTreeMode) renderSVG(activeTreeVisibleIds);
+    if (photoTreeMode) renderSVG(activeTreeVisibleIds, activeTreePositionOverrides);
   }catch(error){}
 }
 
@@ -3114,7 +3127,8 @@ async function synchronizeGenogramSnapshot(){
     people,
     relationships:{
       marriages:MARRIAGES,
-      parentChild:PARENT_CHILD.map(({p,k}) => ({parents:p,children:k}))
+      parentChild:PARENT_CHILD.map(({p,k}) => ({parents:p,children:k})),
+      stepParentChild:STEP_PARENT_CHILD.map(([parent,child]) => ({parent,child}))
     }
   };
   try{
@@ -3134,7 +3148,6 @@ function mostrarVistaArbol(){
   viewReferences.classList.remove('is-active');
   viewTree.classList.add('is-active');
   window.scrollTo({top: 0, behavior: 'auto'});
-  setTimeout(fitToView, 60);
 }
 function mostrarVistaReferencias(){
   viewTree.classList.remove('is-active');
@@ -3221,6 +3234,11 @@ const VIEWS = {
   'all': () => new Set(Object.keys(P)),
   'paternal': () => getDescendants(['simon','zelie']),
   'maternal': () => getDescendants(['pedro','casimira','morla','angelaramona','lizandro']),
+  'familia-enrique-mickle': () => new Set([
+    'robertmickle','elizabethetting','enriquemickle','johnmickle','robertmicklebrother',
+    'williammickle','ettingmickle','sarahsallymickle','henrymicklebrother','edwardmickle',
+    'shinahmickle','ninafry','niinalarmickle','thomas','leocadia','julio'
+  ]),
   'familia-le-guen': () => getCoupleFamily('simon','zelie'),
   'familia-le-guen-guerra': () => getCoupleFamily('thomas','mercedesguerra'),
   'familia-bedoya': () => getCoupleFamily('joaquin','gago'),
@@ -3248,12 +3266,26 @@ const VIEWS = {
   'gen-7': () => new Set(Object.keys(P).filter(id => P[id].gen === 7))
 };
 
+const TREE_VIEW_LAYOUTS = {
+  'familia-enrique-mickle': {
+    robertmickle:{x:760,y:R1}, elizabethetting:{x:930,y:R1},
+    johnmickle:{x:60,y:R2}, robertmicklebrother:{x:230,y:R2},
+    williammickle:{x:400,y:R2}, ettingmickle:{x:570,y:R2},
+    sarahsallymickle:{x:740,y:R2}, enriquemickle:{x:1930,y:R2},
+    henrymicklebrother:{x:910,y:R2}, edwardmickle:{x:1080,y:R2},
+    shinahmickle:{x:1250,y:R2}, thomas:{x:1420,y:R2},
+    leocadia:{x:1760,y:R2}, ninafry:{x:2100,y:R2},
+    julio:{x:1760,y:R3}, niinalarmickle:{x:2100,y:R3}
+  }
+};
+
 const FAMILY_VIEW_KEYS = new Set(Object.keys(FAMILY_COUPLES));
 
 const VIEW_META = {
   'all':{icon:'🌳',name:'Genograma completo',desc:'Todas las generaciones'},
   'paternal':{icon:'👨',name:'Rama paterna · Le Guen',desc:'Descendencia Le Guen · Bedoya · Mickle'},
   'maternal':{icon:'👩',name:'Rama materna · Morla Galarza',desc:'Descendencia De la Vera · Morla · Galarza'},
+  'familia-enrique-mickle':{icon:'🌿',name:'Familia de Enrique Mickle',desc:'Padres, hermanos, parejas y descendencia documentada'},
   'familia-le-guen':{icon:'🏰',name:'Familia Le Guen',desc:'Simon Le Guen & Zélie Dubosq'},
   'familia-le-guen-guerra':{icon:'🌿',name:'Familia Le Guen Guerra',desc:'Thomas Le Guen & Mercedes Guerra · segunda familia'},
   'familia-bedoya':{icon:'🌿',name:'Familia Bedoya',desc:'Joaquín Bedoya & Gago'},
@@ -3524,7 +3556,7 @@ const MENU_STRUCTURE = [
   { label:'Vista general', items:['all'] },
   { label:'Ramas ancestrales', items:['paternal','maternal'] },
   { label:'Familias', items:[
-    'familia-le-guen','familia-le-guen-guerra','familia-bedoya','familia-morla','familia-galarza',
+    'familia-enrique-mickle','familia-le-guen','familia-le-guen-guerra','familia-bedoya','familia-morla','familia-galarza',
     'familia-mickle-galarza','familia-mickle-ramirez',
     'familia-mickle-rodriguez','familia-quiroz-mickle','familia-ramirez-mickle',
     'familia-komori-mickle','familia-mickle-ubillas','familia-alvarado-mickle',
@@ -3570,12 +3602,12 @@ function renderMenu(){
       } else {
         mostrarVistaArbol();
         const visibleIds = VIEWS[viewKey]();
-        renderSVG(visibleIds);
+        renderSVG(visibleIds, TREE_VIEW_LAYOUTS[viewKey] || null);
         requestAnimationFrame(() => {
           if (viewKey === 'all'){ fitToView(); return; }
           let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
           visibleIds.forEach(id => {
-            const p = P[id]; if (!p) return;
+            const p = treePoint(id); if (!p) return;
             minX = Math.min(minX, p.x);
             minY = Math.min(minY, p.y);
             maxX = Math.max(maxX, p.x + W);
@@ -3586,7 +3618,8 @@ function renderMenu(){
           const boxH = maxY - minY + pad*2;
           const availW = viewport.clientWidth - 20;
           const availH = viewport.clientHeight - 20;
-          const z = Math.max(0.3, Math.min(availW / boxW, availH / boxH, 1.3));
+          const minimumZoom = TREE_VIEW_LAYOUTS[viewKey] ? 0.15 : 0.3;
+          const z = Math.max(minimumZoom, Math.min(availW / boxW, availH / boxH, 1.3));
           applyZoom(z);
           requestAnimationFrame(() => {
             viewport.scrollTo({
@@ -3828,11 +3861,13 @@ document.getElementById('btn-back-tree').addEventListener('click', () => {
   document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('is-active'));
   mostrarVistaArbol();
   renderSVG(null);
+  requestAnimationFrame(fitToView);
 });
 document.getElementById('btn-back-references').addEventListener('click', () => {
   document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('is-active'));
   mostrarVistaArbol();
   renderSVG(null);
+  requestAnimationFrame(fitToView);
 });
 
 const form = document.getElementById('report-form');
